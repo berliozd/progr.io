@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/user_settings/{id}', [UserSettingsController::class, 'update']);
     Route::get('/user_settings/{id}', [UserSettingsController::class, 'show']);
+
+    Route::apiResource('projects', ProjectController::class);
 });
 
 

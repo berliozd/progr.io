@@ -26,6 +26,9 @@ export default {
             },
         },
     },
+    daisyui: {
+        themes: ["light", "dark", "cupcake", 'aqua', 'dracula'],
+    },
 
     plugins: [forms, daisyui],
 };

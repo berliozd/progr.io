@@ -12,7 +12,6 @@ import LocaleChanger from "@/Components/LocaleChanger.vue";
 import {computed, ref} from 'vue';
 import {Link, usePage} from '@inertiajs/vue3';
 import {setMode} from "@/Composables/setMode.js";
-import {trans} from "laravel-vue-i18n";
 
 const page = usePage()
 const subscription = computed(() => page.props.auth.subscription)
@@ -39,20 +38,16 @@ setMode();
                         </div>
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                {{ trans('layout.dashboard') }}
-                            </NavLink>
                             <NavLink :href="route('subscribe.create')" :active="route().current('subscribe.create')"
                                      v-if="!subscription?.is_subscribed">
-                                {{ trans('layout.subscription') }}
+                                {{ $t('layout.subscription') }}
                             </NavLink>
-                            <NavLink :href="route('app.basic')" :active="route().current('app.basic')"
+                            <NavLink :href="route('app.projects')" :active="route().current('app.projects')"
                                      v-if="subscription?.is_subscribed">
-                                Basic
+                                {{ $t('app.projects') }}
                             </NavLink>
-                            <NavLink :href="route('app.premium')" :active="route().current('app.premium')"
-                                     v-if="subscription?.is_premium">
-                                Premium
+                            <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                {{ $t('layout.dashboard') }}
                             </NavLink>
                         </div>
                     </div>
@@ -137,20 +132,16 @@ setMode();
                  class="sm:hidden smallscreen">
                 <div class="pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                        {{ trans('layout.dashboard') }}
+                        {{ $t('layout.dashboard') }}
                     </ResponsiveNavLink>
                     <ResponsiveNavLink :href="route('subscribe.create')"
                                        :active="route().current('subscribe.create')"
                                        v-if="!(subscription?.is_subscribed)">
-                        {{ trans('layout.subscription') }}
+                        {{ $t('layout.subscription') }}
                     </ResponsiveNavLink>
                     <ResponsiveNavLink :href="route('app.basic')" :active="route().current('app.basic')"
                                        v-if="subscription?.is_subscribed">
-                        Basic
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('app.premium')" :active="route().current('app.premium')"
-                                       v-if="subscription?.is_premium">
-                        Premium
+                        {{ $t('app.projects') }}
                     </ResponsiveNavLink>
                 </div>
                 <!-- Responsive Settings Options -->

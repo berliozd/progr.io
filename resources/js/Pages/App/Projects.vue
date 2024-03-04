@@ -1,0 +1,56 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PageHeader from "@/Components/PageHeader.vue";
+import Box from "@/Components/Box.vue";
+
+import {Head, router} from '@inertiajs/vue3';
+import axios from "axios";
+import {computed, ref} from "vue";
+import {useStore} from "@/Composables/store.js";
+import {truncate} from 'lodash';
+
+const getData = async () => {
+    try {
+        const response = await axios.get('/api/projects/')
+        projects.value = response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+const projects = ref(null)
+const hasProject = computed(() => {
+    if (projects.value) {
+        return projects.value.length > 0
+    }
+    return false;
+});
+getData()
+</script>
+<template>
+    <Head v-bind:title="$t('Projects')"/>
+    <AuthenticatedLayout>
+        <template #header>
+            <PageHeader v-bind:title="$t('Projects')"/>
+        </template>
+        <Box>
+            <div v-if="!hasProject">{{ $t('app.no_projects') }}</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="text-gray-800 dark:text-gray-400">{{ $t('app.project_title') }}</th>
+                    <th class="text-gray-800 dark:text-gray-400">{{ $t('app.project_description') }}</th>
+                    <th class="text-center text-gray-800 dark:text-gray-400">{{ $t('app.project_status') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="hover:cursor-pointer" v-for="project in projects"
+                    @click="useStore().setProjectId(project.id); router.visit(route('app.project_detail'));">
+                    <td>{{ project.title }}</td>
+                    <td>{{ truncate(project.description, {'length': 50}) }}</td>
+                    <td class="text-center">{{ project.status_label }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </Box>
+    </AuthenticatedLayout>
+</template>

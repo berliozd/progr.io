@@ -21,6 +21,8 @@
     "dependencies": {
         "@vueuse/core": "^10.9.0",
         "laravel-vue-i18n": "^2.7.6",
+        "lodash": "^4.17.21",
+        "pinia": "^2.1.7",
         "vue-intl": "^6.4.28"
     }
 }
