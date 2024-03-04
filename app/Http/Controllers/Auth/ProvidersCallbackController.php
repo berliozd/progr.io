@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Events\UserAuthenticated;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+
+class ProvidersCallbackController extends Controller
+{
+    public function __invoke(Request $request)
+    {
+        $fieldId = null;
+        $driver = null;
+        if ($request->getPathInfo() === config('services.google.redirect')) {
+            $fieldId = 'google_id';
+            $driver = 'google';
+        } elseif ($request->getPathInfo() === config('services.github.redirect')) {
+            $fieldId = 'github_id';
+            $driver = 'github';
+        }
+        if (empty($driver)) {
+            return redirect('');
+        }
+        $providerUser = Socialite::driver($driver)->user();
+        $user = User::where($fieldId, $providerUser->id)->first();
+        if (empty($user)) {
+            $user = User::where('email', $providerUser->email)->first();
+        }
+        if (!empty($user)) {
+            $user->update([$fieldId => $providerUser->id, 'updated_at' => now()]);
+        } else {
+            $user = User::create([
+                $fieldId => $providerUser->id,
+                'name' => $providerUser->name,
+                'email' => $providerUser->email
+            ]);
+        }
+        Auth::login($user);
+
+        UserAuthenticated::dispatch($user);
+
+        return redirect('dashboard');
+    }
+}
