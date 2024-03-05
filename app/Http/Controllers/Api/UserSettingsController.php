@@ -44,7 +44,7 @@ class UserSettingsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Log::debug(sprintf('Udate user %s settings %s', $id, implode(',', $request->all())));
+        Log::debug(sprintf('Update user %s settings %s', $id, implode(',', $request->all())));
         /** @var User $user */
         $user = auth()->user();
 

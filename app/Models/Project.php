@@ -13,4 +13,10 @@ class Project extends Model
         'title',
         'description',
         'status',
-    ];}
+    ];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, (new User)->getForeignKey());
+    }
+}

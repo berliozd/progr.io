@@ -13,10 +13,12 @@ import Loader from "@/Components/Loader.vue";
 import {Link, router, usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
 import {setMode} from "@/Composables/setMode.js";
+import {useStore} from "@/Composables/store.js";
 
-const page = usePage()
-const subscription = computed(() => page.props.auth.subscription)
-const justLogged = computed(() => page.props.auth.just_logged)
+const subscription = computed(() => usePage().props.auth.subscription)
+if (usePage().props.auth.just_logged) {
+    useStore().setToast('Just logged!');
+}
 const showingNavigationDropdown = ref(false);
 setMode();
 
@@ -30,7 +32,7 @@ router.on('success', (event) => {
 </script>
 
 <template>
-    <Toast content="Just logged!" v-if="justLogged"/>
+    <Toast/>
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
             <!-- Primary Navigation Menu -->
@@ -38,11 +40,11 @@ router.on('success', (event) => {
                 <div class="flex justify-between h-16">
                     <div class="flex">
                         <!-- Logo -->
-                            <Link :href="route('home')">
-                                <ApplicationLogo
-                                    class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                                />
-                            </Link>
+                        <Link :href="route('home')">
+                            <ApplicationLogo
+                                class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
+                            />
+                        </Link>
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <NavLink :href="route('subscribe.create')" :active="route().current('subscribe.create')"

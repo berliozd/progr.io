@@ -23,9 +23,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // user_settings
     Route::patch('/user_settings/{id}', [UserSettingsController::class, 'update']);
     Route::get('/user_settings/{id}', [UserSettingsController::class, 'show']);
 
-    Route::apiResource('projects', ProjectController::class);
+    // projects
+    Route::get('/projects', [ProjectController::class, 'index']);
+    Route::get('/projects/{id}', [ProjectController::class, 'show']);
+    Route::patch('/projects/{id}', [ProjectController::class, 'update']);
+
+    // project_status
     Route::apiResource('projects_status', ProjectStatusController::class);
 });

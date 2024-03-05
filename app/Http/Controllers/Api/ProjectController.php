@@ -48,7 +48,14 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Log::debug(__CLASS__ . '/' . __FUNCTION__);
+        /** @var Project $project */
+        $project = Project::where('id', $id)->first();
+        if ($project->owner()->getResults()->id !== auth()->user()->id) {
+            throw new \Exception('Not allowed');
+        }
+        $data = $request->toArray();
+        $project->update($data);
+        return $data;
     }
 
     /**
