@@ -7,12 +7,15 @@ const isActive = (routeName) => {
 }
 
 const subscription = computed(() => usePage().props.auth.subscription)
-
+const nav = (route) => {
+    console.log('going to ' + route);
+    router.visit(route);
+}
 </script>
 <template>
     <div class="btm-nav">
-        <button v-if="subscription.is_subscribed" @click="router.visit(route('app.projects'))"
-                v-bind:class="isActive('app.projects')?'active':''">
+        <button @click="nav(route('app.projects'))" v-bind:class="isActive('app.projects')?'active':''"
+                v-if="subscription.is_subscribed">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
                  class="lucide lucide-briefcase">
@@ -20,7 +23,7 @@ const subscription = computed(() => usePage().props.auth.subscription)
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
             </svg>
         </button>
-        <button @click="router.visit(route('dashboard'))" v-bind:class="isActive('dashboard')?'active':''">
+        <button @click="nav(route('dashboard'))" v-bind:class="isActive('dashboard')?'active':''">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
                  class="lucide lucide-layout-dashboard">
@@ -30,7 +33,7 @@ const subscription = computed(() => usePage().props.auth.subscription)
                 <rect width="7" height="5" x="3" y="16" rx="1"/>
             </svg>
         </button>
-        <button @click="router.visit(route('profile.edit'))" v-bind:class="isActive('profile.edit')?'active':''">
+        <button @click="nav(route('profile.edit'))" v-bind:class="isActive('profile.edit')?'active':''">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
                  class="lucide lucide-circle-user-round">

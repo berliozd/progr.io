@@ -145,7 +145,7 @@ router.on('success', (event) => {
                                        v-if="!(subscription?.is_subscribed)">
                         {{ $t('layout.subscription') }}
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('app.basic')" :active="route().current('app.basic')"
+                    <ResponsiveNavLink :href="route('app.projects')" :active="route().current('app.projects')"
                                        v-if="subscription?.is_subscribed">
                         {{ $t('app.projects') }}
                     </ResponsiveNavLink>
