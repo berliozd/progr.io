@@ -36,14 +36,14 @@ getData()
             <PageHeader v-bind:title="$t('Projects')"/>
         </template>
         <Loader v-if="!loaded"></Loader>
-        <Box v-else>
+        <Box v-else class="relative">
             <div v-if="!hasProject">{{ $t('app.no_projects') }}</div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th class="text-gray-800 dark:text-gray-400">{{ $t('app.project_title') }}</th>
-                    <th class="text-gray-800 dark:text-gray-400">{{ $t('app.project_description') }}</th>
-                    <th class="text-center text-gray-800 dark:text-gray-400">{{ $t('app.project_status') }}</th>
+                    <th class="text-gray-800 dark:text-gray-400">{{ $t('app.project.title') }}</th>
+                    <th class="text-gray-800 dark:text-gray-400">{{ $t('app.project.description') }}</th>
+                    <th class="text-center text-gray-800 dark:text-gray-400">{{ $t('app.project.status') }}</th>
                 </tr>
                 </thead>
                 <tbody>

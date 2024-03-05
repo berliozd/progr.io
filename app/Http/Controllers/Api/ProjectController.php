@@ -38,7 +38,9 @@ class ProjectController extends Controller
     public function show(string $id)
     {
         Log::debug(__CLASS__ . '/' . __FUNCTION__ . '/' . $id);
-        return Project::where('id', $id)->first();
+        return Project::addSelect(
+            ['status_code' => ProjectsStatus::select('code')->whereColumn('id', 'projects.status')->limit(1)]
+        )->where('id', $id)->first();
     }
 
     /**

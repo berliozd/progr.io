@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user_settings/{id}', [UserSettingsController::class, 'show']);
 
     Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('projects_status', ProjectStatusController::class);
 });
-
-
-

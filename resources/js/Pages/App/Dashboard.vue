@@ -48,10 +48,10 @@ defineProps({
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="hover:cursor-pointer flex justify-between" v-for="invoice in invoices">
+                <tr class="flex justify-between" v-for="invoice in invoices">
                     <td>{{ date(invoice.created) }}</td>
                     <td>{{ price(invoice.total / 100, invoice.currency) }}</td>
-                    <td class="text-center">
+                    <td class="text-center hover:cursor-pointer">
                         <a v-bind:href="route('invoices', invoice.id)">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                  class="w-5 h-5">
