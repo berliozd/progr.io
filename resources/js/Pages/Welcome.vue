@@ -30,7 +30,7 @@ defineProps({
     >
 
         <div class="flex justify-center">
-            <img src="/img/icon.svg" width="100" alt="">
+            <img src="/img/icon.png" width="100" alt="">
         </div>
 
         <div class="mt-16">
