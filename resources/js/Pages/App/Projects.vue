@@ -8,16 +8,19 @@ import axios from "axios";
 import {computed, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {truncate} from 'lodash';
+import Loader from "@/Components/Loader.vue";
 
 const getData = async () => {
     try {
         const response = await axios.get('/api/projects/')
         projects.value = response.data
+        loaded.value = true
     } catch (error) {
         console.log(error)
     }
 }
 const projects = ref(null)
+const loaded = ref(false);
 const hasProject = computed(() => {
     if (projects.value) {
         return projects.value.length > 0
@@ -32,7 +35,8 @@ getData()
         <template #header>
             <PageHeader v-bind:title="$t('Projects')"/>
         </template>
-        <Box>
+        <Loader v-if="!loaded"></Loader>
+        <Box v-else>
             <div v-if="!hasProject">{{ $t('app.no_projects') }}</div>
             <table class="table">
                 <thead>

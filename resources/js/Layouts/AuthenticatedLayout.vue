@@ -8,9 +8,10 @@ import Toast from "@/Components/Toast.vue";
 import ToggleMode from "@/Components/ToggleMode.vue";
 import Footer from "@/Components/Footer.vue";
 import LocaleChanger from "@/Components/LocaleChanger.vue";
+import Loader from "@/Components/Loader.vue";
 
+import {Link, router, usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
-import {Link, usePage} from '@inertiajs/vue3';
 import {setMode} from "@/Composables/setMode.js";
 
 const page = usePage()
@@ -18,6 +19,14 @@ const subscription = computed(() => page.props.auth.subscription)
 const justLogged = computed(() => page.props.auth.just_logged)
 const showingNavigationDropdown = ref(false);
 setMode();
+
+const loaded = ref(true)
+router.on('start', (event) => {
+    loaded.value = false
+})
+router.on('success', (event) => {
+    loaded.value = true
+})
 </script>
 
 <template>
@@ -131,9 +140,6 @@ setMode();
             <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
                  class="sm:hidden smallscreen">
                 <div class="pt-2 pb-3 space-y-1">
-                    <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                        {{ $t('layout.dashboard') }}
-                    </ResponsiveNavLink>
                     <ResponsiveNavLink :href="route('subscribe.create')"
                                        :active="route().current('subscribe.create')"
                                        v-if="!(subscription?.is_subscribed)">
@@ -142,6 +148,9 @@ setMode();
                     <ResponsiveNavLink :href="route('app.basic')" :active="route().current('app.basic')"
                                        v-if="subscription?.is_subscribed">
                         {{ $t('app.projects') }}
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        {{ $t('layout.dashboard') }}
                     </ResponsiveNavLink>
                 </div>
                 <!-- Responsive Settings Options -->
@@ -172,6 +181,7 @@ setMode();
         <!-- Page Content -->
         <main>
             <div class="py-12">
+                <Loader v-if="!loaded"></Loader>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg ">
                         <div class="p-6 space-y-5 text-gray-800 dark:text-gray-200 layout">
