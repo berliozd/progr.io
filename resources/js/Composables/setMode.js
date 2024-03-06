@@ -2,7 +2,7 @@ import {usePage} from "@inertiajs/vue3";
 import {computed} from "vue";
 import axios from "axios";
 
-export function setMode() {
+export default function setMode() {
     const user = computed(() => usePage().props.auth.user)
     if (user) {
         const userId = user.value?.id;

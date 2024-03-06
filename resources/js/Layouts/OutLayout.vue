@@ -1,7 +1,7 @@
 <script setup>
 import SimpleLink from "@/Components/SimpleLink.vue";
 
-import {setMode} from "@/Composables/setMode.js";
+import setMode from "@/Composables/setMode.js";
 
 defineProps({
     canLogin: {

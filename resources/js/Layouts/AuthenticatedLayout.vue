@@ -12,7 +12,7 @@ import Loader from "@/Components/Loader.vue";
 
 import {Link, router, usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
-import {setMode} from "@/Composables/setMode.js";
+import setMode from "@/Composables/setMode.js";
 import {useStore} from "@/Composables/store.js";
 
 const subscription = computed(() => usePage().props.auth.subscription)

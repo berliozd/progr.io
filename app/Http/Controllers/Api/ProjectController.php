@@ -28,6 +28,17 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        Log::debug(json_encode($request->toArray()));
+        $rawData = $request->toArray();
+        $data = [
+            'user_id' => auth()->user()->id,
+            'title' => $rawData['title']['value'],
+            'description' => $rawData['description']['value'],
+            'status' => $rawData['status']['value']
+        ];
+        Log::debug($data);
+
+        return Project::create($data);
 
         Log::debug(__CLASS__ . '/' . __FUNCTION__);
     }

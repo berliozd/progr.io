@@ -4,8 +4,8 @@ import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
 
 import {Head, usePage} from '@inertiajs/vue3';
-import {price} from '@/Composables/price.js'
-import {date} from '@/Composables/date.js'
+import price from '@/Composables/price.js'
+import date from '@/Composables/date.js'
 import {computed} from 'vue'
 
 const subscription = computed(() => usePage().props.auth.subscription)

@@ -5,12 +5,12 @@ import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import CancelSubscriptionForm from "@/Pages/Profile/Partials/CancelSubscriptionForm.vue";
+import Box from "@/Components/Box.vue";
 
 import {Head, usePage} from '@inertiajs/vue3';
 import {trans} from "laravel-vue-i18n";
 import {computed} from "vue"
-import {date} from "@/Composables/date.js";
-import Box from "@/Components/Box.vue";
+import date from "@/Composables/date.js";
 
 const subscription = computed(() => usePage().props.auth.subscription)
 
