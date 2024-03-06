@@ -9,5 +9,5 @@ class ProjectsStatus extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['label', 'code'];
+    protected $fillable = ['label', 'description'];
 }

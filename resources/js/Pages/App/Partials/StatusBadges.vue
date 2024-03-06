@@ -6,7 +6,7 @@ const props = defineProps({
 })
 
 const statusBadge = (status) => {
-    const baseCss = 'badge badge-outline badge-lg';
+    const baseCss = 'badge badge-outline badge-lg mr-2 mb-2';
     if (props.projectStatus === status.id) {
         return baseCss + ' dark:bg-gray-200 dark:text-gray-800 bg-white text-gray-800';
     }
@@ -14,7 +14,7 @@ const statusBadge = (status) => {
 }
 </script>
 <template>
-    <div class="mt-2 flex flex-row space-x-2">
+    <div class="flex flex-wrap">
         <div v-for="status in statuses" @click="onClick(status)"
              v-bind:class="statusBadge(status)">
             {{ status.label }}

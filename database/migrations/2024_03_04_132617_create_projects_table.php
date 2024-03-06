@@ -16,7 +16,7 @@ return new class extends Migration {
         Schema::create('projects_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('label')->nullable(false);
-            $table->string('code')->nullable(false);
+            $table->longText('description')->nullable(false);
             $table->timestamps();
         });
 

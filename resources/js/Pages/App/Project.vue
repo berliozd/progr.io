@@ -45,7 +45,6 @@ const saveProject = async () => {
 
 const selectProjectStatus = (status) => {
     project.value.status = status.id;
-    project.value.status_code = status.code;
 }
 </script>
 <template>

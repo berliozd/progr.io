@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProjectsStatus>
+ * @extends Factory<\App\Models\ProjectsStatus>
  */
 class ProjectsStatusFactory extends Factory
 {
@@ -18,7 +18,7 @@ class ProjectsStatusFactory extends Factory
     {
         return [
             'label' => fake()->text(5),
-            'code' => fake()->text(9)
+            'description' => fake()->text(150)
         ];
     }
 }
