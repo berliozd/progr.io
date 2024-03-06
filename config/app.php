@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 return [
 
     'style-default-mode' => env('APP_STYLE_DEFAULT_MODE', 'dark'),
+    'home-route' => env('APP_HOME_ROUTE', 'home'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

@@ -26,7 +26,11 @@ class HandleInertiaRequests extends Middleware
         $locales = array_map('basename', glob(base_path('lang') . '/*', GLOB_ONLYDIR));
         $res = [
             ...parent::share($request),
-            'app' => ['name' => config('app.name'), 'locales' => $locales],
+            'app' => [
+                'name' => config('app.name'),
+                'locales' => $locales,
+                'home_route' => config('app.home-route')
+            ],
             'auth' => [
                 'user' => $request->user(),
                 'just_logged' => (bool)$request->session()->get('just_logged')

@@ -1,12 +1,18 @@
 <script setup>
-import {usePage} from "@inertiajs/vue3";
+import {Link, usePage} from "@inertiajs/vue3";
 
+const props = defineProps({simple: {type: Boolean, value: false}})
 const page = usePage();
 const appName = page.props.app.name;
+const cssClass = () => {
+    return !props.simple ? 'border h-auto rounded' : '';
+}
 </script>
 <template>
-    <div class="mt-1 flex flex-col border h-auto rounded p-1">
-        <img src="/img/icon.png" width="30px" height="30px" v-bind:alt="appName" v-bind:title="appName">
-        {{ appName }}
-    </div>
+    <Link :href="route('app.projects')">
+        <div class="mt-1 flex flex-col  p-1" :class="cssClass()">
+            <img src="/img/icon.png" width="30px" height="30px" v-bind:alt="appName" v-bind:title="appName">
+            {{ appName }}
+        </div>
+    </Link>
 </template>

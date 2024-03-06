@@ -10,7 +10,7 @@ import Footer from "@/Components/Footer.vue";
 import LocaleChanger from "@/Components/LocaleChanger.vue";
 import Loader from "@/Components/Loader.vue";
 
-import {Link, router, usePage} from '@inertiajs/vue3'
+import {router, usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
 import setMode from "@/Composables/setMode.js";
 import {useStore} from "@/Composables/store.js";
@@ -40,11 +40,9 @@ router.on('success', (event) => {
                 <div class="flex justify-between h-16">
                     <div class="flex">
                         <!-- Logo -->
-                        <Link :href="route('home')">
-                            <ApplicationLogo
-                                class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                            />
-                        </Link>
+                        <ApplicationLogo
+                            class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
+                        />
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <NavLink :href="route('subscribe.create')" :active="route().current('subscribe.create')"

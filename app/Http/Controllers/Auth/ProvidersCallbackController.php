@@ -43,6 +43,6 @@ class ProvidersCallbackController extends Controller
 
         UserAuthenticated::dispatch($user);
 
-        return redirect('dashboard');
+        return redirect(route(config('app.home-route')));
     }
 }
