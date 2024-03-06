@@ -12,6 +12,7 @@ import {reactive, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 import getStatuses from "@/Composables/getStatuses.js";
+import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 
 const statuses = ref(null)
 getStatuses().then((response) => {
@@ -29,7 +30,7 @@ const save = async () => {
         return;
     }
     if (project.title.value === '') {
-        usePage().props.error = trans('app.projects.title_error')
+        usePage().props.error = trans('app.project.title_error')
     }
     try {
         await axios.post('/api/projects/', project);
@@ -43,11 +44,11 @@ const save = async () => {
 const validate = () => {
     usePage().props.error = ''
     if (project.title.value === '') {
-        usePage().props.error = trans('app.projects.title_error')
+        usePage().props.error = trans('app.project.title_error')
         return false;
     }
     if (project.description.value === '') {
-        usePage().props.error = trans('app.projects.description_error')
+        usePage().props.error = trans('app.project.description_error')
         return false;
     }
     return true;
@@ -60,6 +61,13 @@ const statusBadge = (status) => {
     }
     return baseCss + ' hover:cursor-pointer';
 }
+
+const selectProjectStatus = (status) => {
+    console.log(project.status);
+    project.status.value = status.id;
+    console.log(project.status);
+}
+
 </script>
 <template>
     <Head v-bind:title="$t('Project')"/>
@@ -85,12 +93,8 @@ const statusBadge = (status) => {
 
             <div>
                 <label for="description" class="block">{{ $t('app.project.status') }}:</label>
-                <div class="mt-2 flex flex-row space-x-2">
-                    <div v-for="status in statuses" @click="project.status.value = status.id"
-                         v-bind:class="statusBadge(status)">
-                        {{ status.label }}
-                    </div>
-                </div>
+                <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
+                              v-bind:on-click="selectProjectStatus"></StatusBadges>
             </div>
 
             <div class="flex w-full rounded border p-2 hover:cursor-pointer" @click="save()">

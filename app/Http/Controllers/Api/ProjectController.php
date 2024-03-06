@@ -74,6 +74,7 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
+        Project::destroy([$id]);
         Log::debug(__CLASS__ . '/' . __FUNCTION__);
     }
 }
