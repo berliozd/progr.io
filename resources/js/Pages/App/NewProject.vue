@@ -13,6 +13,7 @@ import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 import getStatuses from "@/Composables/getStatuses.js";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
+import AskAiField from "@/Components/AskAiField.vue";
 
 const statuses = ref(null)
 getStatuses().then((response) => {
@@ -96,6 +97,11 @@ const selectProjectStatus = (status) => {
                 <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
                               v-bind:on-click="selectProjectStatus"></StatusBadges>
             </div>
+
+            <AskAiField v-bind:title="project.title" v-bind:description="project.description"
+                        question-type="benefits"></AskAiField>
+            <AskAiField v-bind:title="project.title" v-bind:description="project.description"
+                        question-type="money"></AskAiField>
 
             <div class="flex w-full rounded border p-2 hover:cursor-pointer" @click="save()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

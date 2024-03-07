@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AiAssistantController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\UserSettingsController;
@@ -37,4 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // project_status
     Route::apiResource('projects_status', ProjectStatusController::class);
+
+    Route::post('/ai', [AiAssistantController::class, 'ask']);
 });

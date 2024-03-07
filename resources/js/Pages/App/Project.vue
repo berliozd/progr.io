@@ -12,6 +12,7 @@ import {useStore} from "@/Composables/store.js";
 import getStatuses from "@/Composables/getStatuses.js";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
+import AskAiField from "@/Components/AskAiField.vue";
 
 if (!useStore().projectId) {
     router.visit(route('app.projects'));
@@ -74,6 +75,7 @@ const selectProjectStatus = (status) => {
                               v-bind:on-click="selectProjectStatus"/>
             </div>
 
+            <AskAiField v-bind:title="project.title" v-bind:description="project.description"></AskAiField>
             <SaveProjectButton v-bind:on-click="saveProject"></SaveProjectButton>
         </Box>
     </AuthenticatedLayout>

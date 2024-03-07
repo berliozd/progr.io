@@ -43,5 +43,8 @@ return [
     'mailjet' => [
         'client_id' => env('MAILJET_CLIENT_ID'),
         'client_secret' => env('MAILJET_CLIENT_SECRET'),
+    ],
+    'openai' => [
+        'api_key' => env('OPEN_AI_API_KEY')
     ]
 ];

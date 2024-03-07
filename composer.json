@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.3",
         "dompdf/dompdf": "^2.0",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.8",
         "inertiajs/inertia-laravel": "^0.6.8",
         "laravel/breeze": "^1.28",
         "laravel/cashier": "^15.2",
@@ -17,6 +17,7 @@
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.9",
         "mailjet/mailjet-apiv3-php": "^1.6",
+        "openai-php/client": "^0.8.4",
         "orchid/platform": "^14.19",
         "tightenco/ziggy": "^1.0"
     },
