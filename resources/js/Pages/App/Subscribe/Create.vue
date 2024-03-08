@@ -74,7 +74,7 @@ const submit = () => {
 
             <Box>
                 <fieldset>
-                    <legend class="text-gray-800 dark:text-gray-300">{{ $t('Plan : ') }}</legend>
+                    <legend class="text-gray-800 dark:text-gray-400">{{ $t('Plan : ') }}</legend>
                     <div class="">
                         <div v-for="product in products" class="relative flex items-start">
                             <div class="flex h-6 items-center">
@@ -90,7 +90,7 @@ const submit = () => {
                             </div>
                             <div class="ml-3 text-sm leading-6">
                                 <label v-bind:for=" product.id "
-                                       class="font-medium text-gray-800 dark:text-gray-300">{{ product.name }}</label>
+                                       class="font-medium text-gray-800 dark:text-gray-400">{{ product.name }}</label>
                                 <p id="small-description" class="text-gray-500">{{ product.price }} €</p>
                             </div>
                         </div>
