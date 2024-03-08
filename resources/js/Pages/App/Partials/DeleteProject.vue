@@ -24,7 +24,7 @@ const confirmProjectDeletion = () => {
 const deleteProject = async () => {
     try {
         await axios.delete('/api/projects/' + props.projectId);
-        useStore().setToast('Deleted!', 3000);
+        useStore().setToast('Deleted!');
         router.visit('/projects')
     } catch (error) {
         console.log(error)

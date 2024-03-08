@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AiAssistantController;
+use App\Http\Controllers\Api\NotesTypeController;
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\UserSettingsController;
 use Illuminate\Http\Request;
@@ -38,6 +40,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // project_status
     Route::apiResource('projects_status', ProjectStatusController::class);
+
+    // projects_notes
+    Route::get('/projects_notes/{projectId}', [ProjectNoteController::class, 'index']);
+
+    // notes_types
+    Route::get('/notes_types', [NotesTypeController::class, 'index']);
 
     Route::post('/ai', [AiAssistantController::class, 'ask']);
 });

@@ -22,12 +22,11 @@ if (usePage().props.auth.just_logged) {
 const showingNavigationDropdown = ref(false);
 setMode();
 
-const loaded = ref(true)
 router.on('start', (event) => {
-    loaded.value = false
+    useStore().setIsLoading(true)
 })
 router.on('success', (event) => {
-    loaded.value = true
+    useStore().setIsLoading(false)
 })
 </script>
 
@@ -179,7 +178,7 @@ router.on('success', (event) => {
         <!-- Page Content -->
         <main>
             <div class="py-12">
-                <Loader v-if="!loaded"></Loader>
+                <Loader/>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg ">
                         <div class="p-6 space-y-5 text-gray-800 dark:text-gray-200 layout">

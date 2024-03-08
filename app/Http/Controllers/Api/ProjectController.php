@@ -3,19 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\NotesType;
 use App\Models\Project;
+use App\Models\ProjectsNote;
 use App\Models\ProjectsStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        Log::debug(__CLASS__ . '/' . __FUNCTION__ . ' user : ' . auth()->user()->id);
         return Project::addSelect(
             ['status_label' => ProjectsStatus::select('label')->whereColumn('id', 'projects.status')->limit(1)]
         )
@@ -23,12 +21,8 @@ class ProjectController extends Controller
             ->get();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        Log::debug(json_encode($request->toArray()));
         $rawData = $request->toArray();
         $data = [
             'user_id' => auth()->user()->id,
@@ -36,25 +30,30 @@ class ProjectController extends Controller
             'description' => $rawData['description']['value'],
             'status' => $rawData['status']['value']
         ];
-        Log::debug($data);
-
         return Project::create($data);
-
-        Log::debug(__CLASS__ . '/' . __FUNCTION__);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        Log::debug(__CLASS__ . '/' . __FUNCTION__ . '/' . $id);
-        return Project::where('id', $id)->first();
+        $project = Project::where('id', $id)->first();
+
+        // Add project notes
+        $projectNotes = ProjectsNote::addSelect([
+            'note_type_label' => NotesType::select('label')->whereColumn('id', 'projects_notes.note_type_id')->limit(1),
+            'note_type_code' => NotesType::select('code')->whereColumn('id', 'projects_notes.note_type_id')->limit(1)
+        ])->where('project_id', $project->id)->get();
+        $project->notes = $projectNotes;
+
+        // Add available notes types
+        $ids = array_map(function ($projectNote) {
+            return $projectNote['note_type_id'];
+        }, $projectNotes->toArray());
+        $availableNotesTypes = NotesType::whereNotIn('id', $ids)->get();
+        $project->availableNotesTypes = $availableNotesTypes;
+
+        return $project;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         /** @var Project $project */
@@ -63,16 +62,47 @@ class ProjectController extends Controller
             throw new \Exception('Not allowed');
         }
         $data = $request->toArray();
+        $notes = $data['notes'];
+        foreach ($notes as $note) {
+
+            $projectNote = ProjectsNote::where([
+                ['project_id', '=', $note['project_id']],
+                ['note_type_id', '=', $note['note_type_id']]
+            ])->first();
+
+            Log::debug(
+                'Search note for proj id:' . $note['project_id'] . ' and note type id:' . $note['note_type_id']
+            );
+            if ($projectNote !== null) {
+                Log::debug('Found');
+                $projectNote->update([
+                    'project_id' => $note['project_id'],
+                    'note_type_id' => $note['note_type_id'],
+                    'content' => $note['content']
+                ]);
+            } else {
+                Log::debug('Not found');
+                Log::debug($note['note_type_id']);
+                ProjectsNote::create([
+                    'project_id' => $note['project_id'],
+                    'note_type_id' => $note['note_type_id'],
+                    'content' => $note['content']
+                ]);
+            }
+
+//            ProjectsNote::updateOrCreate(
+//                ['project_id' => $note['project_id']],
+//                ['note_type_id' => $note['note_type_id']],
+//                ['content' => $note['content']],
+//            );
+            Log::debug($note);
+        }
         $project->update($data);
         return $data;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         Project::destroy([$id]);
-        Log::debug(__CLASS__ . '/' . __FUNCTION__);
     }
 }

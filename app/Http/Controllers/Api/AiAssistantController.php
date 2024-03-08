@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use OpenAI;
 use OpenAI\Client;
 
 class AiAssistantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function ask(Request $request)
     {
         Log::debug('AI controller ask');
@@ -37,6 +35,6 @@ class AiAssistantController extends Controller
     private function getClient(): Client
     {
         $yourApiKey = config('services.openai.api_key');
-        return \OpenAI::client($yourApiKey);
+        return OpenAI::client($yourApiKey);
     }
 }

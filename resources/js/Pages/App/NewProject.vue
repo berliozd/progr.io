@@ -5,6 +5,7 @@ import Box from "@/Components/Box.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import ErrorAlert from "@/Components/ErrorAlert.vue";
+import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 
 import {Head, router, usePage} from '@inertiajs/vue3';
 import axios from "axios";
@@ -12,8 +13,6 @@ import {reactive, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 import getStatuses from "@/Composables/getStatuses.js";
-import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
-import AskAiField from "@/Components/AskAiField.vue";
 
 const statuses = ref(null)
 getStatuses().then((response) => {
@@ -35,7 +34,7 @@ const save = async () => {
     }
     try {
         await axios.post('/api/projects/', project);
-        useStore().setToast('Created!', 3000);
+        useStore().setToast('Created!');
         router.visit('/projects')
     } catch (error) {
         console.log(error)
@@ -53,14 +52,6 @@ const validate = () => {
         return false;
     }
     return true;
-}
-
-const statusBadge = (status) => {
-    const baseCss = 'badge badge-outline';
-    if (project.status.value === status.id) {
-        return baseCss + ' dark:bg-gray-200 dark:text-gray-800 bg-white text-gray-800';
-    }
-    return baseCss + ' hover:cursor-pointer';
 }
 
 const selectProjectStatus = (status) => {
@@ -97,11 +88,6 @@ const selectProjectStatus = (status) => {
                 <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
                               v-bind:on-click="selectProjectStatus"></StatusBadges>
             </div>
-
-            <AskAiField v-bind:title="project.title" v-bind:description="project.description"
-                        question-type="benefits"></AskAiField>
-            <AskAiField v-bind:title="project.title" v-bind:description="project.description"
-                        question-type="money"></AskAiField>
 
             <div class="flex w-full rounded border p-2 hover:cursor-pointer" @click="save()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

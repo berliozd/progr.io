@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProjectsStatus;
+use App\Models\NotesType;
 
-class ProjectStatusController extends Controller
+class NotesTypeController extends Controller
 {
     public function index()
     {
-        return ProjectsStatus::all();
+        return NotesType::all();
     }
 }
