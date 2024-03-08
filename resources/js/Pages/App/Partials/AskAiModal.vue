@@ -6,7 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 import axios from "axios";
 import {capitalize, ref} from "vue";
-import {getActiveLanguage, trans} from "laravel-vue-i18n";
+import {getActiveLanguage} from "laravel-vue-i18n";
 
 const props = defineProps({
     projectTitle: null,
@@ -17,6 +17,7 @@ const props = defineProps({
 })
 
 const askAI = async () => {
+    loading.value = true
     let context = props.projectTitle + ' - ' + props.projectDescription;
     if (typeof props.title === "object") {
         context = props.projectTitle.value + ' - ' + props.projectDescription.value;
@@ -24,6 +25,7 @@ const askAI = async () => {
     let question = getQuestion();
     console.log(question);
     const response = await axios.post('/api/ai/', {'context': context, 'question': question})
+    loading.value = false
     aiResponse.value = response.data.response
 }
 
@@ -68,6 +70,7 @@ let isShowModal = ref(false)
 const showModal = () => {
     aiResponse.value = ''
     isShowModal.value = true
+    askAI()
 }
 const hideModal = () => {
     isShowModal.value = false
@@ -80,15 +83,36 @@ const useForNote = () => {
     props.projectNote.content = aiResponse
     hideModal()
 }
+let loading = ref(false)
 </script>
 
 <template>
-    <img src="/img/ai.svg" v-bind:alt="trans('app.project.ask_ai_help')" width="30" @click="showModal"/>
+    <div class="flex flex-row ml-10 space-x-2 text-xs items-center" @click="showModal">
+        <span class="underline uppercase">{{ $t('app.project.ask_ai_help') }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-bot-message-square">
+            <path d="M12 6V2H8"/>
+            <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/>
+            <path d="M2 12h2"/>
+            <path d="M9 11v2"/>
+            <path d="M15 11v2"/>
+            <path d="M20 12h2"/>
+        </svg>
+    </div>
     <Modal :show="isShowModal">
-        <div class="p-4 w-full space-y-4 flex flex-col ">
+        <div class="p-4 w-full space-y-4 flex flex-col">
             <div class="w-full flex flex-row justify-between">
-                <div>{{ $t('app.project.note', {'label': capitalize(noteTypeLabel)}) }}</div>
-                <PrimaryButton @click="askAI">{{ $t('app.project.ask_ai') }}</PrimaryButton>
+                <div class="text-gray-800 dark:text-gray-200">
+                    {{ $t('app.project.note', {'label': capitalize(noteTypeLabel)}) }}
+                </div>
+                <div class="space-x-2 items-center">
+                    <span class="loading loading-spinner loading-s bg-gray-400" v-show="loading"></span>
+                    <PrimaryButton @click="askAI" v-bind:disabled="loading" class="disabled">
+                        {{ $t('app.project.ask_ai') }}
+                    </PrimaryButton>
+                </div>
+
             </div>
             <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
             <div class="flex flex-row justify-between">

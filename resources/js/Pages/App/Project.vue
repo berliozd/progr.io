@@ -80,52 +80,59 @@ const noteTypeToAdd = ref(null)
         </template>
         <Box class="space-y-4 relative" v-if="project">
             <div>
-                <label for="title">{{ $t('app.project.title') }}:</label>
+                <label for="title">{{ $t('app.project.title') }} :</label>
                 <div class="mt-2">
                     <text-input v-model="project.title" name="title" class="w-full"></text-input>
                 </div>
             </div>
 
             <div>
-                <label for="description">{{ $t('app.project.description') }}:</label>
+                <label for="description">{{ $t('app.project.description') }} :</label>
                 <div class="mt-2">
                     <text-area v-model="project.description" rows="8" class="w-full"></text-area>
                 </div>
             </div>
 
-            <details class="collapse bg-gray-300 dark:bg-gray-500 text-gray-800 dark:text-gray-900">
-                <summary class="collapse-title text-xl font-medium">{{ $t('app.project.notes') }}</summary>
-                <div class="collapse-content">
-                    <div v-for="note in project.notes">
-                        <div class="flex flex-row items-center pr-2 hover:cursor-pointer">
-                            <label>{{ capitalize(note.note_type_label) }}:</label>
-                            <AskAiModal :note-type-code="note.note_type_code"
-                                        :note-type-label="note.note_type_label"
-                                        :project-description="project.description"
-                                        :project-title="project.title"
-                                        :project-note="note"/>
-                        </div>
-                        <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
-                    </div>
+            <div>
+                <label for="notes">{{ $t('app.project.notes') }} :</label>
+                <div class="mt-2">
+                    <details
+                        class="collapse collapse-arrow bg-gray-300 dark:bg-gray-500 text-gray-800 dark:text-gray-900">
+                        <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
+                        <div class="collapse-content">
+                            <div v-for="note in project.notes" class="mt-4">
+                                <div class="flex flex-row items-center mb-2 hover:cursor-pointer">
+                                    <label>{{ capitalize(note.note_type_label) }}:</label>
+                                    <AskAiModal :note-type-code="note.note_type_code"
+                                                :note-type-label="note.note_type_label"
+                                                :project-description="project.description"
+                                                :project-title="project.title"
+                                                :project-note="note"/>
+                                </div>
+                                <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
+                            </div>
 
-                    <div class="flex flex-col" v-if="project.availableNotesTypes.length >0">
-                        <div>
-                            {{ $t('app.project.select_note_type') }}
-                        </div>
-                        <div class="items-center">
-                            <select class="select bg-white mr-2" v-model="noteTypeToAdd">
-                                <option v-for="notesType in project.availableNotesTypes" v-bind:value="notesType"
-                                        :key='notesType.id'>
-                                    {{ capitalize(notesType.label) }}
-                                </option>
-                            </select>
-                            <PrimaryButton @click="addEmptyNote(noteTypeToAdd)">{{ $t('app.project.add_note') }}
-                            </PrimaryButton>
-                        </div>
-                    </div>
+                            <div class="flex flex-col" v-if="project.availableNotesTypes.length >0">
+                                <div>
+                                    {{ $t('app.project.select_note_type') }}
+                                </div>
+                                <div class="items-center">
+                                    <select class="select bg-white mr-2" v-model="noteTypeToAdd">
+                                        <option v-for="notesType in project.availableNotesTypes"
+                                                v-bind:value="notesType"
+                                                :key='notesType.id'>
+                                            {{ capitalize(notesType.label) }}
+                                        </option>
+                                    </select>
+                                    <PrimaryButton @click="addEmptyNote(noteTypeToAdd)">{{ $t('app.project.add_note') }}
+                                    </PrimaryButton>
+                                </div>
+                            </div>
 
+                        </div>
+                    </details>
                 </div>
-            </details>
+            </div>
 
             <div>
                 <label for="description" class="block">{{ $t('app.project.status') }}:</label>
