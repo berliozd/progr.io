@@ -13,7 +13,6 @@ import axios from "axios";
 import {capitalize, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import getStatuses from "@/Composables/getStatuses.js";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {trans} from "laravel-vue-i18n";
 
 if (!useStore().projectId) {
@@ -101,13 +100,15 @@ const noteTypeToAdd = ref(null)
                         <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
                         <div class="collapse-content">
                             <div v-for="note in project.notes" class="mt-4">
-                                <div class="flex flex-row items-center mb-2 hover:cursor-pointer">
-                                    <label>{{ capitalize(note.note_type_label) }}:</label>
-                                    <AskAiModal :note-type-code="note.note_type_code"
-                                                :note-type-label="note.note_type_label"
-                                                :project-description="project.description"
-                                                :project-title="project.title"
-                                                :project-note="note"/>
+                                <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
+                                    <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
+                                    <div>
+                                        <AskAiModal :note-type-code="note.note_type_code"
+                                                    :note-type-label="note.note_type_label"
+                                                    :project-description="project.description"
+                                                    :project-title="project.title"
+                                                    :project-note="note"/>
+                                    </div>
                                 </div>
                                 <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
                             </div>
@@ -117,15 +118,14 @@ const noteTypeToAdd = ref(null)
                                     {{ $t('app.project.select_note_type') }}
                                 </div>
                                 <div class="items-center">
-                                    <select class="select bg-white mr-2" v-model="noteTypeToAdd">
+                                    <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
+                                            v-model="noteTypeToAdd">
                                         <option v-for="notesType in project.availableNotesTypes"
                                                 v-bind:value="notesType"
                                                 :key='notesType.id'>
                                             {{ capitalize(notesType.label) }}
                                         </option>
                                     </select>
-                                    <PrimaryButton @click="addEmptyNote(noteTypeToAdd)">{{ $t('app.project.add_note') }}
-                                    </PrimaryButton>
                                 </div>
                             </div>
 

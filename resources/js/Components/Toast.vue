@@ -6,7 +6,6 @@ const css = () => {
     return useStore().toastVisible ? baseCss + ' opacity-100' : baseCss + ' opacity-0'
 };
 const alertCss = () => {
-    console.log(useStore().toastError);
     return useStore().toastError ? 'alert alert-error' : 'alert alert-info '
 }
 </script>

@@ -64,38 +64,23 @@ class ProjectController extends Controller
         $data = $request->toArray();
         $notes = $data['notes'];
         foreach ($notes as $note) {
-
             $projectNote = ProjectsNote::where([
                 ['project_id', '=', $note['project_id']],
                 ['note_type_id', '=', $note['note_type_id']]
             ])->first();
-
-            Log::debug(
-                'Search note for proj id:' . $note['project_id'] . ' and note type id:' . $note['note_type_id']
-            );
             if ($projectNote !== null) {
-                Log::debug('Found');
                 $projectNote->update([
                     'project_id' => $note['project_id'],
                     'note_type_id' => $note['note_type_id'],
                     'content' => $note['content']
                 ]);
             } else {
-                Log::debug('Not found');
-                Log::debug($note['note_type_id']);
                 ProjectsNote::create([
                     'project_id' => $note['project_id'],
                     'note_type_id' => $note['note_type_id'],
                     'content' => $note['content']
                 ]);
             }
-
-//            ProjectsNote::updateOrCreate(
-//                ['project_id' => $note['project_id']],
-//                ['note_type_id' => $note['note_type_id']],
-//                ['content' => $note['content']],
-//            );
-            Log::debug($note);
         }
         $project->update($data);
         return $data;

@@ -8,6 +8,7 @@ return [
         'title' => 'Title',
         'description' => 'Description',
         'status' => 'Status',
+        'updated_date' => 'Updated on',
         'delete' => 'Delete project',
         'title_error' => 'Title is missing or incomplete',
         'description_error' => 'Description is missing or incomplete',
