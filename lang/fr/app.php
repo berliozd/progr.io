@@ -4,6 +4,7 @@ return [
     'projects' => 'Projets',
     'project_description' => 'Description',
     'project_status' => 'Status',
+    'need_subscription' => 'Vous devez être abonnés.',
     'project' => [
         'title' => 'Titre',
         'description' => 'Description',

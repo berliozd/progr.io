@@ -17,7 +17,7 @@ const appHomeRoute = route(usePage().props.app.home_route);
 <template>
     <div class="btm-nav">
         <ApplicationLogo v-bind:simple="true"></ApplicationLogo>
-        <button v-if="subscription.is_subscribed" @click="nav(appHomeRoute)"
+        <button @click="nav(appHomeRoute)"
                 v-bind:class="isActive(appHomeRoute)?'active':''">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"

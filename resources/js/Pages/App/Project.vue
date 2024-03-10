@@ -8,7 +8,7 @@ import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import AskAiModal from "@/Pages/App/Partials/AskAiModal.vue";
 
-import {Head, router} from '@inertiajs/vue3';
+import {Head, router, usePage} from '@inertiajs/vue3';
 import axios from "axios";
 import {capitalize, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
@@ -102,7 +102,7 @@ const noteTypeToAdd = ref(null)
                             <div v-for="note in project.notes" class="mt-4">
                                 <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
                                     <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
-                                    <div>
+                                    <div v-if="usePage().props.auth.subscription.is_subscribed">
                                         <AskAiModal :note-type-code="note.note_type_code"
                                                     :note-type-label="note.note_type_label"
                                                     :project-description="project.description"

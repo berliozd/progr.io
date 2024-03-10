@@ -14,10 +14,14 @@ import {router, usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
 import setMode from "@/Composables/setMode.js";
 import {useStore} from "@/Composables/store.js";
+import {trans} from "laravel-vue-i18n";
 
 const subscription = computed(() => usePage().props.auth.subscription)
 if (usePage().props.auth.just_logged) {
   useStore().setToast('Just logged!');
+}
+if (usePage().props.errors.msg) {
+  useStore().setToast(trans(usePage().props.errors.msg), true, 5000);
 }
 const showingNavigationDropdown = ref(false);
 setMode();
@@ -26,6 +30,9 @@ router.on('start', (event) => {
   useStore().setIsLoading(true)
 })
 router.on('success', (event) => {
+  useStore().setIsLoading(false)
+})
+router.on('error', (event) => {
   useStore().setIsLoading(false)
 })
 </script>

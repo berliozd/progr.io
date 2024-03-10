@@ -44,7 +44,6 @@ const getLanguage = () => {
 }
 
 const getBaseQuestion = () => {
-    console.log(props.noteTypeCode);
     // return 'give disagreements my users get when they do not use my tool, your answers should be a list of answers formatted in a human speaking manner starting by "oh sheet I"'
     if (props.noteTypeCode === 'benefits') {
         return 'give me benefits for future users'
@@ -115,9 +114,9 @@ let loading = ref(false)
                 </div>
 
             </div>
-            <div>
+            <div class="text-gray-800 dark:text-gray-200">
                 {{ $t('app.project.question_asked') }}
-                <div class="italic">"{{ getQuestion() }}"</div>
+                <div class="italic">"{{ getBaseQuestion() }}"</div>
             </div>
             <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
             <div class="flex flex-row justify-between">

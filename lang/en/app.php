@@ -4,6 +4,7 @@ return [
     'projects' => 'Projects',
     'project_description' => 'Description',
     'project_status' => 'Status',
+    'need_subscription' => 'You need to subscribed for this.',
     'project' => [
         'title' => 'Title',
         'description' => 'Description',
@@ -19,7 +20,7 @@ return [
         'select_note_type' => 'Select a type of note.',
         'note' => 'Note: :label',
         'use_for_note' => 'Use for note',
-        'question_asked' => 'Question asked : '
+        'question_asked' => 'Question asked : ',
     ],
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',
