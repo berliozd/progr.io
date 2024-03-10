@@ -20,4 +20,9 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, (new User)->getForeignKey());
     }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return strtotime($value);
+    }
 }

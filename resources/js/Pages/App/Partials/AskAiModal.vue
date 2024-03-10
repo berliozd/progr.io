@@ -23,7 +23,6 @@ const askAI = async () => {
         context = props.projectTitle.value + ' - ' + props.projectDescription.value;
     }
     let question = getQuestion();
-    console.log(question);
     const response = await axios.post('/api/ai/', {'context': context, 'question': question})
     loading.value = false
     aiResponse.value = response.data.response
@@ -32,7 +31,7 @@ const askAI = async () => {
 const getQuestion = () => {
     let question = getBaseQuestion();
     question += ', in your answer use bullets points';
-    question += ', in your answer use carriage return';
+    question += ', use carriage return';
     question += ', reply in ' + getLanguage();
     return question;
 }
@@ -46,6 +45,7 @@ const getLanguage = () => {
 
 const getBaseQuestion = () => {
     console.log(props.noteTypeCode);
+    // return 'give disagreements my users get when they do not use my tool, your answers should be a list of answers formatted in a human speaking manner starting by "oh sheet I"'
     if (props.noteTypeCode === 'benefits') {
         return 'give me benefits for future users'
     }
@@ -106,6 +106,7 @@ let loading = ref(false)
                 <div class="text-gray-800 dark:text-gray-200">
                     {{ $t('app.project.note', {'label': capitalize(noteTypeLabel)}) }}
                 </div>
+
                 <div class="space-x-2 items-center">
                     <span class="loading loading-spinner loading-s bg-gray-400" v-show="loading"></span>
                     <PrimaryButton @click="askAI" v-bind:disabled="loading" class="disabled">
@@ -113,6 +114,10 @@ let loading = ref(false)
                     </PrimaryButton>
                 </div>
 
+            </div>
+            <div>
+                {{ $t('app.project.question_asked') }}
+                <div class="italic">"{{ getQuestion() }}"</div>
             </div>
             <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
             <div class="flex flex-row justify-between">

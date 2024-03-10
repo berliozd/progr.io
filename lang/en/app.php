@@ -18,7 +18,8 @@ return [
         'ask_ai_help' => 'Ask help from AI',
         'select_note_type' => 'Select a type of note.',
         'note' => 'Note: :label',
-        'use_for_note' => 'Use for note'
+        'use_for_note' => 'Use for note',
+        'question_asked' => 'Question asked : '
     ],
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',
