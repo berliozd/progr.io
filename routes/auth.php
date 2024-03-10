@@ -15,7 +15,6 @@ use App\Http\Controllers\Auth\ProvidersCallbackController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\RedirectIfNotPremium;
 use App\Http\Middleware\RedirectIfNotSubscribed;
 use App\Http\Middleware\RedirectIfSubscribed;
 use Illuminate\Http\Request;
@@ -90,15 +89,8 @@ Route::middleware(['auth', 'verified'])
                     ->withoutMiddleware(RedirectIfSubscribed::class);
             });
 
-        Route::inertia('/basic', 'App/Subscribe/Basic')->name('app.basic')->middleware(
-            RedirectIfNotSubscribed::class
-        );
-        Route::inertia('/premium', 'App/Subscribe/Premium')->name('app.premium')->middleware(
-            RedirectIfNotPremium::class
-        );
-        Route::inertia('/projects', 'App/Projects')->name('app.projects')->middleware(
-            RedirectIfNotSubscribed::class
-        );
+        Route::inertia('/projects', 'App/Projects')->name('app.projects');
+
         Route::inertia('/project', 'App/Project')->name('app.projects.detail')->middleware(
             RedirectIfNotSubscribed::class
         );
