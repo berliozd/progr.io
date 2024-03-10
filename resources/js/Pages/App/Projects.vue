@@ -9,9 +9,9 @@ import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
 import {computed, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
-import date, {getShortDatePattern} from "@/Composables/date.js";
 import {truncate} from 'lodash';
 import {getActiveLanguage} from "laravel-vue-i18n";
+import Badge from "@/Components/Badge.vue";
 
 const getData = async () => {
   try {
@@ -59,37 +59,22 @@ setDateFormat();
       <div v-else class="my-4">{{ $t('app.nb_projects', {'nb': projects.length}) }}</div>
       <AddProjectButton/>
       <div class="overflow-auto h-80 my-2">
-        <table class="table">
-          <thead>
-          <tr>
-            <th class="text-gray-800 dark:text-gray-400 text-lg">{{ $t('app.project.title') }}</th>
-            <th class="text-center text-gray-800 dark:text-gray-400 text-lg">{{ $t('app.project.status') }}</th>
-            <th class="text-center text-gray-800 dark:text-gray-400 text-lg">
-              <div class="flex flex-col">
-                <div>
-                  {{ $t('app.project.updated_date') }}
-                </div>
-                <div class="text-xs">
-                  ({{ getShortDatePattern() }})
-                </div>
-              </div>
-            </th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="hover:cursor-pointer" v-for="project in projects">
-            <td @click="navToProject(project);">{{ truncate(project.title, {'length': 100}) }}</td>
-            <td class="text-center" @click="navToProject(project);">{{ project.status_label }}</td>
-            <td class="text-center" @click="navToProject(project);">
-              {{ date(project.updated_at) }}
-            </td>
-            <td>
-              <DeleteProject v-bind:project-id="project.id"/>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="grid grid-cols-3 w-full mb-2">
+          <div class="text-gray-800 dark:text-gray-400 text-lg ">{{ $t('app.project.title') }}</div>
+          <div class="text-center text-gray-800 dark:text-gray-400 text-lg ">{{ $t('app.project.status') }}</div>
+          <div class=""></div>
+        </div>
+        <div
+            class="grid grid-cols-3 w-full p-2 mb-2 hover:cursor-pointer [&:nth-child(even)]:dark:bg-gray-800 [&:nth-child(even)]:bg-gray-300"
+            v-for="project in projects">
+          <div @click="navToProject(project);" class="">{{ truncate(project.title, {'length': 50}) }}</div>
+          <div class="text-center" @click="navToProject(project);">
+            <Badge :label="project.status_label" :selected="false"></Badge>
+          </div>
+          <div class="text-center relative">
+            <DeleteProject v-bind:project-id="project.id"/>
+          </div>
+        </div>
       </div>
       <AddProjectButton/>
     </Box>
