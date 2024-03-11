@@ -16,7 +16,7 @@ return [
         'notes' => 'Notes du projet',
         'add_note' => 'Ajoutez une note',
         'ask_ai' => 'Demander à l\'IA',
-        'ask_ai_help' => 'Demandeez de l\'aide à l\'IA',
+        'ask_ai_help' => 'Demandez de l\'aide à l\'IA',
         'select_note_type' => 'Sélectionnez une type de note',
         'note' => 'Note: :label',
         'use_for_note' => 'Utilisez pour pour la note',
