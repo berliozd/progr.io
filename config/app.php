@@ -5,6 +5,9 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'free-nb-projects' => env('FREE_NB_PROJECTS'),
+    'free-ai-credits' => env('FREE_AI_CREDITS'),
+
     'style-default-mode' => env('APP_STYLE_DEFAULT_MODE', 'dark'),
     'home-route' => env('APP_HOME_ROUTE', 'home'),
     /*
@@ -44,7 +47,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------

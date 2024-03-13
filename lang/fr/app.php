@@ -4,7 +4,7 @@ return [
     'projects' => 'Projets',
     'project_description' => 'Description',
     'project_status' => 'Status',
-    'need_subscription' => 'Vous devez être abonnés.',
+    'need_subscription_to_add_more_projects' => 'Vous devez être abonné pour ajouter plus de projets.',
     'project' => [
         'title' => 'Titre',
         'description' => 'Description',

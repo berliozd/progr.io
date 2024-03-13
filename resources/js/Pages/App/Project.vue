@@ -16,131 +16,146 @@ import getStatuses from "@/Composables/getStatuses.js";
 import {trans} from "laravel-vue-i18n";
 
 if (!useStore().projectId) {
-    router.visit(route('app.projects'));
+  router.visit(route('app.projects'));
 }
 
 const project = ref(null)
 const getProject = async () => {
-    try {
-        const response = await axios.get('/api/projects/' + useStore().projectId)
-        project.value = response.data
-        console.log(project.value);
-    } catch (error) {
-        console.log(error)
-    }
+  try {
+    const response = await axios.get('/api/projects/' + useStore().projectId)
+    project.value = response.data
+    console.log(project.value);
+  } catch (error) {
+    console.log(error)
+  }
 }
 getProject();
 
 const statuses = ref(null)
 getStatuses().then((response) => {
-    statuses.value = response
+  statuses.value = response
 })
 
 const saveProject = async () => {
-    try {
-        console.log('SAVING');
-        console.log(project.value);
-        await axios.patch('/api/projects/' + useStore().projectId, project.value);
-        useStore().setToast(trans('app.saved'));
-        router.visit('/projects')
-    } catch (error) {
-        console.log(error)
-    }
+  try {
+    console.log('SAVING');
+    console.log(project.value);
+    await axios.patch('/api/projects/' + useStore().projectId, project.value);
+    useStore().setToast(trans('app.saved'));
+    router.visit('/projects')
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const selectProjectStatus = (status) => {
-    project.value.status = status.id;
+  project.value.status = status.id;
 }
 const addEmptyNote = (noteType) => {
-    if (!noteType) {
-        useStore().setToast(trans('app.project.select_note_type'), true)
-        return
-    }
-    project.value.notes.push({
-        'project_id': project.value.id,
-        'note_type_id': noteType.id,
-        'note_type_code': noteType.code,
-        'note_type_label': noteType.label,
-        'content': '',
-    });
-    noteTypeToAdd.value = null
-    project.value.availableNotesTypes = project.value.availableNotesTypes.filter(type => {
-        return noteType.id !== type.id
-    });
+  if (!noteType) {
+    useStore().setToast(trans('app.project.select_note_type'), true)
+    return
+  }
+  project.value.notes.push({
+    'project_id': project.value.id,
+    'note_type_id': noteType.id,
+    'note_type_code': noteType.code,
+    'note_type_label': noteType.label,
+    'content': '',
+  });
+  noteTypeToAdd.value = null
+  project.value.availableNotesTypes = project.value.availableNotesTypes.filter(type => {
+    return noteType.id !== type.id
+  });
+}
+
+
+const user = ref(null)
+const getUser = async () => {
+  try {
+    const response = await axios.get('/api/user/' + usePage().props.auth.user.id)
+    user.value = response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+getUser();
+
+
+const resetUser = () => {
+  getUser()
 }
 
 const noteTypeToAdd = ref(null)
 </script>
 <template>
-    <Head v-bind:title="$t('Project')"/>
-    <AuthenticatedLayout>
-        <template #header>
-            <PageHeader v-bind:title="$t('Project')"/>
-        </template>
-        <Box class="space-y-4 relative" v-if="project">
-            <div>
-                <label for="title">{{ $t('app.project.title') }} :</label>
-                <div class="mt-2">
-                    <text-input v-model="project.title" name="title" class="w-full"></text-input>
+  <Head v-bind:title="$t('Project')"/>
+  <AuthenticatedLayout>
+    <template #header>
+      <PageHeader v-bind:title="$t('Project')"/>
+    </template>
+    <Box class="space-y-4 relative" v-if="project">
+      <div>
+        <label for="title">{{ $t('app.project.title') }} :</label>
+        <div class="mt-2">
+          <text-input v-model="project.title" name="title" class="w-full"></text-input>
+        </div>
+      </div>
+
+      <div>
+        <label for="description">{{ $t('app.project.description') }} :</label>
+        <div class="mt-2">
+          <text-area v-model="project.description" rows="8" class="w-full"></text-area>
+        </div>
+      </div>
+
+      <div>
+        <label for="notes">{{ $t('app.project.notes') }} :</label>
+        <div class="mt-2">
+          <details
+              class="collapse collapse-arrow bg-gray-300 dark:bg-gray-500 text-gray-800 dark:text-gray-900">
+            <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
+            <div class="collapse-content">
+              <div v-for="note in project.notes" class="mt-4" :key="note.id">
+                <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
+                  <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
+                  <AskAiModal :note-type-code="note.note_type_code"
+                              :note-type-label="note.note_type_label"
+                              :project-description="project.description"
+                              :project-title="project.title"
+                              :project-note="note"/>
                 </div>
-            </div>
+                <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
+              </div>
 
-            <div>
-                <label for="description">{{ $t('app.project.description') }} :</label>
-                <div class="mt-2">
-                    <text-area v-model="project.description" rows="8" class="w-full"></text-area>
+              <div class="flex flex-col" v-if="project.availableNotesTypes.length >0">
+                <div>
+                  {{ $t('app.project.select_note_type') }}
                 </div>
-            </div>
-
-            <div>
-                <label for="notes">{{ $t('app.project.notes') }} :</label>
-                <div class="mt-2">
-                    <details
-                        class="collapse collapse-arrow bg-gray-300 dark:bg-gray-500 text-gray-800 dark:text-gray-900">
-                        <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
-                        <div class="collapse-content">
-                            <div v-for="note in project.notes" class="mt-4">
-                                <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
-                                    <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
-                                    <div v-if="usePage().props.auth.subscription.is_subscribed">
-                                        <AskAiModal :note-type-code="note.note_type_code"
-                                                    :note-type-label="note.note_type_label"
-                                                    :project-description="project.description"
-                                                    :project-title="project.title"
-                                                    :project-note="note"/>
-                                    </div>
-                                </div>
-                                <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
-                            </div>
-
-                            <div class="flex flex-col" v-if="project.availableNotesTypes.length >0">
-                                <div>
-                                    {{ $t('app.project.select_note_type') }}
-                                </div>
-                                <div class="items-center">
-                                    <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
-                                            v-model="noteTypeToAdd">
-                                        <option v-for="notesType in project.availableNotesTypes"
-                                                v-bind:value="notesType"
-                                                :key='notesType.id'>
-                                            {{ capitalize(notesType.label) }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-                    </details>
+                <div class="items-center">
+                  <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
+                          v-model="noteTypeToAdd">
+                    <option v-for="notesType in project.availableNotesTypes"
+                            v-bind:value="notesType"
+                            :key='notesType.id'>
+                      {{ capitalize(notesType.label) }}
+                    </option>
+                  </select>
                 </div>
-            </div>
+              </div>
 
-            <div>
-                <label for="description" class="block">{{ $t('app.project.status') }}:</label>
-                <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status"
-                              v-bind:on-click="selectProjectStatus"/>
             </div>
+          </details>
+        </div>
+      </div>
 
-            <SaveProjectButton v-bind:on-click="saveProject"></SaveProjectButton>
-        </Box>
-    </AuthenticatedLayout>
+      <div>
+        <label for="description" class="block">{{ $t('app.project.status') }}:</label>
+        <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status"
+                      v-bind:on-click="selectProjectStatus"/>
+      </div>
+
+      <SaveProjectButton v-bind:on-click="saveProject"></SaveProjectButton>
+    </Box>
+  </AuthenticatedLayout>
 </template>

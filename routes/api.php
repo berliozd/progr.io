@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\NotesTypeController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,4 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notes_types', [NotesTypeController::class, 'index']);
 
     Route::post('/ai', [AiAssistantController::class, 'ask']);
+
+    // users
+    Route::patch('/user/{id}', [UserController::class, 'update']);
+    Route::get('/user/{id}', [UserController::class, 'show']);
 });

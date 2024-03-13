@@ -27,7 +27,8 @@ class User extends Authenticatable
         'github_id',
         'google_id',
         'updated_at',
-        'settings'
+        'settings',
+        'used_ai_credits'
     ];
 
     /**

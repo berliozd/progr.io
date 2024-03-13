@@ -4,7 +4,7 @@ return [
     'projects' => 'Projects',
     'project_description' => 'Description',
     'project_status' => 'Status',
-    'need_subscription' => 'You need to subscribed for this.',
+    'need_subscription_to_add_more_projects' => 'You need to subscribed to add more projects.',
     'project' => [
         'title' => 'Title',
         'description' => 'Description',
@@ -24,5 +24,6 @@ return [
     ],
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',
-    'nb_projects' => 'You have :nb project(s) so far!'
+    'nb_projects' => 'You have :nb project(s) so far!',
+    'ai_not_available' => 'AI is not available. You certainly have used all your credits. You can register if you want to continue using AI.'
 ];

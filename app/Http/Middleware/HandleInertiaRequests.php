@@ -29,7 +29,9 @@ class HandleInertiaRequests extends Middleware
             'app' => [
                 'name' => config('app.name'),
                 'locales' => $locales,
-                'home_route' => config('app.home-route')
+                'home_route' => config('app.home-route'),
+                'free_nb_projects' => config('app.free-nb-projects'),
+                'free_ai_credits' => config('app.free-ai-credits'),
             ],
             'auth' => [
                 'user' => $request->user(),
