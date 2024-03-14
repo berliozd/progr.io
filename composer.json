@@ -18,7 +18,6 @@
         "laravel/tinker": "^2.9",
         "mailjet/mailjet-apiv3-php": "^1.6",
         "openai-php/client": "^0.8.4",
-        "orchid/platform": "^14.19",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
