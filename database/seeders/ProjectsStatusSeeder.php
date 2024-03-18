@@ -18,10 +18,6 @@ class ProjectsStatusSeeder extends Seeder
                 'description' => 'This status indicates that the project has just been added to the list.',
             ],
             [
-                'label' => 'Under consideration',
-                'description' => 'This status indicates that the project idea is being considered and matured.',
-            ],
-            [
                 'label' => 'In progress',
                 'description' => 'This status indicates that the project idea is being developed.',
             ],

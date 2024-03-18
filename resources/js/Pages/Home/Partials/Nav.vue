@@ -1,0 +1,103 @@
+<script setup>
+import SimpleLink from "@/Components/SimpleLink.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import {router} from "@inertiajs/vue3";
+import {ref} from "vue";
+
+const props = defineProps({
+  canLogin: {
+    type: Boolean,
+  },
+  canRegister: {
+    type: Boolean,
+  }
+});
+
+const showingNavigationDropdown = ref(false);
+
+</script>
+
+<template>
+
+  <!-- NON RESPONSIVE MENU -->
+  <div class="sm:grid grid-cols-3 px-12 py-4 hidden">
+
+    <SimpleLink v-bind:href="route('home')" class="flex align-sub">
+      <img src="/img/icon.png" width="50" alt="">
+      Progr.io
+    </SimpleLink>
+
+    <div class="space-x-5 text-center">
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+
+    <div v-if="props.canLogin" class="relative">
+      <div class="right-0 absolute flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2">
+        <PrimaryButton v-if="$page.props.auth.user" @click="router.visit('dashboard')">{{
+            $t('Get in')
+          }}
+        </PrimaryButton>
+        <template v-else>
+          <PrimaryButton @click="router.visit('register')">{{ $t('Register') }}</PrimaryButton>
+          <PrimaryButton @click="router.visit('login')">{{ $t('Login') }}</PrimaryButton>
+        </template>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- RESPONSIVE MENU -->
+  <div class="grid grid-cols-3 sm:hidden p-2">
+
+    <div class="">
+      <SimpleLink v-bind:href="route('home')" class="flex align-sub">
+        <img src="/img/icon.png" width="50" alt="">
+      </SimpleLink>
+    </div>
+
+    <div class="space-x-5 text-center">
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+
+    <!-- Hamburger -->
+    <div class="flex items-center relative">
+      <button
+          @click="showingNavigationDropdown = !showingNavigationDropdown"
+          class="absolute right-0 p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
+      >
+        <svg class="h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+          <path :class="{hidden: showingNavigationDropdown,'inline-flex': !showingNavigationDropdown}"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+          />
+          <path :class="{hidden: !showingNavigationDropdown,'inline-flex': showingNavigationDropdown}"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
+       class="sm:hidden w-full flex">
+    <div v-if="props.canLogin" class="p-4 relative w-full flex flex-col space-y-2 items-center">
+      <hr class="border w-full"/>
+      <PrimaryButton v-if="$page.props.auth.user" @click="router.visit('dashboard')">
+        {{ $t('Get in') }}
+      </PrimaryButton>
+      <template v-else>
+        <PrimaryButton @click="router.visit('register')">{{ $t('Register') }}</PrimaryButton>
+        <PrimaryButton @click="router.visit('login')">{{ $t('Login') }}</PrimaryButton>
+      </template>
+      <hr class="border w-full"/>
+    </div>
+  </div>
+
+</template>
