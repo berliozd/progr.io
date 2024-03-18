@@ -3,11 +3,14 @@
 
   <section class="bg-gray-700 text-center md:p-12 p-6">
     <h2 class="font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">
-      90% of your ideas never come to fruition
+      95% of your ideas never come to fruition
     </h2>
     <p class="max-w-xl mx-auto text-lg opacity-80 leading-relaxed mb-12 md:mb-20">
-      Did you know that 90% of ideas never become a reality? This is often because people have a hard time keeping track
-      of their ideas, prioritizing them, and turning them into concrete projects.
+      According to a survey by the Idea Management Group, a company that helps organizations manage their ideas, only
+      about 5% of ideas generated within a company are actually implemented. This suggests that a large majority of
+      ideas do not make it past the initial stage.
+      <br>
+      (Idea Management Group, n.d.)
       <br>
       That's where our tool comes in - it helps you keep track of your ideas, follow their progress, and turn them into
       successful

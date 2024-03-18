@@ -21,4 +21,11 @@ Route::get('/', function () {
     );
 })->name('home');
 
+Route::get('/terms', function () {
+    return Inertia::render('Home/Terms');
+})->name('terms');
+Route::get('/privacy-policy', function () {
+    return Inertia::render('Home/Privacy');
+})->name('privacy-policy');
+
 require __DIR__ . '/auth.php';

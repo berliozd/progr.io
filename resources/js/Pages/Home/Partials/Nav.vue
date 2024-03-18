@@ -28,15 +28,14 @@ const showingNavigationDropdown = ref(false);
     </SimpleLink>
 
     <div class="space-x-5 text-center">
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
+      <a href="#pricing" v-smooth-scroll>Pricing</a>
+      <a href="#faq" v-smooth-scroll>FAQ</a>
     </div>
 
     <div v-if="props.canLogin" class="relative">
       <div class="right-0 absolute flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2">
-        <PrimaryButton v-if="$page.props.auth.user" @click="router.visit('dashboard')">{{
-            $t('Get in')
-          }}
+        <PrimaryButton v-if="$page.props.auth.user" @click="router.visit('dashboard')">
+          {{ $t('Get in') }}
         </PrimaryButton>
         <template v-else>
           <PrimaryButton @click="router.visit('register')">{{ $t('Register') }}</PrimaryButton>
@@ -57,8 +56,8 @@ const showingNavigationDropdown = ref(false);
     </div>
 
     <div class="space-x-5 text-center">
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
+      <a href="#pricing" v-smooth-scroll>Pricing</a>
+      <a href="#faq" v-smooth-scroll>FAQ</a>
     </div>
 
     <!-- Hamburger -->
