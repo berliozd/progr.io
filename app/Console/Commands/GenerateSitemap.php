@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -28,7 +29,11 @@ class GenerateSitemap extends Command
     public function handle()
     {
         // modify this to your own needs
+        \Log::info('Generating sitemap');
+
         SitemapGenerator::create(config('app.url'))
             ->writeToFile(public_path('sitemap.xml'));
+
+        \Log::info('Sitemap Generated');
     }
 }
