@@ -31,6 +31,12 @@ class StoreController extends DashboardController
             if (($trialPeriod = config('stripe.trial_period')) > 0) {
                 $subscriptionBuilder->trialDays($trialPeriod);
             }
+
+            if (isset($_COOKIE['promotekit_referral'])) {
+                // Retrieve the referral value
+                $subscriptionBuilder->withMetadata(['promotekit_referral' => $_COOKIE['promotekit_referral']]);
+            }
+
             /** @var Subscription $subscription */
             $subscription = $subscriptionBuilder->create($paymentMethodeId);
 

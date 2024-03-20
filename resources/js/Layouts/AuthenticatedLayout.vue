@@ -11,7 +11,7 @@ import LocaleChanger from "@/Components/LocaleChanger.vue";
 import Loader from "@/Components/Loader.vue";
 
 import {router, usePage} from '@inertiajs/vue3'
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import setMode from "@/Composables/setMode.js";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
@@ -35,6 +35,17 @@ router.on('success', (event) => {
 router.on('error', (event) => {
   useStore().setIsLoading(false)
 })
+
+onMounted(() => {
+  let documentTag = document;
+  let tag = 'script';
+  let object = documentTag.createElement(tag);
+  let scriptTag = documentTag.getElementsByTagName(tag)[0];
+  object.src = 'https://cdn.promotekit.com/promotekit.js';
+  object.setAttribute('data-promotekit', "8280d66b-74be-45fa-9c8c-dbb9b5369d33");
+  object.async = true;
+  scriptTag.parentNode.insertBefore(object, scriptTag);
+});
 </script>
 
 <template>
