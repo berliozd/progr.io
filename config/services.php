@@ -46,5 +46,8 @@ return [
     ],
     'openai' => [
         'api_key' => env('OPEN_AI_API_KEY')
+    ],
+    'promotekit' => [
+        'api_key' => env('PROMOTEKIT_ID')
     ]
 ];

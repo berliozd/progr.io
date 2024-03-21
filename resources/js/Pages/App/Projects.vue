@@ -60,16 +60,16 @@ setDateFormat();
       <AddProjectButton/>
       <div class="overflow-auto h-80 my-2">
         <div class="grid grid-cols-3 w-full mb-2">
-          <div class="text-gray-800 dark:text-gray-400 text-lg ">{{ $t('app.project.title') }}</div>
-          <div class="text-center text-gray-800 dark:text-gray-400 text-lg ">{{ $t('app.project.status') }}</div>
+          <div class="text-lg">{{ $t('app.project.title') }}</div>
+          <div class="text-center text-lg">{{ $t('app.project.status') }}</div>
           <div class=""></div>
         </div>
         <div
-            class="grid grid-cols-3 w-full p-2 mb-2 hover:cursor-pointer [&:nth-child(even)]:dark:bg-gray-800 [&:nth-child(even)]:bg-gray-300"
+            class="grid grid-cols-3 w-full p-2 mb-2 hover:cursor-pointer [&:nth-child(even)]:bg-neutral"
             v-for="project in projects">
           <div @click="navToProject(project);" class="">{{ truncate(project.title, {'length': 50}) }}</div>
           <div class="text-center" @click="navToProject(project);">
-            <Badge :label="project.status_label" :selected="false"></Badge>
+            <Badge :label="project.status_label"></Badge>
           </div>
           <div class="text-center relative">
             <DeleteProject v-bind:project-id="project.id"/>

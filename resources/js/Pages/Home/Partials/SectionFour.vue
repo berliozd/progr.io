@@ -6,7 +6,7 @@ import Arrow from "@/Components/Arrow.vue";
 import {router} from "@inertiajs/vue3";
 </script>
 <template>
-  <section class="bg-gray-500 text-center md:p-12 p-6">
+  <section class="text-center md:p-12 p-6 bg-neutral">
     <p class="font-medium text-accent mb-8" id="pricing">Pricing</p>
 
     <h2 class="max-w-2xl md:mx-auto font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">
@@ -16,7 +16,7 @@ import {router} from "@inertiajs/vue3";
     <div class="relative flex flex-col lg:flex-row justify-center lg:items-stretch gap-8">
 
       <div class="relative w-full max-w-lg">
-        <div class="relative flex flex-col h-full gap-3 lg:gap-6 z-10 bg-base-100 p-8 rounded-box">
+        <div class="relative flex flex-col h-full gap-3 lg:gap-6 z-10 bg-base-300 p-8 rounded-box">
           <p class="text-lg lg:text-xl font-bold">Free</p>
           <p class="mt-2">Get a taste of progr.io - try it now</p>
           <div class="flex gap-2">
@@ -43,11 +43,11 @@ import {router} from "@inertiajs/vue3";
 
       <div class="relative w-full max-w-lg">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-          <span class="badge text-xs text-primary-content font-semibold border-0 bg-cyan-500">POPULAR</span>
+          <span class="badge text-xs text-primary-content font-semibold border-0 bg-success">POPULAR</span>
         </div>
 
         <div
-            class="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-100 p-8 rounded-box border border-cyan-500">
+            class="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-300 p-8 rounded-box border border-success">
           <p class="text-lg lg:text-xl font-bold">Full access</p>
           <p class="text-base-content/80 mt-2">All features unlimited</p>
           <div class="flex gap-2">

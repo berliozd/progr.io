@@ -2,7 +2,7 @@
 </script>
 <template>
 
-  <section class="bg-gray-600 text-center md:p-12 p-6 md:py-16 space-y-12 md:space-y-16">
+  <section class="text-center md:p-12 p-6 md:py-16 space-y-12 md:space-y-16 bg-neutral">
 
     <h2 class="max-w-2xl md:mx-auto font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">
       Give your ideas a chance to <span
@@ -17,7 +17,7 @@
 
     <h2 class="max-w-2xl md:mx-auto font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">Use cases</h2>
 
-    <div class="max-w-5xl bg-base-200 mx-auto rounded-box grid md:grid-cols-2 py-16 gap-8 md:gap-16">
+    <div class="max-w-5xl bg-base-300 mx-auto rounded-box grid md:grid-cols-2 py-16 gap-8 md:gap-16">
       <div class="px-8">
         <span class="text-4xl">👨‍💻</span>
         <h3 class="text-xl md:text-2xl font-bold mb-2">Indie hackers</h3>

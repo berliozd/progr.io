@@ -113,7 +113,7 @@ const noteTypeToAdd = ref(null)
         <label for="notes">{{ $t('app.project.notes') }} :</label>
         <div class="mt-2">
           <details
-              class="collapse collapse-arrow bg-gray-300 dark:bg-gray-500 text-gray-800 dark:text-gray-900">
+              class="collapse collapse-arrow bg-neutral text-white/70">
             <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
             <div class="collapse-content">
               <div v-for="note in project.notes" class="mt-4" :key="note.id">

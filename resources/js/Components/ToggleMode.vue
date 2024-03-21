@@ -23,7 +23,8 @@ const toggleDarkMode = function () {
 </script>
 <template>
     <button @click="toggleDarkMode()"
-            class="focus:outline-none text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+            class="focus:outline-none
+            hover:text-neutral-content">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor"
              class="w-6 h-6">

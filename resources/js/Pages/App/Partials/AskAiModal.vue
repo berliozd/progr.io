@@ -133,17 +133,17 @@ const useForNote = () => {
 
     <div class="p-4 w-full space-y-4 flex flex-col" v-if="aiAvailable">
       <div class="flex flex-row w-full justify-between">
-        <div class="text-gray-800 dark:text-gray-200">
+        <div>
           {{ $t('app.project.note', {'label': capitalize(noteTypeLabel)}) }}
         </div>
         <div class="space-x-2 items-center">
-          <span class="loading loading-spinner loading-s bg-gray-400" v-show="loading"></span>
+          <span class="loading loading-spinner loading-s" v-show="loading"></span>
           <PrimaryButton @click="askAI" v-bind:disabled="loading">
             {{ $t('app.project.ask_ai') }}
           </PrimaryButton>
         </div>
       </div>
-      <div class="text-gray-800 dark:text-gray-200">
+      <div>
         {{ $t('app.project.question_asked') }}
         <div class="italic">"{{ getBaseQuestion() }}"</div>
       </div>

@@ -33,8 +33,8 @@ const closeModal = () => {
 <template>
   <section class="space-y-6">
     <header>
-      <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Cancel your subscription</h2>
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+      <h2 class="text-lg font-medium">Cancel your subscription</h2>
+      <p class="mt-1 text-sm text-neutral">
         Cancel your subscription...
       </p>
     </header>
@@ -43,7 +43,7 @@ const closeModal = () => {
 
     <Modal :show="confirmingUserDeletion" @close="closeModal">
       <div class="p-6">
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-neutral">
           Are you sure you want to cancel your subscription?
         </h2>
 

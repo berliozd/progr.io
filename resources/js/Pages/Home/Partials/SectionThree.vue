@@ -1,7 +1,7 @@
 <script setup></script>
 <template>
 
-  <section class="bg-gray-700 text-center md:p-12 p-6">
+  <section class="text-center md:p-12 p-6">
     <h2 class="font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">
       95% of your ideas never come to fruition
     </h2>

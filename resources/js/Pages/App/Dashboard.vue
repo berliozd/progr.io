@@ -41,9 +41,9 @@ defineProps({
       <table class="table" v-if="invoices.length > 0">
         <thead>
         <tr class="text-lg">
-          <th class="text-gray-800 dark:text-gray-400">{{ $t('Creation date') }}</th>
-          <th class="text-gray-800 dark:text-gray-400 text-center">{{ $t('Total') }}</th>
-          <th class="text-center text-gray-800 dark:text-gray-400"></th>
+          <th class="">{{ $t('Creation date') }}</th>
+          <th class="text-center">{{ $t('Total') }}</th>
+          <th class="text-center"></th>
         </tr>
         </thead>
         <tbody>

@@ -6,6 +6,7 @@ import SectionThree from "@/Pages/Home/Partials/SectionThree.vue";
 import SectionFour from "@/Pages/Home/Partials/SectionFour.vue";
 import Footer from "@/Pages/Home/Partials/Footer.vue";
 import SectionFive from "@/Pages/Home/Partials/SectionFive.vue";
+import SectionSix from "@/Pages/Home/Partials/SectionSix.vue";
 
 import {Head} from '@inertiajs/vue3';
 import {trans} from "laravel-vue-i18n";
@@ -28,5 +29,6 @@ defineProps({
   <SectionThree/>
   <SectionFour/>
   <SectionFive/>
+  <SectionSix/>
   <Footer/>
 </template>

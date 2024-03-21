@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
     <script src="https://js.stripe.com/v3"></script>
 </head>
-<body class="font-sans text-gray-600 bg-gray-100 leading-normal p-4 h-full">
+<body class="font-sans leading-normal p-4 h-full">
     <div id="app" class="h-full md:flex md:justify-center md:items-center">
         <div class="w-full max-w-lg">
             <h1 class="text-4xl font-bold text-center p-4 sm:p-6 mt-4">
@@ -30,7 +30,7 @@
 
             <div class="bg-white rounded-lg shadow-xl p-4 sm:p-6 mt-4">
                 <div v-if="paymentIntent.status === 'succeeded'">
-                    <h2 class="text-xl mb-4 text-gray-600">
+                    <h2 class="text-xl mb-4">
                         Payment Successful
                     </h2>
 
@@ -40,7 +40,7 @@
                 </div>
 
                 <div v-else-if="paymentIntent.status === 'processing'">
-                    <h2 class="text-xl mb-4 text-gray-600">
+                    <h2 class="text-xl mb-4">
                         Payment Processing
                     </h2>
 
@@ -50,7 +50,7 @@
                 </div>
 
                 <div v-else-if="paymentIntent.status === 'canceled'">
-                    <h2 class="text-xl mb-4 text-gray-600">
+                    <h2 class="text-xl mb-4">
                         Payment Canceled
                     </h2>
 
@@ -63,7 +63,7 @@
                     <!-- Payment Method Form -->
                     <div v-if="paymentIntent.status === 'requires_payment_method'" class="mb-3">
                         <!-- Instructions -->
-                        <h2 class="text-xl mb-4 text-gray-600">
+                        <h2 class="text-xl mb-4">
                             Confirm Your Payment
                         </h2>
 
@@ -72,7 +72,7 @@
                         </p>
 
                         <!-- Payment Method -->
-                        <label for="paymentMethod" class="inline-block text-sm text-gray-700 font-semibold mb-2">
+                        <label for="paymentMethod" class="inline-block text-sm font-semibold mb-2">
                             Payment Method
                         </label>
 
@@ -84,7 +84,7 @@
                             <select
                                 id="paymentMethod"
                                 required
-                                class="inline-block bg-gray-100 border border-gray-300 rounded-lg w-full px-4 py-3 mb-3 focus:outline-none"
+                                class="inline-block rounded-lg w-full px-4 py-3 mb-3 focus:outline-none"
                                 v-model="paymentMethod"
                                 @change="configureStripeElements"
                             >
@@ -100,7 +100,7 @@
                         </div>
 
                         <!-- Name -->
-                        <label for="name" class="inline-block text-sm text-gray-700 font-semibold mb-2">
+                        <label for="name" class="inline-block text-sm font-semibold mb-2">
                             Full name
                         </label>
 
@@ -108,12 +108,12 @@
                             id="name"
                             type="text" placeholder="Jane Doe"
                             required
-                            class="inline-block bg-gray-100 border border-gray-300 rounded-lg w-full px-4 py-3 mb-3 focus:outline-none"
+                            class="inline-block rounded-lg w-full px-4 py-3 mb-3 focus:outline-none"
                             v-model="name"
                         />
 
                         <!-- E-mail Address -->
-                        <label for="email" class="inline-block text-sm text-gray-700 font-semibold mb-2">
+                        <label for="email" class="inline-block text-sm font-semibold mb-2">
                             E-mail address
                         </label>
 
@@ -121,22 +121,22 @@
                             id="email"
                             type="text" placeholder="jane@example.com"
                             required
-                            class="inline-block bg-gray-100 border border-gray-300 rounded-lg w-full px-4 py-3 mb-3 focus:outline-none"
+                            class="inline-block rounded-lg w-full px-4 py-3 mb-3 focus:outline-none"
                             v-model="email"
                         />
 
                         <div v-if="paymentElement">
                             <!-- Stripe Payment Element -->
-                            <label for="payment-element" class="inline-block text-sm text-gray-700 font-semibold mb-2">
+                            <label for="payment-element" class="inline-block text-sm font-semibold mb-2">
                                 Payment details
                             </label>
 
-                            <div id="payment-element" ref="paymentElement" class="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6"></div>
+                            <div id="payment-element" ref="paymentElement" class="rounded-lg p-4 mb-6"></div>
                         </div>
 
                         <div v-if="(paymentMethod || {}).remember">
                             <!-- Remember Payment Method -->
-                            <label for="remember" class="inline-block text-sm text-gray-700 mb-2">
+                            <label for="remember" class="inline-block text-sm mb-2">
                                 <input
                                     id="remember"
                                     type="checkbox"
@@ -148,7 +148,7 @@
                                 Remember payment method for future usage
                             </label>
 
-                            <p v-if="['bancontact', 'ideal', 'sepa_debit'].includes(paymentMethod.type)" class="text-xs text-gray-400 mb-6">
+                            <p v-if="['bancontact', 'ideal', 'sepa_debit'].includes(paymentMethod.type)" class="text-xs mb-6">
                                 By providing your payment information and confirming this payment, you authorise (A) and Stripe, our payment service provider, to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with those instructions. As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited. Your rights are explained in a statement that you can obtain from your bank. You agree to receive notifications for future debits up to 2 days before they occur.
                             </p>
                         </div>
@@ -171,12 +171,12 @@
                 </div>
 
                 <button @click="goBack" ref="goBackButton" data-redirect="{{ $redirect }}"
-                   class="inline-block w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-center text-gray-600 rounded-lg">
+                   class="inline-block w-full px-4 py-3 text-center rounded-lg">
                     Go back
                 </button>
             </div>
 
-            <p class="text-center text-gray-500 text-sm mt-4 pb-4">
+            <p class="text-center text-sm mt-4 pb-4">
                 © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
             </p>
         </div>

@@ -11,10 +11,10 @@ import {router} from "@inertiajs/vue3";
     <div class="px-8 pb-6 flex flex-col gap-10 lg:gap-14 items-center text-center">
       <h1 class="md:text-7xl text-3xl my-6 font-extrabold leading-normal">
         Turn your
-        <span class="border-b-8 border-dashed border-pink-600/50 italic">ideas</span>
+        <span class="border-b-8 border-dashed border-primary/50 italic">ideas</span>
         <br>
         into
-        <span class="border-b-8 border-dashed border-pink-600/50 italic">successful projects</span>
+        <span class="border-b-8 border-dashed border-primary/50 italic">successful projects</span>
       </h1>
       <div class="text-lg max-w-xl mx-auto">
         Progr.io is the tool that helps you keep track of your ideas and turn them into successful projects.

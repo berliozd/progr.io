@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <footer class="bg-base-300 border-t-2 border-base-content/10">
+  <footer class="border-t-2 border-base-content/10">
     <div class="max-w-7xl mx-auto px-8 py-24">
       <div class=" flex lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">

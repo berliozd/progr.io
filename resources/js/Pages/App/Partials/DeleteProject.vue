@@ -35,7 +35,7 @@ const deleteProject = async () => {
     <DeleteButton :on-click="confirmProjectDeletion"></DeleteButton>
     <Modal :show="confirmingProjectDeletion" @close="closeModal">
         <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium">
                 {{ $t('app.projects.deletion_confirmation_question') }}
             </h2>
 

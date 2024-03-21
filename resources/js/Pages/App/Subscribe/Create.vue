@@ -74,7 +74,7 @@ const submit = () => {
 
             <Box>
                 <fieldset>
-                    <legend class="text-gray-800 dark:text-gray-400">{{ $t('Plan : ') }}</legend>
+                    <legend>{{ $t('Plan : ') }}</legend>
                     <div class="">
                         <div v-for="product in products" class="relative flex items-start">
                             <div class="flex h-6 items-center">
@@ -85,13 +85,12 @@ const submit = () => {
                                        type="radio"
                                        v-model="form.plan"
                                        checked
-                                       class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                       class="h-4 w-4 text-primary focus:ring-secondary"
                                 >
                             </div>
                             <div class="ml-3 text-sm leading-6">
-                                <label v-bind:for=" product.id "
-                                       class="font-medium text-gray-800 dark:text-gray-400">{{ product.name }}</label>
-                                <p id="small-description" class="text-gray-500">{{ product.price }} €</p>
+                                <label v-bind:for=" product.id " class="font-medium">{{ product.name }}</label>
+                                <p id="small-description">{{ product.price }} €</p>
                             </div>
                         </div>
                     </div>
@@ -99,17 +98,17 @@ const submit = () => {
             </Box>
 
             <Box>
-                <input-label for="card-holder-name" value="Card owner :"/>
-                <text-input id="card-holder-name" type="text" v-model="form.cardHolderName"/>
+                <InputLabel for="card-holder-name" value="Card owner :"/>
+                <TextInput id="card-holder-name" type="text" v-model="form.cardHolderName"/>
             </Box>
 
             <Box>
-                <input-label for="promo-code" value="Promo code :"/>
-                <text-input id="promo-code" type="text" v-model="form.promoCode"/>
+                <InputLabel for="promo-code" value="Promo code :"/>
+                <TextInput id="promo-code" type="text" v-model="form.promoCode"/>
             </Box>
 
             <Box>
-                <input-label for="card-element" value="Card :"/>
+                <InputLabel for="card-element" value="Card :"/>
                 <div id="card-element" class="shadow-lg p-5 rounded bg-white"></div>
             </Box>
 

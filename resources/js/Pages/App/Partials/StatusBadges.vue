@@ -8,7 +8,7 @@ const props = defineProps({
 const statusBadge = (status) => {
     const baseCss = 'badge badge-outline badge-lg mr-2 mb-2';
     if (props.projectStatus === status.id) {
-        return baseCss + ' dark:bg-gray-200 dark:text-gray-800 bg-white text-gray-800';
+        return baseCss + ' badge-accent';
     }
     return baseCss + ' hover:cursor-pointer';
 }

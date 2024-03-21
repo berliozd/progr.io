@@ -19,15 +19,15 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                'primary': '#14b8a6',
-                'secondary': '#6c757d',
-                'dark': '#202225',
-                'light': '#f8f9fa',
+                'primary': '#be185d',
             },
         },
     },
     daisyui: {
-        themes: ["light", "dark", "cupcake", 'aqua', 'dracula'],
+        themes: ['dracula'],
+        base: true,
+        styled: true,
+        logs: true
     },
 
     plugins: [forms, daisyui],

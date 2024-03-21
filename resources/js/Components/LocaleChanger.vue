@@ -34,7 +34,10 @@ const changeLanguage = (value) => {
 </script>
 <template>
     <select v-model="lang" @change="changeLanguage(lang)"
-            class="bg-white dark:bg-gray-800 dark:focus:ring-0 focus:ring-0 focus:ring-white border-white border-0 dark:border-gray-800 dark:text-gray-400 text-gray-500">
+            class="bg-base-100
+            dark:focus:ring-0 focus:ring-0 focus:ring-white
+            border-0
+            hover:text-neutral-content">
         <option v-for="language in languages" v-bind:value="language">
             {{ language.toUpperCase() }}
         </option>

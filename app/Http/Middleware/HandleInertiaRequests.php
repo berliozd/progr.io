@@ -23,6 +23,9 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request): array
     {
+        \Log::debug('promotekit_referral : [' . ($_COOKIE['promotekit_referral'] ?? '') . ']');
+
+
         $locales = array_map('basename', glob(base_path('lang') . '/*', GLOB_ONLYDIR));
         $res = [
             ...parent::share($request),

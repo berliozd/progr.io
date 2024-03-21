@@ -19,6 +19,8 @@
     @inertiaHead
 </head>
 <body class="font-sans antialiased">
+<script async src="https://cdn.promotekit.com/promotekit.js"
+        data-promotekit="{{config('services.promotekit.api_key')}}"></script>
 @inertia
 </body>
 </html>
