@@ -6,7 +6,7 @@
 
     <h2 class="max-w-2xl md:mx-auto font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">
       Give your ideas a chance to <span
-        class="bg-neutral text-neutral-content px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed">come true</span>
+        class="bg-base-300 text-neutral-content px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed">come true</span>
     </h2>
 
     <p class="max-w-2xl mx-auto text-lg leading-relaxed">
