@@ -20,6 +20,7 @@ return [
         'select_note_type' => 'Select a type of note.',
         'note' => 'Note: :label',
         'use_for_note' => 'Use for note',
+        'copy' => 'Copy to clipboard',
         'question_asked' => 'Question asked : ',
     ],
     'cancel' => 'Cancel',

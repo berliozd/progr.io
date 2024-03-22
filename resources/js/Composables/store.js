@@ -14,7 +14,7 @@ export const useStore = defineStore('test', {
         setProjectId(projectId) {
             this.projectId = projectId
         },
-        setToast(text, error = false, delayBeforeHiding = 3000) {
+        setToast(text, error = false, delayBeforeHiding = 5000) {
             this.toastVisible = true;
             this.toastText = text;
             this.toastError = error;

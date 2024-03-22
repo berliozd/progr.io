@@ -8,6 +8,8 @@ import axios from "axios";
 import {capitalize, ref} from "vue";
 import {getActiveLanguage} from "laravel-vue-i18n";
 import {usePage} from "@inertiajs/vue3";
+import {Clipboard} from 'v-clipboard'
+import {useStore} from "@/Composables/store.js";
 
 const props = defineProps({
   projectTitle: null,
@@ -27,7 +29,7 @@ const checkUserRights = async () => {
   const userResponse = await axios.get('/api/user/' + usePage().props.auth.user.id)
   usedAiCredits.value = userResponse.data.used_ai_credits
   aiAvailable.value = usePage().props.auth.subscription.is_subscribed
-      ||userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
+      || userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
   console.log(aiAvailable.value);
 }
 
@@ -109,7 +111,13 @@ const hideModal = () => {
 
 const useForNote = () => {
   props.projectNote.content = aiResponse
+  useStore().setToast('Field filled with AI response.')
   hideModal()
+}
+
+const copy = () => {
+  Clipboard.copy(aiResponse.value)
+  useStore().setToast('Copied to clipboard.')
 }
 </script>
 
@@ -150,9 +158,22 @@ const useForNote = () => {
       <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
       <div class="flex flex-row justify-between">
         <SecondaryButton @click="hideModal">{{ $t('app.cancel') }}</SecondaryButton>
-        <SecondaryButton v-if="aiResponse" @click="useForNote">
-          {{ $t('app.project.use_for_note') }}
-        </SecondaryButton>
+        <div class="flex flex-row justify-between space-x-5">
+          <SecondaryButton v-if="aiResponse" @click="copy" :title="$t('app.project.copy')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-clipboard-copy">
+              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+              <path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v4"/>
+              <path d="M21 14H11"/>
+              <path d="m15 10-4 4 4 4"/>
+            </svg>
+          </SecondaryButton>
+          <SecondaryButton v-if="aiResponse" @click="useForNote" :title="$t('app.project.use_for_note') ">
+            {{ $t('app.project.use_for_note') }}
+          </SecondaryButton>
+        </div>
       </div>
     </div>
 

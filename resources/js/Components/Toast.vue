@@ -2,7 +2,7 @@
 import {useStore} from "@/Composables/store.js";
 
 const css = () => {
-    const baseCss = 'toast toast-bottom toast-start transition duration-700 ease-out z-50'
+    const baseCss = 'toast toast-bottom toast-start transition duration-700 ease-out'
     return useStore().toastVisible ? baseCss + ' opacity-100' : baseCss + ' opacity-0'
 };
 const alertCss = () => {
@@ -10,7 +10,7 @@ const alertCss = () => {
 }
 </script>
 <template>
-    <div v-bind:class="css()">
+    <div v-bind:class="css()" style="z-index: 1000000">
         <div :class="alertCss()">
             <span>{{ useStore().toastText }}</span>
         </div>

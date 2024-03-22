@@ -4,6 +4,10 @@ defineProps({
     type: String,
     default: 'button',
   },
+  title: {
+    type: String,
+    default: '',
+  },
 });
 </script>
 
@@ -18,6 +22,7 @@ defineProps({
         focus:outline-none
         focus:ring-2 focus:ring-secondary
         disabled:opacity-25 transition ease-in-out duration-150"
+      :title="title"
   >
     <slot/>
   </button>
