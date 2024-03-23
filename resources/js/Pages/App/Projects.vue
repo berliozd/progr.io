@@ -65,7 +65,6 @@ useStore().setIsLoading(true)
           </div>
         </div>
       </div>
-      <AddProjectButton/>
     </Box>
   </AuthenticatedLayout>
 </template>

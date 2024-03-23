@@ -13,92 +13,82 @@ import {reactive, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 import getStatuses from "@/Composables/getStatuses.js";
+import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 
 const statuses = ref(null)
 getStatuses().then((response) => {
-    statuses.value = response
+  statuses.value = response
 })
 
 const project = reactive({
-    title: {type: String, value: ''},
-    description: {type: String, value: ''},
-    status: {type: Number, value: 1},
+  title: {type: String, value: ''},
+  description: {type: String, value: ''},
+  status: {type: Number, value: 1},
 })
 
 const save = async () => {
-    if (!validate()) {
-        return;
-    }
-    if (project.title.value === '') {
-        usePage().props.error = trans('app.project.title_error')
-    }
-    try {
-        await axios.post('/api/projects/', project);
-        useStore().setToast('Created!');
-        router.visit('/projects')
-    } catch (error) {
-        console.log(error)
-    }
+  if (!validate()) {
+    return;
+  }
+  if (project.title.value === '') {
+    usePage().props.error = trans('app.project.title_error')
+  }
+  try {
+    await axios.post('/api/projects/', project);
+    useStore().setToast('Created!');
+    router.visit('/projects')
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const validate = () => {
-    usePage().props.error = ''
-    if (project.title.value === '') {
-        usePage().props.error = trans('app.project.title_error')
-        return false;
-    }
-    if (project.description.value === '') {
-        usePage().props.error = trans('app.project.description_error')
-        return false;
-    }
-    return true;
+  usePage().props.error = ''
+  if (project.title.value === '') {
+    usePage().props.error = trans('app.project.title_error')
+    return false;
+  }
+  if (project.description.value === '') {
+    usePage().props.error = trans('app.project.description_error')
+    return false;
+  }
+  return true;
 }
 
 const selectProjectStatus = (status) => {
-    console.log(project.status);
-    project.status.value = status.id;
-    console.log(project.status);
+  project.status.value = status.id;
 }
 
 </script>
 <template>
-    <Head v-bind:title="$t('Project')"/>
-    <AuthenticatedLayout>
-        <template #header>
-            <PageHeader v-bind:title="$t('New Project')"/>
-        </template>
-        <Box class="space-y-4 relative">
-            <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
-            <div>
-                <label for="title">{{ $t('app.project.title') }}:</label>
-                <div class="mt-2">
-                    <text-input v-model="project.title.value" name="title" class="w-full"></text-input>
-                </div>
-            </div>
+  <Head v-bind:title="$t('Project')"/>
+  <AuthenticatedLayout>
+    <template #header>
+      <PageHeader v-bind:title="$t('New Project')"/>
+    </template>
+    <Box class="space-y-4 relative">
+      <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
+      <div>
+        <label for="title">{{ $t('app.project.title') }}:</label>
+        <div class="mt-2">
+          <text-input v-model="project.title.value" name="title" class="w-full"></text-input>
+        </div>
+      </div>
 
-            <div>
-                <label for="description">{{ $t('app.project.description') }}:</label>
-                <div class="mt-2">
-                    <text-area v-model="project.description.value" rows="8" class="w-full"></text-area>
-                </div>
-            </div>
+      <div>
+        <label for="description">{{ $t('app.project.description') }}:</label>
+        <div class="mt-2">
+          <text-area v-model="project.description.value" rows="8" class="w-full"></text-area>
+        </div>
+      </div>
 
-            <div>
-                <label for="description" class="block">{{ $t('app.project.status') }}:</label>
-                <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
-                              v-bind:on-click="selectProjectStatus"></StatusBadges>
-            </div>
+      <div>
+        <label for="description" class="block">{{ $t('app.project.status') }}:</label>
+        <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
+                      v-bind:on-click="selectProjectStatus"></StatusBadges>
+      </div>
 
-            <div class="flex w-full rounded border p-2 hover:cursor-pointer" @click="save()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-save mx-auto ">
-                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-                    <polyline points="17 21 17 13 7 13 7 21"/>
-                    <polyline points="7 3 7 8 15 8"/>
-                </svg>
-            </div>
-
-        </Box>
-    </AuthenticatedLayout>
+      <SaveProjectButton v-bind:on-click="save"></SaveProjectButton>
+    </Box>
+  </AuthenticatedLayout>
 </template>

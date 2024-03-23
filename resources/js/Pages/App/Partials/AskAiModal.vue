@@ -30,7 +30,6 @@ const checkUserRights = async () => {
   usedAiCredits.value = userResponse.data.used_ai_credits
   aiAvailable.value = usePage().props.auth.subscription.is_subscribed
       || userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
-  console.log(aiAvailable.value);
 }
 
 function getContext() {
@@ -53,7 +52,6 @@ const askAI = async () => {
 }
 
 const incrementUserUsedCredits = async () => {
-  console.log('incrementing');
   await axios.patch(
       '/api/user/' + usePage().props.auth.user.id, {
         'field': 'used_ai_credits',

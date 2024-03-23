@@ -1,11 +1,13 @@
 <script setup>
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+
 const props = defineProps({
     onClick: null
 })
 </script>
 <template>
-    <div class="flex w-full rounded border p-2 hover:cursor-pointer"
-         @click="props.onClick()">
+  <div class="flex justify-end">
+    <PrimaryButton @click="props.onClick()" class="flex justify-around">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
              class="lucide lucide-save mx-auto ">
@@ -13,5 +15,6 @@ const props = defineProps({
             <polyline points="17 21 17 13 7 13 7 21"/>
             <polyline points="7 3 7 8 15 8"/>
         </svg>
-    </div>
+    </PrimaryButton>
+  </div>
 </template>

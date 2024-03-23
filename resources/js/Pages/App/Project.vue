@@ -25,7 +25,6 @@ const getProject = async () => {
     if (useStore().projectId) {
       const response = await axios.get('/api/projects/' + useStore().projectId)
       project.value = response.data
-      console.log(project.value);
     }
   } catch (error) {
     console.log(error)
@@ -40,8 +39,6 @@ getStatuses().then((response) => {
 
 const saveProject = async () => {
   try {
-    console.log('SAVING');
-    console.log(project.value);
     await axios.patch('/api/projects/' + useStore().projectId, project.value);
     useStore().setToast(trans('app.saved'));
     router.visit('/projects')
