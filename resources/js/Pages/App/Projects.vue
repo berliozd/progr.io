@@ -65,7 +65,8 @@ setDateFormat();
           <div class=""></div>
         </div>
         <div
-            class="grid grid-cols-3 w-full p-2 mb-2 hover:cursor-pointer [&:nth-child(even)]:bg-neutral"
+            class="grid grid-cols-3 w-full p-2 mb-2 hover:cursor-pointer [&:nth-child(even)]:bg-neutral
+            [&:nth-child(even)]:hover:bg-accent/20 hover:bg-accent/20"
             v-for="project in projects">
           <div @click="navToProject(project);" class="">{{ truncate(project.title, {'length': 50}) }}</div>
           <div class="text-center" @click="navToProject(project);">
