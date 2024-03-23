@@ -10,7 +10,6 @@ import axios from "axios";
 import {computed, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {truncate} from 'lodash';
-import {getActiveLanguage} from "laravel-vue-i18n";
 import Badge from "@/Components/Badge.vue";
 
 const getData = async () => {
@@ -35,18 +34,6 @@ const navToProject = (project) => {
   router.visit(route('app.projects.detail'));
 }
 useStore().setIsLoading(true)
-const dateFormat = ref(null)
-const setDateFormat = () => {
-  if (getActiveLanguage() === 'fr') {
-    console.log('get fr locale');
-    dateFormat.value = 'dd/MM/yyyy'
-  }
-  if (getActiveLanguage() === 'en') {
-    console.log('get en locale');
-    dateFormat.value = 'MM/dd/yyyy'
-  }
-}
-setDateFormat();
 </script>
 <template>
   <Head v-bind:title="$t('Projects')"/>
@@ -61,18 +48,19 @@ setDateFormat();
       <div class="overflow-auto h-80 my-2">
         <div class="grid grid-cols-3 w-full mb-2">
           <div class="text-lg">{{ $t('app.project.title') }}</div>
-          <div class="text-center text-lg">{{ $t('app.project.status') }}</div>
+          <div class="flex justify-around text-lg">{{ $t('app.project.status') }}</div>
           <div class=""></div>
         </div>
-        <div
-            class="grid grid-cols-3 w-full p-2 mb-2 hover:cursor-pointer [&:nth-child(even)]:bg-neutral
-            [&:nth-child(even)]:hover:bg-accent/20 hover:bg-accent/20"
-            v-for="project in projects">
-          <div @click="navToProject(project);" class="">{{ truncate(project.title, {'length': 50}) }}</div>
-          <div class="text-center" @click="navToProject(project);">
+        <div class="grid grid-cols-3 w-full p-2 mb-2
+                    hover:cursor-pointer [&:nth-child(even)]:bg-neutral
+                    [&:nth-child(even)]:hover:bg-accent/20 hover:bg-accent/20" v-for="project in projects">
+          <div @click="navToProject(project);" class="">
+            {{ truncate(project.title, {'length': 50}) }}
+          </div>
+          <div class="flex justify-around" @click="navToProject(project);">
             <Badge :label="project.status_label"></Badge>
           </div>
-          <div class="text-center relative">
+          <div class="flex justify-end">
             <DeleteProject v-bind:project-id="project.id"/>
           </div>
         </div>

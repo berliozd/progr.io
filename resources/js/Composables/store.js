@@ -1,13 +1,14 @@
 import {defineStore} from 'pinia'
 
-export const useStore = defineStore('test', {
+export const useStore = defineStore('store', {
     state: () => {
         return {
             projectId: null,
             toastVisible: false,
             toastText: null,
             toastError: null,
-            loading: false
+            loading: false,
+            history: [],
         }
     },
     actions: {
@@ -24,6 +25,9 @@ export const useStore = defineStore('test', {
         },
         setIsLoading(isLoading) {
             this.loading = isLoading
-        }
+        },
+        addHistory(url){
+            this.history.push(url)
+        },
     }
 })

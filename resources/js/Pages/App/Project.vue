@@ -22,9 +22,11 @@ if (!useStore().projectId) {
 const project = ref(null)
 const getProject = async () => {
   try {
-    const response = await axios.get('/api/projects/' + useStore().projectId)
-    project.value = response.data
-    console.log(project.value);
+    if (useStore().projectId) {
+      const response = await axios.get('/api/projects/' + useStore().projectId)
+      project.value = response.data
+      console.log(project.value);
+    }
   } catch (error) {
     console.log(error)
   }

@@ -1,10 +1,13 @@
 <script setup>
+import {useStore} from "@/Composables/store.js";
+
 const goBack = () => {
+  useStore().history.pop()
   window.history.back()
 }
 </script>
 <template>
-  <div class="hover:cursor-pointer" @click="goBack();">
+  <div class="hover:cursor-pointer" @click="goBack();" v-if="useStore().history.length !== 0">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
          class="lucide lucide-undo-2">

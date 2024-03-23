@@ -43,7 +43,7 @@ const closeModal = () => {
 
     <Modal :show="confirmingUserDeletion" @close="closeModal">
       <div class="p-6">
-        <h2 class="text-lg font-medium text-neutral">
+        <h2 class="text-lg font-medium">
           Are you sure you want to cancel your subscription?
         </h2>
 

@@ -2,13 +2,14 @@ import './bootstrap';
 import '../css/app.css';
 
 import {createApp, h} from 'vue';
-import {createInertiaApp} from '@inertiajs/vue3';
+import {createInertiaApp, router} from '@inertiajs/vue3';
 import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from '../../vendor/tightenco/ziggy/dist/vue.m';
 import {i18nVue} from 'laravel-vue-i18n'
 import {createPinia} from 'pinia'
 import VueSmoothScroll from 'vue3-smooth-scroll'
 import Clipboard from 'v-clipboard'
+import {useStore} from "@/Composables/store.js";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -36,3 +37,16 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+
+router.on('start', (event) => {
+    useStore().addHistory(event.detail.visit.url.href)
+    useStore().setIsLoading(true)
+})
+
+router.on('success', (event) => {
+    useStore().setIsLoading(false)
+})
+router.on('error', (event) => {
+    useStore().setIsLoading(false)
+})

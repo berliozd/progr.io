@@ -5,14 +5,12 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Toast from "@/Components/Toast.vue";
-import ToggleMode from "@/Components/ToggleMode.vue";
 import Footer from "@/Components/Footer.vue";
 import LocaleChanger from "@/Components/LocaleChanger.vue";
 import Loader from "@/Components/Loader.vue";
 
-import {router, usePage} from '@inertiajs/vue3'
+import {usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
-import setMode from "@/Composables/setMode.js";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 
@@ -24,17 +22,6 @@ if (usePage().props.errors.msg) {
   useStore().setToast(trans(usePage().props.errors.msg), true, 5000);
 }
 const showingNavigationDropdown = ref(false);
-setMode();
-
-router.on('start', (event) => {
-  useStore().setIsLoading(true)
-})
-router.on('success', (event) => {
-  useStore().setIsLoading(false)
-})
-router.on('error', (event) => {
-  useStore().setIsLoading(false)
-})
 
 </script>
 
@@ -43,7 +30,7 @@ router.on('error', (event) => {
   <div class="min-h-screen bg-base-300">
     <nav class="border-b border-base-200 bg-base-100">
       <!-- Primary Navigation Menu -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 largescreen ">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex">
             <!-- Logo -->
@@ -67,7 +54,6 @@ router.on('error', (event) => {
 
           <div class="flex flex-row">
             <LocaleChanger/>
-<!--            <ToggleMode/>-->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
               <!-- Settings Dropdown -->
               <div class="ms-3 relative">

@@ -6,7 +6,7 @@ const props = defineProps({
 })
 
 const badgeCss = (selected) => {
-  const baseCss = 'badge badge-outline badge-lg mr-2 mb-2 text-nowrap';
+  const baseCss = 'badge badge-outline badge-lg text-nowrap';
   if (selected) {
     return baseCss + ' badge-accent';
   }
