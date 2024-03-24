@@ -10,27 +10,43 @@ import AskAiModal from "@/Pages/App/Partials/AskAiModal.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
-import {capitalize, ref} from "vue";
+import {capitalize, reactive, ref, watch} from "vue";
 import {useStore} from "@/Composables/store.js";
 import getStatuses from "@/Composables/getStatuses.js";
 import {trans} from "laravel-vue-i18n";
+import debounce from 'lodash.debounce'
+
 
 if (!useStore().projectId) {
   router.visit(route('app.projects'));
 }
 
-const project = ref(null)
+const project = reactive({
+  title: '',
+  description: '',
+  status: ''
+})
+
 const getProject = async () => {
   try {
     if (useStore().projectId) {
       const response = await axios.get('/api/projects/' + useStore().projectId)
-      project.value = response.data
+      Object.assign(project, response.data);
+      watch(project, () => {
+        debouncedSave()
+      })
     }
   } catch (error) {
     console.log(error)
   }
 }
 getProject();
+
+const debouncedSave = debounce(() => {
+  save()
+  console.log('Send API request')
+}, 2000)
+
 
 const statuses = ref(null)
 getStatuses().then((response) => {
@@ -50,7 +66,7 @@ const saveProjectAndRedirect = async () => {
 const save = async () => {
   console.log('save');
   try {
-    await axios.patch('/api/projects/' + useStore().projectId, project.value);
+    await axios.patch('/api/projects/' + useStore().projectId, project);
     useStore().setToast(trans('app.saved'));
   } catch (error) {
     console.log(error)
@@ -58,22 +74,22 @@ const save = async () => {
 }
 
 const selectProjectStatus = (status) => {
-  project.value.status = status.id;
+  project.status = status.id;
 }
 const addEmptyNote = (noteType) => {
   if (!noteType) {
     useStore().setToast(trans('app.project.select_note_type'), true)
     return
   }
-  project.value.notes.push({
-    'project_id': project.value.id,
+  project.notes.push({
+    'project_id': project.id,
     'note_type_id': noteType.id,
     'note_type_code': noteType.code,
     'note_type_label': noteType.label,
     'content': '',
   });
   noteTypeToAdd.value = null
-  project.value.availableNotesTypes = project.value.availableNotesTypes.filter(type => {
+  project.availableNotesTypes = project.availableNotesTypes.filter(type => {
     return noteType.id !== type.id
   });
 }
@@ -120,7 +136,7 @@ const noteTypeToAdd = ref(null)
                 <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
               </div>
 
-              <div class="flex flex-col" v-if="project.availableNotesTypes.length >0">
+              <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">
                 <div>
                   {{ $t('app.project.select_note_type') }}
                 </div>

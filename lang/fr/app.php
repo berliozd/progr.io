@@ -24,5 +24,6 @@ return [
     ],
     'cancel' => 'Annuer',
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',
-    'nb_projects' => 'Vous avez :nb projet(s).'
+    'nb_projects' => 'Vous avez :nb projet(s).',
+    'saved' => 'Sauvegardé!'
 ];

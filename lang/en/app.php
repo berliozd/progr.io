@@ -26,5 +26,6 @@ return [
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',
     'nb_projects' => 'You have :nb project(s) so far!',
-    'ai_not_available' => 'AI is not available. You certainly have used all your credits. You can register if you want to continue using AI.'
+    'ai_not_available' => 'AI is not available. You certainly have used all your credits. You can register if you want to continue using AI.',
+    'saved' => 'Saved!'
 ];
