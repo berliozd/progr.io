@@ -8,7 +8,7 @@ import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import AskAiModal from "@/Pages/App/Partials/AskAiModal.vue";
 
-import {Head, router, usePage} from '@inertiajs/vue3';
+import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
 import {capitalize, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
@@ -37,11 +37,21 @@ getStatuses().then((response) => {
   statuses.value = response
 })
 
-const saveProject = async () => {
+const saveProjectAndRedirect = async () => {
+  console.log('saveProjectAndRedirect');
+  try {
+    await save()
+    router.visit('/projects')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const save = async () => {
+  console.log('save');
   try {
     await axios.patch('/api/projects/' + useStore().projectId, project.value);
     useStore().setToast(trans('app.saved'));
-    router.visit('/projects')
   } catch (error) {
     console.log(error)
   }
@@ -66,23 +76,6 @@ const addEmptyNote = (noteType) => {
   project.value.availableNotesTypes = project.value.availableNotesTypes.filter(type => {
     return noteType.id !== type.id
   });
-}
-
-
-const user = ref(null)
-const getUser = async () => {
-  try {
-    const response = await axios.get('/api/user/' + usePage().props.auth.user.id)
-    user.value = response.data
-  } catch (error) {
-    console.log(error)
-  }
-}
-getUser();
-
-
-const resetUser = () => {
-  getUser()
 }
 
 const noteTypeToAdd = ref(null)
@@ -154,7 +147,7 @@ const noteTypeToAdd = ref(null)
                       v-bind:on-click="selectProjectStatus"/>
       </div>
 
-      <SaveProjectButton v-bind:on-click="saveProject"></SaveProjectButton>
+      <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>
     </Box>
   </AuthenticatedLayout>
 </template>
