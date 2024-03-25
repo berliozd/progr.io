@@ -39,6 +39,9 @@ const showingNavigationDropdown = ref(false);
               <NavLink :href="route('app.projects')" :active="route().current('app.projects')">
                 {{ $t('app.projects') }}
               </NavLink>
+              <NavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
+                {{ $t('app.ideas') }}
+              </NavLink>
               <NavLink :href="route('subscribe.create')" :active="route().current('subscribe.create')"
                        v-if="!subscription?.is_subscribed">
                 {{ $t('layout.subscription') }}

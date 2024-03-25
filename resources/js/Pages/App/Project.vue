@@ -120,11 +120,11 @@ const noteTypeToAdd = ref(null)
     <Box class="space-y-2 bg-primary/80 relative" v-if="project">
       <label for="title">{{ $t('app.project.title') }} :</label>
       <div class="">
-        <text-input v-model="project.title" name="title" class="w-full"></text-input>
+        <TextInput v-model="project.title" name="title" class="w-full"></TextInput>
       </div>
       <label for="description">{{ $t('app.project.description') }} :</label>
       <div class="">
-        <text-area v-model="project.description" rows="8" class="w-full"></text-area>
+        <TextArea v-model="project.description" rows="8" class="w-full"></TextArea>
       </div>
     </Box>
 

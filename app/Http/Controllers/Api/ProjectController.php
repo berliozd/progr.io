@@ -8,7 +8,6 @@ use App\Models\Project;
 use App\Models\ProjectsNote;
 use App\Models\ProjectsStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -26,9 +25,9 @@ class ProjectController extends Controller
         $rawData = $request->toArray();
         $data = [
             'user_id' => auth()->user()->id,
-            'title' => $rawData['title']['value'],
-            'description' => $rawData['description']['value'],
-            'status' => $rawData['status']['value']
+            'title' => $rawData['title']['value'] ?? $rawData['title'],
+            'description' => $rawData['description']['value'] ?? $rawData['description'],
+            'status' => $rawData['status']['value'] ?? $rawData['status']
         ];
         return Project::create($data);
     }
