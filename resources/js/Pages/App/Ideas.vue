@@ -22,16 +22,25 @@ const askAI = async () => {
     return
   }
   if (aiAvailable.value) {
-    useStore().setIsLoading(true)
-    loading.value = true
-    const response = await axios.post('/api/ai/', {'context': getContext(), 'question': getQuestion()})
-    loading.value = false
-    let results = JSON.parse(response.data.response)
-    ideas.value = []
-    for (const result in results) {
-      ideas.value.push(results[result])
+    try {
+      useStore().setIsLoading(true)
+      loading.value = true
+      const response = await axios.post('/api/ai/', {'context': getContext(), 'question': getQuestion()})
+      let results = response.data.response.split(/\n/g);
+      ideas.value = []
+      for (let result in results) {
+        let val = results[result]
+        if (val !== '') {
+          val = val.split('|');
+          if (val[0] !== '' || val[1] !== '') {
+            ideas.value.push({'title': val[0], 'description': val[1]})
+          }
+        }
+      }
+    } finally {
+      useStore().setIsLoading(false)
+      loading.value = false
     }
-    useStore().setIsLoading(false)
   }
 }
 
@@ -44,11 +53,11 @@ const getLanguage = () => {
 
 const getQuestion = () => {
   return 'Can you give me 5 ideas.' +
-      'Your answer must be returned in json format.' +
-      'It should be a list of items.' +
-      'It should be wrapped inside [].' +
-      'Each item must be wrapped inside {} and have a "title" key in english and a "description" key in english.' +
-      'Do not add any extra characters in your reply.' +
+      'Each idea must be separated by a break line.' +
+      'Each idea must have a title and a description.' +
+      'Title and description must be separated by |.' +
+      'Do not add bullets or numbers before each ideas.' +
+      'Do not and introduction text before listing teh ideas.' +
       'Content should be in ' + getLanguage();
 }
 
@@ -77,12 +86,12 @@ const add = async (title, description) => {
     <Box>
       <details class="collapse collapse-arrow" open>
         <summary class="collapse-title text-xl font-medium">
-          {{ $t('app.ideas.generator_introduction')}}
+          {{ $t('app.ideas.generator_introduction') }}
         </summary>
         <div class="collapse-content space-y-4">
-          <div>{{$t('app.ideas.generator_line1')}}</div>
-          <div>{{$t('app.ideas.generator_line2')}}</div>
-          <div>{{ $t('app.ideas.generator_line3')}}</div>
+          <div>{{ $t('app.ideas.generator_line1') }}</div>
+          <div>{{ $t('app.ideas.generator_line2') }}</div>
+          <div>{{ $t('app.ideas.generator_line3') }}</div>
         </div>
       </details>
     </Box>
