@@ -129,6 +129,9 @@ const showingNavigationDropdown = ref(false);
           <ResponsiveNavLink :href="route('app.projects')" :active="route().current('app.projects')">
             {{ $t('app.projects') }}
           </ResponsiveNavLink>
+          <ResponsiveNavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
+            {{ $t('app.ideas') }}
+          </ResponsiveNavLink>
           <ResponsiveNavLink :href="route('subscribe.create')"
                              :active="route().current('subscribe.create')"
                              v-if="!(subscription?.is_subscribed)">
