@@ -40,7 +40,7 @@ const showingNavigationDropdown = ref(false);
                 {{ $t('app.projects') }}
               </NavLink>
               <NavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
-                {{ $t('app.ideas.ideas') }}
+                {{ $t('app.ideas.ideas_generator') }}
               </NavLink>
               <NavLink :href="route('subscribe.create')" :active="route().current('subscribe.create')"
                        v-if="!subscription?.is_subscribed">
@@ -130,7 +130,7 @@ const showingNavigationDropdown = ref(false);
             {{ $t('app.projects') }}
           </ResponsiveNavLink>
           <ResponsiveNavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
-            {{ $t('app.ideas.ideas') }}
+            {{ $t('app.ideas.ideas_generator') }}
           </ResponsiveNavLink>
           <ResponsiveNavLink :href="route('subscribe.create')"
                              :active="route().current('subscribe.create')"

@@ -3,13 +3,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import {useStore} from "@/Composables/store.js";
 
 import {Head} from '@inertiajs/vue3';
 import {ref} from "vue";
 import axios from "axios";
 import {getActiveLanguage, trans} from "laravel-vue-i18n";
-import TextInput from "@/Components/TextInput.vue";
-import {useStore} from "@/Composables/store.js";
 
 const ideas = ref([]);
 const aiAvailable = ref(true)
@@ -43,9 +43,13 @@ const getLanguage = () => {
 }
 
 const getQuestion = () => {
-  return 'Can you give me 5 ideas. ' +
-      'Your reply must be returned in json format. It should be an array. Each item in the array must have a title and description. Do not add any extra characters in your reply like JSON.' +
-      'You will reply in ' + getLanguage();
+  return 'Can you give me 5 ideas.' +
+      'Your answer must be returned in json format.' +
+      'It should be a list of items.' +
+      'It should be wrapped inside [].' +
+      'Each item must be wrapped inside {} and have a "title" key in english and a "description" key in english.' +
+      'Do not add any extra characters in your reply.' +
+      'Content should be in ' + getLanguage();
 }
 
 const getContext = () => {
@@ -64,11 +68,25 @@ const add = async (title, description) => {
 
 </script>
 <template>
-  <Head v-bind:title="$t('Projects')"/>
+  <Head v-bind:title="$t('app.ideas.ideas_generator')"/>
   <AuthenticatedLayout>
     <template #header>
-      <PageHeader v-bind:title="$t('app.ideas.ideas')"/>
+      <PageHeader v-bind:title="$t('app.ideas.ideas_generator')"/>
     </template>
+
+    <Box>
+      <details class="collapse collapse-arrow" open>
+        <summary class="collapse-title text-xl font-medium">
+          {{ $t('app.ideas.generator_introduction')}}
+        </summary>
+        <div class="collapse-content space-y-4">
+          <div>{{$t('app.ideas.generator_line1')}}</div>
+          <div>{{$t('app.ideas.generator_line2')}}</div>
+          <div>{{ $t('app.ideas.generator_line3')}}</div>
+        </div>
+      </details>
+    </Box>
+
     <Box class="relative">
       <label for="context" class=" inline-block">{{ $t('app.ideas.give_context') }}</label>
       <p class="mb-2 text-sm text-neutral-content/50">{{ $t('app.ideas.give_context_details') }}</p>

@@ -29,11 +29,16 @@ return [
     'ai_not_available' => 'L\'IA n\'est pas disponible. Vous avez certainement utilisé tous vos crédits. Vous pouvez vous abonner si vous souhaitez continuer à utiliser l\'IA.',
     'project_saved' => 'Projet sauvegardé!',
     'ideas' => [
-        'ideas' => 'Idées',
+        'ideas_generator' => 'Générateurs d\'idées',
         'give_context' => 'Context de votre demande : ',
         'give_context_details' => 'Entrez quelques mots-clés ou une brève description décrivant le type de projet que vous recherchez. Notre intelligence artificielle utilisera ces informations pour générer une liste d\'idées de projets pertinentes et inspirantes.',
         'add_as_project' => 'Ajoutez à vos projets',
         'no_context' => 'Nous ne pouvons pas lancer de requête sans context.',
-        'project_added' => 'Project added!'
-    ]
+        'project_added' => 'Project added!',
+        'generator_introduction' => 'Bienvenue sur notre générateur d\'idées!',
+        'generator_line1' => 'Nous savons qu\'il peut être difficile de proposer des idées nouvelles et innovantes, surtout lorsque vous manquez de temps ou que vous vous sentez coincé. C\'est là que notre outil entre en jeu. Que vous recherchiez de l\'inspiration pour une entreprise commerciale, un projet de recherche, un texte créatif ou toute autre chose, notre outil peut vous aider.',
+        'generator_line2' => 'Pour commencer, entrez simplement quelques mots-clés ou une brève description de ce que vous recherchez, et laissez notre générateur d\'idées faire le reste.',
+        'generator_line3' => 'Il générera rapidement une liste d’idées pertinentes et inspirantes que vous pourrez utiliser comme point de départ pour votre projet.'
+    ],
+    'out_of_ideas' => 'En panne d\'idées?'
 ];

@@ -11,6 +11,7 @@ import {computed, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {truncate} from 'lodash';
 import Badge from "@/Components/Badge.vue";
+import SimpleLink from "@/Components/SimpleLink.vue";
 
 const getData = async () => {
   try {
@@ -44,7 +45,27 @@ useStore().setIsLoading(true)
     <Box v-if="!useStore().loading" class="relative">
       <div v-if="!hasProject" class="my-4">{{ $t('app.no_projects') }}</div>
       <div v-else class="my-4">{{ $t('app.nb_projects', {'nb': projects.length}) }}</div>
-      <AddProjectButton/>
+      <div class="flex flex-grow justify-between">
+        <SimpleLink v-bind:href="route('app.ideas')">
+          <div class="rounded border p-1 hover:border-neutral">
+            {{ $t('app.out_of_ideas') }}
+            <div class="flex flex-row ml-10 space-x-2 text-xs items-center">
+              <span class="underline">{{ $t('app.project.ask_ai_help') }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   class="lucide lucide-bot-message-square">
+                <path d="M12 6V2H8"/>
+                <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/>
+                <path d="M2 12h2"/>
+                <path d="M9 11v2"/>
+                <path d="M15 11v2"/>
+                <path d="M20 12h2"/>
+              </svg>
+            </div>
+          </div>
+        </SimpleLink>
+        <AddProjectButton/>
+      </div>
       <div class="overflow-auto h-80 my-2">
         <div class="grid grid-cols-6 w-full mb-2">
           <div class="text-lg col-span-3">{{ $t('app.project.title') }}</div>
