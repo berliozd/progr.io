@@ -72,9 +72,9 @@ const add = async (title, description) => {
     <Box class="relative">
       <label for="context" class=" inline-block">{{ $t('app.ideas.give_context') }}</label>
       <p class="mb-2 text-sm text-neutral-content/50">{{ $t('app.ideas.give_context_details') }}</p>
-      <div class="flex flex-row justify-between space-x-2 sm:space-x-4">
-        <TextInput name="context" v-model="context" rows="8" class="sm:w-5/6" max-length="100"></TextInput>
-        <PrimaryButton @click="askAI" v-bind:disabled="loading" class="px-0 sm:px-4 sm:w-1/6 justify-center">
+      <div class="flex flex-row justify-between space-x-4">
+        <TextInput name="context" v-model="context" rows="8" class="w-2/3 sm:w-5/6" max-length="100"></TextInput>
+        <PrimaryButton @click="askAI" v-bind:disabled="loading" class="px-0 sm:px-4 w-1/3 sm:w-1/6 justify-center">
           {{ $t('app.project.ask_ai') }}
         </PrimaryButton>
       </div>
