@@ -20,10 +20,20 @@ return [
         'select_note_type' => 'Sélectionnez un type de note',
         'note' => 'Note: :label',
         'use_for_note' => 'Utilisez pour pour la note',
-        'question_asked' => 'Question posée : '
+        'copy' => 'Copier vers le presse-papier',
+        'question_asked' => 'Question posée : ',
     ],
     'cancel' => 'Annuer',
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',
     'nb_projects' => 'Vous avez :nb projet(s).',
-    'saved' => 'Sauvegardé!'
+    'ai_not_available' => 'L\'IA n\'est pas disponible. Vous avez certainement utilisé tous vos crédits. Vous pouvez vous abonner si vous souhaitez continuer à utiliser l\'IA.',
+    'project_saved' => 'Projet sauvegardé!',
+    'ideas' => [
+        'ideas' => 'Idées',
+        'give_context' => 'Context de votre demande : ',
+        'give_context_details' => 'Entrez quelques mots-clés ou une brève description décrivant le type de projet que vous recherchez. Notre intelligence artificielle utilisera ces informations pour générer une liste d\'idées de projets pertinentes et inspirantes.',
+        'add_as_project' => 'Ajoutez à vos projets',
+        'no_context' => 'Nous ne pouvons pas lancer de requête sans context.',
+        'project_added' => 'Project added!'
+    ]
 ];

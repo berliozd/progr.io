@@ -7,7 +7,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {Head} from '@inertiajs/vue3';
 import {ref} from "vue";
 import axios from "axios";
-import {getActiveLanguage} from "laravel-vue-i18n";
+import {getActiveLanguage, trans} from "laravel-vue-i18n";
 import TextInput from "@/Components/TextInput.vue";
 import {useStore} from "@/Composables/store.js";
 
@@ -17,6 +17,10 @@ const loading = ref(false)
 const context = ref('')
 
 const askAI = async () => {
+  if (!context.value) {
+    useStore().setToast(trans('app.ideas.no_context'), true)
+    return
+  }
   if (aiAvailable.value) {
     useStore().setIsLoading(true)
     loading.value = true
@@ -52,7 +56,7 @@ const add = async (title, description) => {
   try {
     let project = {'title': title, 'description': description, 'status': 1}
     await axios.post('/api/projects/', project);
-    useStore().setToast('Project added!');
+    useStore().setToast(trans('app.ideas.project_added'));
   } catch (error) {
     console.log(error)
   }
@@ -63,12 +67,15 @@ const add = async (title, description) => {
   <Head v-bind:title="$t('Projects')"/>
   <AuthenticatedLayout>
     <template #header>
-      <PageHeader v-bind:title="$t('Ideas')"/>
+      <PageHeader v-bind:title="$t('app.ideas.ideas')"/>
     </template>
     <Box class="relative">
-      <label for="context" class="mb-2 inline-block">{{$t('app.ideas.give_context')}}</label>
-      <TextInput name="context" v-model="context" rows="8" class="w-full mb-2"></TextInput>
-      <PrimaryButton @click="askAI">Ask AI</PrimaryButton>
+      <label for="context" class=" inline-block">{{ $t('app.ideas.give_context') }}</label>
+      <p class="mb-2 text-sm text-neutral-content/50">{{ $t('app.ideas.give_context_details') }}</p>
+      <div class="flex flex-row justify-between space-x-4">
+        <TextInput name="context" v-model="context" rows="8" class="sm:w-4/5" max-length="100"></TextInput>
+        <PrimaryButton @click="askAI" v-bind:disabled="loading" class="sm:w-1/5 justify-center">{{ $t('app.project.ask_ai') }}</PrimaryButton>
+      </div>
       <div v-for="idea in ideas" class="rounded border p-2 my-4 flex flex-col border-spacing-y-1">
         <div>
           {{ $t('app.project.title') }} : {{ idea.title }}
@@ -77,7 +84,9 @@ const add = async (title, description) => {
           {{ $t('app.project.description') }} : {{ idea.description }}
         </div>
         <div>
-          <PrimaryButton @click="add(idea.title, idea.description)">Add as project</PrimaryButton>
+          <PrimaryButton @click="add(idea.title, idea.description)">
+            {{ $t('app.ideas.add_as_project') }}
+          </PrimaryButton>
         </div>
       </div>
     </Box>

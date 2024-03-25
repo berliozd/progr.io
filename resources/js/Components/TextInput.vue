@@ -1,26 +1,30 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const model = defineModel({
-    type: String,
-    required: true,
+  type: String,
+  required: true,
 });
 
+defineProps({
+  maxLength: null
+})
 const input = ref(null);
 
 onMounted(() => {
-    if (input.value.hasAttribute('autofocus')) {
-        input.value.focus();
-    }
+  if (input.value.hasAttribute('autofocus')) {
+    input.value.focus();
+  }
 });
 
-defineExpose({ focus: () => input.value.focus() });
+defineExpose({focus: () => input.value.focus()});
 </script>
 
 <template>
-    <input
-        class="text-primary-content rounded-md shadow-sm"
-        v-model="model"
-        ref="input"
-    />
+  <input
+      class="text-primary-content rounded-md shadow-sm"
+      v-model="model"
+      ref="input"
+      :maxlength="maxLength"
+  />
 </template>
