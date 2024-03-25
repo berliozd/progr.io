@@ -79,11 +79,11 @@ const add = async (title, description) => {
         </PrimaryButton>
       </div>
       <div v-for="idea in ideas" class="rounded border p-2 my-4 flex flex-col border-spacing-y-1">
-        <div>
-          {{ $t('app.project.title') }} : {{ idea.title }}
+        <div class="mb-2">
+          <span class="underline font-bold">{{ $t('app.project.title') }}</span> : {{ idea.title }}
         </div>
-        <div>
-          {{ $t('app.project.description') }} : {{ idea.description }}
+        <div class="mb-2">
+          <span class="underline font-bold">{{ $t('app.project.description') }}</span> : {{ idea.description }}
         </div>
         <div>
           <PrimaryButton @click="add(idea.title, idea.description)">

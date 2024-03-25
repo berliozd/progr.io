@@ -46,21 +46,21 @@ useStore().setIsLoading(true)
       <div v-else class="my-4">{{ $t('app.nb_projects', {'nb': projects.length}) }}</div>
       <AddProjectButton/>
       <div class="overflow-auto h-80 my-2">
-        <div class="grid grid-cols-3 w-full mb-2">
-          <div class="text-lg">{{ $t('app.project.title') }}</div>
-          <div class="flex justify-around text-lg">{{ $t('app.project.status') }}</div>
+        <div class="grid grid-cols-6 w-full mb-2">
+          <div class="text-lg col-span-3">{{ $t('app.project.title') }}</div>
+          <div class="flex justify-around text-lg col-span-2">{{ $t('app.project.status') }}</div>
           <div class=""></div>
         </div>
-        <div class="grid grid-cols-3 w-full p-2 mb-2
+        <div class="grid grid-cols-6 w-full p-2
                     hover:cursor-pointer [&:nth-child(even)]:bg-neutral
                     [&:nth-child(even)]:hover:bg-accent/20 hover:bg-accent/20" v-for="project in projects">
-          <div @click="navToProject(project);" class="">
-            {{ truncate(project.title, {'length': 50}) }}
+          <div @click="navToProject(project);" class=" col-span-3">
+            {{ truncate(project.title, {'length': 75}) }}
           </div>
-          <div class="flex justify-around" @click="navToProject(project);">
+          <div class="flex justify-around  col-span-2" @click="navToProject(project);">
             <Badge :label="project.status_label"></Badge>
           </div>
-          <div class="flex justify-end">
+          <div class="flex justify-end ">
             <DeleteProject v-bind:project-id="project.id"/>
           </div>
         </div>
