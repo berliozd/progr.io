@@ -6,11 +6,11 @@ const props = defineProps({
 })
 
 const statusBadge = (status) => {
-    const baseCss = 'badge badge-outline badge-lg mr-2 mb-2';
+    const baseCss = 'badge badge-outline badge-lg mr-2 mb-2 ';
     if (props.projectStatus === status.id) {
         return baseCss + ' badge-accent';
     }
-    return baseCss + ' hover:cursor-pointer';
+    return baseCss + ' hover:cursor-pointer hover:text-neutral hover:bg-neutral-content';
 }
 </script>
 <template>

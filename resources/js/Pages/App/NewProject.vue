@@ -66,29 +66,20 @@ const selectProjectStatus = (status) => {
     <template #header>
       <PageHeader v-bind:title="$t('New Project')"/>
     </template>
-    <Box class="space-y-4 relative">
+    <Box class="space-y-4 relative bg-primary/70">
       <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
-      <div>
-        <label for="title">{{ $t('app.project.title') }}:</label>
-        <div class="mt-2">
-          <text-input v-model="project.title.value" name="title" class="w-full"></text-input>
-        </div>
+      <label for="title">{{ $t('app.project.title') }}:</label>
+      <div class="mt-2">
+        <text-input v-model="project.title.value" name="title" class="w-full"></text-input>
       </div>
-
-      <div>
-        <label for="description">{{ $t('app.project.description') }}:</label>
-        <div class="mt-2">
-          <text-area v-model="project.description.value" rows="8" class="w-full"></text-area>
-        </div>
+      <label for="description">{{ $t('app.project.description') }}:</label>
+      <div class="mt-2">
+        <text-area v-model="project.description.value" rows="8" class="w-full"></text-area>
       </div>
-
-      <div>
-        <label for="description" class="block">{{ $t('app.project.status') }}:</label>
-        <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
-                      v-bind:on-click="selectProjectStatus"></StatusBadges>
-      </div>
-
-      <SaveProjectButton v-bind:on-click="save"></SaveProjectButton>
+      <label for="description" class="block">{{ $t('app.project.status') }}:</label>
+      <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
+                    v-bind:on-click="selectProjectStatus"></StatusBadges>
     </Box>
+    <SaveProjectButton v-bind:on-click="save"></SaveProjectButton>
   </AuthenticatedLayout>
 </template>

@@ -63,11 +63,16 @@ const saveProjectAndRedirect = async () => {
   }
 }
 
+const saved = ref(false);
 const save = async () => {
   console.log('save');
   try {
     await axios.patch('/api/projects/' + useStore().projectId, project);
-    useStore().setToast(trans('app.saved'));
+    saved.value = true
+    setTimeout(() => {
+      saved.value = false
+    }, 3000);
+
   } catch (error) {
     console.log(error)
   }
@@ -102,68 +107,83 @@ const noteTypeToAdd = ref(null)
     <template #header>
       <PageHeader v-bind:title="$t('Project')"/>
     </template>
-    <Box class="space-y-4 relative" v-if="project">
-      <div>
-        <label for="title">{{ $t('app.project.title') }} :</label>
-        <div class="mt-2">
-          <text-input v-model="project.title" name="title" class="w-full"></text-input>
-        </div>
+
+    <Transition
+        enter-active-class="transition ease-in-out"
+        enter-from-class="opacity-0"
+        leave-active-class="transition ease-in-out"
+        leave-to-class="opacity-0"
+    >
+      <p v-if="saved" class="text-sm ">{{ $t('app.project_saved') }}</p>
+    </Transition>
+
+    <Box class="space-y-2 bg-primary/80 relative" v-if="project">
+      <label for="title">{{ $t('app.project.title') }} :</label>
+      <div class="">
+        <text-input v-model="project.title" name="title" class="w-full"></text-input>
       </div>
-
-      <div>
-        <label for="description">{{ $t('app.project.description') }} :</label>
-        <div class="mt-2">
-          <text-area v-model="project.description" rows="8" class="w-full"></text-area>
-        </div>
+      <label for="description">{{ $t('app.project.description') }} :</label>
+      <div class="">
+        <text-area v-model="project.description" rows="8" class="w-full"></text-area>
       </div>
-
-      <div>
-        <label for="notes">{{ $t('app.project.notes') }} :</label>
-        <div class="mt-2">
-          <details
-              class="collapse collapse-arrow bg-neutral text-white/70">
-            <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
-            <div class="collapse-content">
-              <div v-for="note in project.notes" class="mt-4" :key="note.id">
-                <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
-                  <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
-                  <AskAiModal :note-type-code="note.note_type_code"
-                              :note-type-label="note.note_type_label"
-                              :project-description="project.description"
-                              :project-title="project.title"
-                              :project-note="note"/>
-                </div>
-                <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
-              </div>
-
-              <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">
-                <div>
-                  {{ $t('app.project.select_note_type') }}
-                </div>
-                <div class="items-center">
-                  <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
-                          v-model="noteTypeToAdd">
-                    <option v-for="notesType in project.availableNotesTypes"
-                            v-bind:value="notesType"
-                            :key='notesType.id'>
-                      {{ capitalize(notesType.label) }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-
-            </div>
-          </details>
-        </div>
-      </div>
-
-      <div>
-        <label for="description" class="block">{{ $t('app.project.status') }}:</label>
-        <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status"
-                      v-bind:on-click="selectProjectStatus"/>
-      </div>
-
-      <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>
     </Box>
+
+    <Box class="space-y-4 relative bg-primary/80" v-if="project">
+      <label for="notes">{{ $t('app.project.notes') }} :</label>
+      <div class="mt-2">
+        <details
+            class="collapse collapse-arrow bg-neutral text-white/70">
+          <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
+          <div class="collapse-content">
+            <div v-for="note in project.notes" class="mt-4" :key="note.id">
+              <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
+                <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
+                <AskAiModal :note-type-code="note.note_type_code"
+                            :note-type-label="note.note_type_label"
+                            :project-description="project.description"
+                            :project-title="project.title"
+                            :project-note="note"/>
+              </div>
+              <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
+            </div>
+
+            <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">
+              <div>
+                {{ $t('app.project.select_note_type') }}
+              </div>
+              <div class="items-center">
+                <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
+                        v-model="noteTypeToAdd">
+                  <option v-for="notesType in project.availableNotesTypes"
+                          v-bind:value="notesType"
+                          :key='notesType.id'>
+                    {{ capitalize(notesType.label) }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </details>
+      </div>
+    </Box>
+
+    <Box class="bg-primary/80">
+      <label for="description" class="block mb-2">{{ $t('app.project.status') }}:</label>
+      <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status"
+                    v-bind:on-click="selectProjectStatus"/>
+    </Box>
+
+    <Transition
+        enter-active-class="transition ease-in-out"
+        enter-from-class="opacity-0"
+        leave-active-class="transition ease-in-out"
+        leave-to-class="opacity-0"
+    >
+      <p v-if="saved" class="text-sm ">{{ $t('app.project_saved') }}</p>
+    </Transition>
+
+    <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>
+
   </AuthenticatedLayout>
 </template>

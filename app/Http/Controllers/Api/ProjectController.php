@@ -64,6 +64,9 @@ class ProjectController extends Controller
         $data = $request->toArray();
         $notes = $data['notes'];
         foreach ($notes as $note) {
+            if (empty($note['content'])) {
+                continue;
+            }
             $projectNote = ProjectsNote::where([
                 ['project_id', '=', $note['project_id']],
                 ['note_type_id', '=', $note['note_type_id']]

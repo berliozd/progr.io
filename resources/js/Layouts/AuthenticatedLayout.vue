@@ -15,9 +15,6 @@ import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 
 const subscription = computed(() => usePage().props.auth.subscription)
-if (usePage().props.auth.just_logged) {
-  useStore().setToast('Just logged!');
-}
 if (usePage().props.errors.msg) {
   useStore().setToast(trans(usePage().props.errors.msg), true, 5000);
 }
