@@ -20,6 +20,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         \Log::debug($id);
+        \Log::debug(array_keys($request->toArray()));
         /** @var User $user */
         $user = auth()->user();
 
@@ -34,12 +35,11 @@ class UserController extends Controller
             'value' => 'required',
         ]);
 
-        if ($validated['field'] === 'used_ai_credits') {
-            $user->used_ai_credits = $validated['value'];
-        }
+        $fieldName = $validated['field'];
+        $user->$fieldName = $validated['value'];
 
         $user->save();
-        return $user->settings;
+        return $user->toArray();
     }
 
 }

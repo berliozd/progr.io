@@ -28,10 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // user_settings
-    Route::patch('/user_settings/{id}', [UserSettingsController::class, 'update']);
-    Route::get('/user_settings/{id}', [UserSettingsController::class, 'show']);
-
     // projects
     Route::get('/projects', [ProjectController::class, 'index']);
     Route::get('/projects/{id}', [ProjectController::class, 'show']);

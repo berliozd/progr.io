@@ -6,13 +6,16 @@ import axios from "axios";
 
 const languages = computed(() => usePage().props.app.locales);
 const userId = computed(() => usePage().props.auth.user.id);
+const settings = ref(null);
 let lang = ref(getActiveLanguage())
 
-axios.get('/api/user_settings/' + userId.value)
+
+axios.get('/api/user/' + userId.value)
     .then(response => {
-      if (response.data.lang) {
-        loadLanguageAsync(response.data.lang)
-        lang.value = response.data.lang
+      settings.value = JSON.parse(response.data.settings);
+      if (settings.lang) {
+        loadLanguageAsync(settings.lang)
+        lang.value = settings.lang
       }
     })
     .catch(error => {
@@ -21,10 +24,10 @@ axios.get('/api/user_settings/' + userId.value)
 
 
 const changeLanguage = (value) => {
-  axios.patch('/api/user_settings/' + userId.value, {'field': 'lang', 'value': value})
+  settings.value.lang = value;
+  axios.patch('/api/user/' + userId.value, {'field': 'settings', 'value': settings.value})
       .then(response => {
-        loadLanguageAsync(value);
-        lang.value = value;
+        loadLanguageAsync(response.data.settings.lang);
       })
       .catch(error => {
         console.error(error);

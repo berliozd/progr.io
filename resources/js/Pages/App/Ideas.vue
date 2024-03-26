@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import {useStore} from "@/Composables/store.js";
 
-import {Head} from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import {ref} from "vue";
 import axios from "axios";
 import {getActiveLanguage, trans} from "laravel-vue-i18n";
@@ -15,8 +15,10 @@ const ideas = ref([]);
 const aiAvailable = ref(true)
 const loading = ref(false)
 const context = ref('')
+const usedAiCredits = ref(false)
 
 const askAI = async () => {
+  await checkUserRights;
   if (!context.value) {
     useStore().setToast(trans('app.ideas.no_context'), true)
     return
@@ -26,14 +28,15 @@ const askAI = async () => {
       useStore().setIsLoading(true)
       loading.value = true
       const response = await axios.post('/api/ai/', {'context': getContext(), 'question': getQuestion()})
+      await incrementUserUsedCredits()
       let results = response.data.response.split(/\n/g);
       ideas.value = []
-      for (let result in results) {
-        let val = results[result]
-        if (val !== '') {
-          val = val.split('|');
-          if (val[0] !== '' || val[1] !== '') {
-            ideas.value.push({'title': val[0], 'description': val[1]})
+      for (let i = 0; i < results.length; i++) {
+        let result = results[i];
+        if (result !== '') {
+          let [title, description] = result.split('|');
+          if (title && description) {
+            ideas.value.push({title, description});
           }
         }
       }
@@ -42,6 +45,15 @@ const askAI = async () => {
       loading.value = false
     }
   }
+}
+
+const incrementUserUsedCredits = async () => {
+  await axios.patch(
+      '/api/user/' + usePage().props.auth.user.id, {
+        'field': 'used_ai_credits',
+        'value': ++usedAiCredits.value
+      }
+  )
 }
 
 const getLanguage = () => {
@@ -73,6 +85,13 @@ const add = async (title, description) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const checkUserRights = async () => {
+  const userResponse = await axios.get('/api/user/' + usePage().props.auth.user.id)
+  usedAiCredits.value = userResponse.data.used_ai_credits
+  aiAvailable.value = usePage().props.auth.subscription.is_subscribed
+      || userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
 }
 
 </script>
