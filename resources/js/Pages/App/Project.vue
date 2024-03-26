@@ -98,6 +98,13 @@ const addEmptyNote = (noteType) => {
 }
 
 const noteTypeToAdd = ref(null)
+
+// const getUrl = (projectId) => {
+//   console.log($route('app.projects.presentation', {projectId: projectId}));
+//   return'';
+//   return route('app.projects.presentation', {projectId: projectId})
+// }
+
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
@@ -114,6 +121,18 @@ const noteTypeToAdd = ref(null)
     >
       <p v-if="saved" class="text-sm ">{{ $t('app.project_saved') }}</p>
     </Transition>
+
+    <div class="flex flex-row justify-end" v-if="project && project.id">
+      <a v-bind:href="route('app.projects.presentation', {id: project.id})" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation">
+          <path d="M2 3h20"/>
+          <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/>
+          <path d="m7 21 5-5 5 5"/>
+        </svg>
+      </a>
+    </div>
 
     <Box class="space-y-2 bg-primary/80 relative" v-if="project">
       <label for="title">{{ $t('app.project.title') }} :</label>
