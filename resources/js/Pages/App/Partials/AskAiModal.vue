@@ -7,7 +7,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import axios from "axios";
 import {capitalize, ref} from "vue";
 import {getActiveLanguage} from "laravel-vue-i18n";
-import {usePage} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
 import {Clipboard} from 'v-clipboard'
 import {useStore} from "@/Composables/store.js";
 
@@ -178,7 +178,7 @@ const copy = () => {
     <div class="flex flex-col space-y-2 p-4" v-else>
       <div class="flex flex-row justify-between alert alert-error">
         {{ $t('app.ai_not_available') }}
-        <PrimaryButton>Register</PrimaryButton>
+        <PrimaryButton @click="router.visit(route('subscribe.create'))">{{ $t('app.subscribe') }}</PrimaryButton>
       </div>
       <SecondaryButton @click="hideModal" class="w-fit">{{ $t('app.cancel') }}</SecondaryButton>
     </div>

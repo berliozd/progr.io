@@ -40,5 +40,6 @@ return [
         'generator_line2' => 'To get started, simply enter a few keywords or a brief description of what you\'re looking for, and let our Idea Generator do the rest.',
         'generator_line3' => 'It will quickly generate a list of relevant and inspiring ideas that you can use as a starting point for your project.'
     ],
-    'out_of_ideas' => 'Out of ideas?'
+    'out_of_ideas' => 'Out of ideas?',
+    'subscribe' => 'Subscribe'
 ];

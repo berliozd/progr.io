@@ -44,7 +44,6 @@ getProject();
 
 const debouncedSave = debounce(() => {
   save()
-  console.log('Send API request')
 }, 2000)
 
 
@@ -65,7 +64,6 @@ const saveProjectAndRedirect = async () => {
 
 const saved = ref(false);
 const save = async () => {
-  console.log('save');
   try {
     await axios.patch('/api/projects/' + useStore().projectId, project);
     saved.value = true

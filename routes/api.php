@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

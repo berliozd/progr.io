@@ -40,5 +40,6 @@ return [
         'generator_line2' => 'Pour commencer, entrez simplement quelques mots-clés ou une brève description de ce que vous recherchez, et laissez notre générateur d\'idées faire le reste.',
         'generator_line3' => 'Il générera rapidement une liste d’idées pertinentes et inspirantes que vous pourrez utiliser comme point de départ pour votre projet.'
     ],
-    'out_of_ideas' => 'En panne d\'idées?'
+    'out_of_ideas' => 'En panne d\'idées?',
+    'subscribe' => 'Abonnez-vous'
 ];

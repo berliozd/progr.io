@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import {useStore} from "@/Composables/store.js";
 
-import {Head, usePage} from '@inertiajs/vue3';
+import {Head, router, usePage} from '@inertiajs/vue3';
 import {ref} from "vue";
 import axios from "axios";
 import {getActiveLanguage, trans} from "laravel-vue-i18n";
@@ -18,11 +18,11 @@ const context = ref('')
 const usedAiCredits = ref(false)
 
 const askAI = async () => {
-  await checkUserRights;
   if (!context.value) {
     useStore().setToast(trans('app.ideas.no_context'), true)
     return
   }
+  await checkUserRights();
   if (aiAvailable.value) {
     try {
       useStore().setIsLoading(true)
@@ -44,6 +44,7 @@ const askAI = async () => {
       useStore().setIsLoading(false)
       loading.value = false
     }
+    return
   }
 }
 
@@ -113,6 +114,15 @@ const checkUserRights = async () => {
           <div>{{ $t('app.ideas.generator_line3') }}</div>
         </div>
       </details>
+    </Box>
+
+    <Box v-if="!aiAvailable">
+      <div class="flex flex-col space-y-2 p-4">
+        <div class="flex flex-row justify-between alert alert-warning">
+          <div>{{ $t('app.ai_not_available') }}</div>
+          <PrimaryButton @click="router.visit(route('subscribe.create'))">{{ $t('app.subscribe') }}</PrimaryButton>
+        </div>
+      </div>
     </Box>
 
     <Box class="relative">
