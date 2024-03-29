@@ -27,6 +27,7 @@ return [
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',
     'nb_projects' => 'Vous avez :nb projet(s).',
     'ai_not_available' => 'L\'IA n\'est pas disponible. Vous avez certainement utilisé tous vos crédits. Vous pouvez vous abonner si vous souhaitez continuer à utiliser l\'IA.',
+    'nb_free_projects_reached' => 'Vous avez atteint le nombre maximum de projets gratuits. Veuillez vous abonner pour pouvoir ajouter plus de projets.',
     'project_saved' => 'Projet sauvegardé!',
     'ideas' => [
         'ideas_generator' => 'Générateurs d\'idées',

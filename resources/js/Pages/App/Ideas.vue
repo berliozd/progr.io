@@ -6,16 +6,30 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import {useStore} from "@/Composables/store.js";
 
-import {Head, router, usePage} from '@inertiajs/vue3';
-import {ref} from "vue";
+import {Head, usePage} from '@inertiajs/vue3';
+import {inject, nextTick, ref} from "vue";
 import axios from "axios";
 import {getActiveLanguage, trans} from "laravel-vue-i18n";
 
 const ideas = ref([]);
 const aiAvailable = ref(true)
+const limitExceeded = ref(false)
 const loading = ref(false)
 const context = ref('')
 const usedAiCredits = ref(false)
+const errorElement = ref(null)
+
+const smoothScroll = inject('smoothScroll')
+
+const scrollToErrorDisplay = () => {
+  nextTick(() => {
+    smoothScroll({
+      scrollTo: errorElement.value,
+      hash: '#errordisplay'
+    })
+  })
+}
+
 
 const askAI = async () => {
   if (!context.value) {
@@ -44,7 +58,6 @@ const askAI = async () => {
       useStore().setIsLoading(false)
       loading.value = false
     }
-    return
   }
 }
 
@@ -78,13 +91,17 @@ const getContext = () => {
   return 'As a indie hacker I would like you to give project ideas. The ideas should be related to ' + context.value;
 }
 
-const add = async (title, description) => {
+const addProject = async (title, description) => {
   try {
     let project = {'title': title, 'description': description, 'status': 1}
     await axios.post('/api/projects/', project);
     useStore().setToast(trans('app.ideas.project_added'));
   } catch (error) {
     console.log(error)
+    if (error.response?.data?.code === 'LIMIT_EXCEEDED') {
+      limitExceeded.value = true
+      scrollToErrorDisplay()
+    }
   }
 }
 
@@ -95,6 +112,9 @@ const checkUserRights = async () => {
       || userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
 }
 
+const gotTo = (url) => {
+  window.location.href = url
+}
 </script>
 <template>
   <Head v-bind:title="$t('app.ideas.ideas_generator')"/>
@@ -116,11 +136,16 @@ const checkUserRights = async () => {
       </details>
     </Box>
 
-    <Box v-if="!aiAvailable">
-      <div class="flex flex-col space-y-2 p-4">
+    <Box v-if="!aiAvailable || limitExceeded">
+      <div class="flex flex-col space-y-2 p-4" ref="errorElement">
         <div class="flex flex-row justify-between alert alert-warning">
-          <div>{{ $t('app.ai_not_available') }}</div>
-          <PrimaryButton @click="router.visit(route('subscribe.create'))">{{ $t('app.subscribe') }}</PrimaryButton>
+          <template v-if="limitExceeded">
+            <div>{{ $t('app.nb_free_projects_reached') }}</div>
+          </template>
+          <template v-else>
+            <div>{{ $t('app.ai_not_available') }}</div>
+          </template>
+          <PrimaryButton @click="gotTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
         </div>
       </div>
     </Box>
@@ -142,7 +167,7 @@ const checkUserRights = async () => {
           <span class="underline font-bold">{{ $t('app.project.description') }}</span> : {{ idea.description }}
         </div>
         <div>
-          <PrimaryButton @click="add(idea.title, idea.description)">
+          <PrimaryButton @click="addProject(idea.title, idea.description)">
             {{ $t('app.ideas.add_as_project') }}
           </PrimaryButton>
         </div>

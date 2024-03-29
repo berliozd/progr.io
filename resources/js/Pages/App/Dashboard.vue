@@ -7,11 +7,16 @@ import {Head, usePage} from '@inertiajs/vue3';
 import price from '@/Composables/price.js'
 import date from '@/Composables/date.js'
 import {computed} from 'vue'
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const subscription = computed(() => usePage().props.auth.subscription)
 defineProps({
   invoices: Array,
 });
+
+const goTo = (url) => {
+  window.location.href = url
+}
 </script>
 
 <template>
@@ -33,6 +38,8 @@ defineProps({
       </div>
       <div v-else>
         {{ $t('dashboard.not_subscribed') }}
+        <p>{{ $t('dashboard.consider_subscribing_for_full_features') }}</p>
+        <PrimaryButton @click="goTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
       </div>
     </Box>
 

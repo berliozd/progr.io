@@ -1,9 +1,4 @@
-<script setup>
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import Arrow from "@/Components/Arrow.vue";
-
-import {router} from "@inertiajs/vue3";
-</script>
+<script setup></script>
 <template>
   <section class=" text-center md:p-12 p-6">
 
