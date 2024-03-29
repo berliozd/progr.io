@@ -29,6 +29,7 @@ defineProps({
         <div v-else>
           {{ $t('dashboard.subscribed') }}
         </div>
+        <a :href="route('billing')" class="underline">Manage your subscription</a>
       </div>
       <div v-else>
         {{ $t('dashboard.not_subscribed') }}

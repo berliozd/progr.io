@@ -91,6 +91,10 @@ Route::middleware(['auth', 'verified'])
                 Route::get('checkout', CheckoutController::class)->name('checkout');
             });
 
+        Route::get('/billing', function (Request $request) {
+            return $request->user()->redirectToBillingPortal(route('dashboard'));
+        })->name('billing');
+
         Route::inertia('/projects', 'App/Projects')->name('app.projects');
         Route::inertia('/project', 'App/Project')->name('app.projects.detail');
         Route::inertia('/project-presentation/{id}', 'App/ProjectPres')->name('app.projects.presentation');
