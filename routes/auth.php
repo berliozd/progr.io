@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\App\DashboardController;
+use App\Http\Controllers\App\Subscribe\CheckoutController;
 use App\Http\Controllers\App\Subscribe\CreateController;
 use App\Http\Controllers\App\Subscribe\DestroyController;
 use App\Http\Controllers\App\Subscribe\StoreController;
@@ -87,6 +88,7 @@ Route::middleware(['auth', 'verified'])
                 Route::post('store', StoreController::class)->name('store');
                 Route::delete('destroy', DestroyController::class)->name('destroy')
                     ->withoutMiddleware(RedirectIfSubscribed::class);
+                Route::get('checkout', CheckoutController::class)->name('checkout');
             });
 
         Route::inertia('/projects', 'App/Projects')->name('app.projects');

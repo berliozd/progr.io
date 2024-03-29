@@ -42,10 +42,10 @@ const showingNavigationDropdown = ref(false);
               <NavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
                 {{ $t('app.ideas.ideas_generator') }}
               </NavLink>
-              <NavLink :href="route('subscribe.create')" :active="route().current('subscribe.create')"
-                       v-if="!subscription?.is_subscribed">
+              <a :href="route('subscribe.checkout')" v-if="!subscription?.is_subscribed"
+                 :class="'inline-flex items-center px-1 pt-1 text-sm hover:text-neutral-content/70'">
                 {{ $t('layout.subscription') }}
-              </NavLink>
+              </a>
               <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                 {{ $t('layout.dashboard') }}
               </NavLink>
@@ -132,11 +132,10 @@ const showingNavigationDropdown = ref(false);
           <ResponsiveNavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
             {{ $t('app.ideas.ideas_generator') }}
           </ResponsiveNavLink>
-          <ResponsiveNavLink :href="route('subscribe.create')"
-                             :active="route().current('subscribe.create')"
-                             v-if="!(subscription?.is_subscribed)">
+          <a :href="route('subscribe.checkout')" v-if="!subscription?.is_subscribed"
+             :class="'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start'">
             {{ $t('layout.subscription') }}
-          </ResponsiveNavLink>
+          </a>
           <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
             {{ $t('layout.dashboard') }}
           </ResponsiveNavLink>
