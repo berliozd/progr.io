@@ -14,7 +14,6 @@ import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 import getStatuses from "@/Composables/getStatuses.js";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
-import SpeechRecognitionModal from "@/Components/SpeechRocognitionModal.vue";
 
 const statuses = ref(null)
 getStatuses().then((response) => {
@@ -72,12 +71,10 @@ const selectProjectStatus = (status) => {
       <label for="title">{{ $t('app.project.title') }}:</label>
       <div class="mt-2 flex flex-row">
         <TextInput v-model="project.title.value" name="title" class="w-full"></TextInput>
-        <SpeechRecognitionModal :content="project.title"></SpeechRecognitionModal>
       </div>
       <label for="description">{{ $t('app.project.description') }}:</label>
       <div class="mt-2 flex flex-row">
         <TextArea v-model="project.description.value" rows="8" class="w-full"></TextArea>
-        <SpeechRecognitionModal :content="project.description"></SpeechRecognitionModal>
       </div>
       <label for="description" class="block">{{ $t('app.project.status') }}:</label>
       <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
