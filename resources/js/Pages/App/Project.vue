@@ -99,12 +99,6 @@ const addEmptyNote = (noteType) => {
 
 const noteTypeToAdd = ref(null)
 
-// const getUrl = (projectId) => {
-//   console.log($route('app.projects.presentation', {projectId: projectId}));
-//   return'';
-//   return route('app.projects.presentation', {projectId: projectId})
-// }
-
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
