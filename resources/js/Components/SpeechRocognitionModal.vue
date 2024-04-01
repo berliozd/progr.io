@@ -3,11 +3,13 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import {ref} from "vue";
 import TextArea from "@/Components/TextArea.vue";
+import CopyButton from "@/Components/CopyButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps({content: null})
 
 const isShowModal = ref(false)
-const transcript = ref('');
+const transcript = ref(null);
 const recognition = ref(null);
 
 const showModal = () => {
@@ -52,11 +54,16 @@ const stopRecording = () => {
   </div>
   <Modal :show="isShowModal">
     <div class="p-4 w-full space-y-4 flex flex-col">
-      <PrimaryButton @click="startRecording">Start</PrimaryButton>
-      <PrimaryButton @click="stopRecording">Stop</PrimaryButton>
-      <TextArea v-bind:model-value="transcript"></TextArea>
-      {{transcript}}
-      <PrimaryButton v-if="transcript" @click="useText">Use</PrimaryButton>
+      <div class="flex justify-between">
+        <PrimaryButton @click="startRecording">Start</PrimaryButton>
+        <PrimaryButton @click="stopRecording">Stop</PrimaryButton>
+      </div>
+      <TextArea v-model="transcript"></TextArea>
+      <div class="flex justify-end space-x-2">
+        <CopyButton v-if="transcript" v-bind:content="transcript"/>
+        <SecondaryButton v-if="transcript" @click="useText">Use</SecondaryButton>
+        <SecondaryButton @click="hideModal" class="w-fit">{{ $t('app.cancel') }}</SecondaryButton>
+      </div>
     </div>
   </Modal>
 </template>
