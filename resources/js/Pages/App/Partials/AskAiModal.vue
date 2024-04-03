@@ -95,6 +95,9 @@ const getBaseQuestion = () => {
   if (props.noteTypeCode === 'targets') {
     return 'tell me who could be interested by my tool'
   }
+  if (props.noteTypeCode === 'competitors') {
+    return 'tell me who are the competitors for a project like this and their website if it exists'
+  }
 }
 
 const showModal = () => {

@@ -37,6 +37,10 @@ class NotesTypeSeeder extends Seeder
                 'code' => 'targets',
                 'label' => 'targets',
             ],
+            [
+                'code' => 'competitors',
+                'label' => 'competitors',
+            ],
         )->create();
     }
 }
