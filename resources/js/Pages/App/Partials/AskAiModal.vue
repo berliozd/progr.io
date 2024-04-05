@@ -128,8 +128,8 @@ const goTo = (url) => {
 
 <template>
 
-  <div class="flex flex-row ml-10 space-x-2 text-xs items-center" @click="showModal">
-    <span class="underline">{{ $t('app.project.ask_ai_help') }}</span>
+  <div class="flex flex-row sm:ml-10 space-x-2 text-xs items-center" @click="showModal">
+    <span class="underline hidden sm:block">{{ $t('app.project.ask_ai_help') }}</span>
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
          class="lucide lucide-bot-message-square">

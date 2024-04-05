@@ -128,6 +128,28 @@ const dragover = (event, item) => {
 }
 const noteTypeToAdd = ref(null)
 
+const moveUp = (event, note) => {
+  const currentOrder = note.order;
+  note.order = previousNote(note).order
+  previousNote(note).order = currentOrder
+  sortNotes();
+}
+const moveDown = (event, note) => {
+  const currentOrder = note.order;
+  note.order = nextNote(note).order
+  nextNote(note).order = currentOrder
+  sortNotes();
+}
+
+const previousNote = (note) => {
+  const currentNoteIndex = project.notes.findIndex(n => n.id === note.id);
+  return project.notes[currentNoteIndex - 1]
+}
+const nextNote = (note) => {
+  const currentNoteIndex = project.notes.findIndex(n => n.id === note.id);
+  return project.notes[currentNoteIndex + 1]
+}
+
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
@@ -175,15 +197,33 @@ const noteTypeToAdd = ref(null)
             class="collapse collapse-arrow bg-neutral text-white/70">
           <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
           <div class="collapse-content">
-            <div v-for="note in project.notes" class="mt-4" :key="note.id" draggable="true"
+            <div v-for="note in project.notes" class="my-4 hover:cursor-grab" :key="note.id" draggable="true"
                  @dragend="endDrag($event, note)" @dragover="dragover($event, note)">
-              <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
-                <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
-                <AskAiModal :note-type-code="note.note_type_code"
-                            :note-type-label="note.note_type_label"
-                            :project-description="project.description"
-                            :project-title="project.title"
-                            :project-note="note"/>
+              <div class="flex flex-row justify-between mb-2">
+                <div class="flex flex-row w-fit ">
+                  <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
+                  <AskAiModal :note-type-code="note.note_type_code"
+                              :note-type-label="note.note_type_label"
+                              :project-description="project.description"
+                              :project-title="project.title"
+                              :project-note="note"/>
+                </div>
+                <div class="flex flex-row justify-end hover:cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)" v-if="previousNote(note)">
+                    <path d="m18 9-6-6-6 6"/>
+                    <path d="M12 3v14"/>
+                    <path d="M5 21h14"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-arrow-down-from-line" @click="moveDown($event, note)" v-if="nextNote(note)">
+                    <path d="M19 3H5"/>
+                    <path d="M12 21V7"/>
+                    <path d="m6 15 6 6 6-6"/>
+                  </svg>
+                </div>
               </div>
               <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
             </div>
