@@ -83,13 +83,15 @@ class ProjectController extends Controller
                 $projectNote->update([
                     'project_id' => $note['project_id'],
                     'note_type_id' => $note['note_type_id'],
-                    'content' => $note['content']
+                    'content' => $note['content'],
+                    'order' => $note['order']
                 ]);
             } else {
                 ProjectsNote::create([
                     'project_id' => $note['project_id'],
                     'note_type_id' => $note['note_type_id'],
-                    'content' => $note['content']
+                    'content' => $note['content'],
+                    'order' => $note['order']
                 ]);
             }
         }

@@ -31,12 +31,15 @@ const getProject = async () => {
   try {
     if (useStore().projectId) {
       const response = await axios.get('/api/projects/' + useStore().projectId)
+      console.log(response.data.notes);
       Object.assign(project, response.data);
+      sortNotes()
       watch(project, () => {
         debouncedSave()
       })
     }
-  } catch (error) {
+  } catch
+      (error) {
     console.log(error)
   }
 }
@@ -90,6 +93,7 @@ const addEmptyNote = (noteType) => {
     'note_type_code': noteType.code,
     'note_type_label': noteType.label,
     'content': '',
+    'order': maxOrderNotes() + 1
   });
   noteTypeToAdd.value = null
   project.availableNotesTypes = project.availableNotesTypes.filter(type => {
@@ -97,6 +101,31 @@ const addEmptyNote = (noteType) => {
   });
 }
 
+const sortNotes = () => {
+  project.notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
+}
+
+const maxOrderNotes = () => {
+  let maxOrder = 0
+  project.notes.forEach(note => {
+    if (note.order > maxOrder) {
+      maxOrder = note.order
+    }
+  })
+  return maxOrder
+}
+
+const endDrag = (event, item) => {
+  const noteDroppedOverOrder = droppoverNote.value.order;
+  droppoverNote.value.order = item.order
+  item.order = noteDroppedOverOrder
+  sortNotes();
+}
+
+let droppoverNote = ref(null);
+const dragover = (event, item) => {
+  droppoverNote.value = item
+}
 const noteTypeToAdd = ref(null)
 
 </script>
@@ -146,7 +175,8 @@ const noteTypeToAdd = ref(null)
             class="collapse collapse-arrow bg-neutral text-white/70">
           <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
           <div class="collapse-content">
-            <div v-for="note in project.notes" class="mt-4" :key="note.id">
+            <div v-for="note in project.notes" class="mt-4" :key="note.id" draggable="true"
+                 @dragend="endDrag($event, note)" @dragover="dragover($event, note)">
               <div class="flex flex-row justify-between sm:justify-normal items-center mb-2 hover:cursor-pointer">
                 <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
                 <AskAiModal :note-type-code="note.note_type_code"
