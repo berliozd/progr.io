@@ -19,13 +19,16 @@ const getProject = async () => {
     const response = await axios.get('/api/projects/' + id)
     projectFound.value = true
     Object.assign(project, response.data);
+    sortNotes()
   } catch (error) {
     console.log(error)
   }
 }
 getProject();
 
-
+const sortNotes = () => {
+  project.notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
+}
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
@@ -96,7 +99,8 @@ getProject();
               <line x1="6" x2="6.01" y1="16" y2="16"/>
               <line x1="10" x2="10.01" y1="16" y2="16"/>
             </svg>
-            <svg v-if="note.note_type_code === 'competitors'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            <svg v-if="note.note_type_code === 'competitors'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                  class="lucide lucide-swords">
               <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/>
