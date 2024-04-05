@@ -95,6 +95,7 @@ const addEmptyNote = (noteType) => {
     'content': '',
     'order': maxOrderNotes() + 1
   });
+  sortNotes()
   noteTypeToAdd.value = null
   project.availableNotesTypes = project.availableNotesTypes.filter(type => {
     return noteType.id !== type.id
@@ -141,12 +142,23 @@ const moveDown = (event, note) => {
   sortNotes();
 }
 
+const getNoteIndexInArray = (note) => {
+  let idx = 0;
+  for (let item in project.notes) {
+    if (project.notes[item].content === note.content && project.notes[item].note_type_code === note.note_type_code) {
+      return idx;
+    }
+    idx++;
+  }
+  return idx;
+}
+
 const previousNote = (note) => {
-  const currentNoteIndex = project.notes.findIndex(n => n.id === note.id);
+  const currentNoteIndex = getNoteIndexInArray(note);
   return project.notes[currentNoteIndex - 1]
 }
 const nextNote = (note) => {
-  const currentNoteIndex = project.notes.findIndex(n => n.id === note.id);
+  const currentNoteIndex = getNoteIndexInArray(note);
   return project.notes[currentNoteIndex + 1]
 }
 
