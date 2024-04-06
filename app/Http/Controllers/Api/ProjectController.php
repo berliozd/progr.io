@@ -58,6 +58,7 @@ class ProjectController extends Controller
         }, $projectNotes->toArray());
         $availableNotesTypes = NotesType::whereNotIn('id', $ids)->get();
         $project->availableNotesTypes = $availableNotesTypes;
+        $project->allNotesTypes = NotesType::all();
 
         return $project;
     }

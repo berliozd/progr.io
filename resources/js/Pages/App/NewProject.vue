@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import ErrorAlert from "@/Components/ErrorAlert.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
+import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 
 import {Head, router, usePage} from '@inertiajs/vue3';
 import axios from "axios";
@@ -13,7 +14,6 @@ import {reactive, ref} from "vue";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 import getStatuses from "@/Composables/getStatuses.js";
-import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 
 const statuses = ref(null)
 getStatuses().then((response) => {

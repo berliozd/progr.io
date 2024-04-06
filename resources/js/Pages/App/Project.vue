@@ -16,22 +16,20 @@ import getStatuses from "@/Composables/getStatuses.js";
 import {trans} from "laravel-vue-i18n";
 import debounce from 'lodash.debounce'
 
+const noteTypeToAdd = ref(null)
+const dropOverNote = ref(null);
+const statuses = ref(null)
+const project = reactive({title: '', description: '', status: ''})
+const saved = ref(false);
 
 if (!useStore().projectId) {
   router.visit(route('app.projects'));
 }
 
-const project = reactive({
-  title: '',
-  description: '',
-  status: ''
-})
-
 const getProject = async () => {
   try {
     if (useStore().projectId) {
       const response = await axios.get('/api/projects/' + useStore().projectId)
-      console.log(response.data.notes);
       Object.assign(project, response.data);
       sortNotes()
       watch(project, () => {
@@ -43,20 +41,12 @@ const getProject = async () => {
     console.log(error)
   }
 }
-getProject();
 
 const debouncedSave = debounce(() => {
   save()
 }, 2000)
 
-
-const statuses = ref(null)
-getStatuses().then((response) => {
-  statuses.value = response
-})
-
 const saveProjectAndRedirect = async () => {
-  console.log('saveProjectAndRedirect');
   try {
     await save()
     router.visit('/projects')
@@ -65,7 +55,6 @@ const saveProjectAndRedirect = async () => {
   }
 }
 
-const saved = ref(false);
 const save = async () => {
   try {
     await axios.patch('/api/projects/' + useStore().projectId, project);
@@ -82,6 +71,7 @@ const save = async () => {
 const selectProjectStatus = (status) => {
   project.status = status.id;
 }
+
 const addEmptyNote = (noteType) => {
   if (!noteType) {
     useStore().setToast(trans('app.project.select_note_type'), true)
@@ -117,17 +107,15 @@ const maxOrderNotes = () => {
 }
 
 const endDrag = (event, item) => {
-  const noteDroppedOverOrder = droppoverNote.value.order;
-  droppoverNote.value.order = item.order
+  const noteDroppedOverOrder = dropOverNote.value.order;
+  dropOverNote.value.order = item.order
   item.order = noteDroppedOverOrder
   sortNotes();
 }
 
-let droppoverNote = ref(null);
 const dragover = (event, item) => {
-  droppoverNote.value = item
+  dropOverNote.value = item
 }
-const noteTypeToAdd = ref(null)
 
 const moveUp = (event, note) => {
   const currentOrder = note.order;
@@ -135,6 +123,7 @@ const moveUp = (event, note) => {
   previousNote(note).order = currentOrder
   sortNotes();
 }
+
 const moveDown = (event, note) => {
   const currentOrder = note.order;
   note.order = nextNote(note).order
@@ -157,10 +146,28 @@ const previousNote = (note) => {
   const currentNoteIndex = getNoteIndexInArray(note);
   return project.notes[currentNoteIndex - 1]
 }
+
 const nextNote = (note) => {
   const currentNoteIndex = getNoteIndexInArray(note);
   return project.notes[currentNoteIndex + 1]
 }
+
+const deleteNote = async (event, note) => {
+  const noteTypeToAdd = project.allNotesTypes.find(type => type.id === note.note_type_id)
+  let index = project.notes.indexOf(note);
+  if (index !== -1) {
+    project.notes.splice(index, 1);
+    project.availableNotesTypes.push(noteTypeToAdd)
+    if (note.id) {
+      await axios.delete('/api/projects_notes/' + note.id);
+    }
+  }
+}
+
+getProject();
+getStatuses().then((response) => {
+  statuses.value = response
+})
 
 </script>
 <template>
@@ -203,16 +210,15 @@ const nextNote = (note) => {
     </Box>
 
     <Box class="space-y-4 relative bg-primary/80" v-if="project">
-      <label for="notes">{{ $t('app.project.notes') }} :</label>
       <div class="mt-2">
         <details
-            class="collapse collapse-arrow bg-neutral text-white/70">
+            class="collapse collapse-arrow bg-neutral/70 border text-white/70">
           <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
           <div class="collapse-content">
             <div v-for="note in project.notes" class="my-4 hover:cursor-grab" :key="note.id" draggable="true"
                  @dragend="endDrag($event, note)" @dragover="dragover($event, note)">
               <div class="flex flex-row justify-between mb-2">
-                <div class="flex flex-row w-fit ">
+                <div class="flex flex-row w-fit">
                   <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
                   <AskAiModal :note-type-code="note.note_type_code"
                               :note-type-label="note.note_type_label"
@@ -220,7 +226,16 @@ const nextNote = (note) => {
                               :project-title="project.title"
                               :project-note="note"/>
                 </div>
-                <div class="flex flex-row justify-end hover:cursor-pointer">
+                <div class="flex flex-row hover:cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-trash-2 hover:cursor-pointer" @click="deleteNote($event, note)">
+                    <path d="M3 6h18"/>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                    <line x1="10" x2="10" y1="11" y2="17"/>
+                    <line x1="14" x2="14" y1="11" y2="17"/>
+                  </svg>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                        class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)" v-if="previousNote(note)">
@@ -237,7 +252,7 @@ const nextNote = (note) => {
                   </svg>
                 </div>
               </div>
-              <TextArea v-model="note.content" rows="6" class="w-full"></TextArea>
+              <TextArea v-model="note.content" rows="6" class="w-full" @change="getProject"></TextArea>
             </div>
 
             <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">

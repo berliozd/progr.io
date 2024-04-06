@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('projects_status', ProjectStatusController::class);
 
     // projects_notes
+    Route::delete('/projects_notes/{id}', [ProjectNoteController::class, 'destroy']);
     Route::get('/projects_notes/{projectId}', [ProjectNoteController::class, 'index']);
 
     // notes_types
