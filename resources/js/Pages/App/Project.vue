@@ -21,6 +21,7 @@ const dropOverNote = ref(null);
 const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
 const saved = ref(false);
+const refreshAfterSave = ref(false);
 
 if (!useStore().projectId) {
   router.visit(route('app.projects'));
@@ -42,9 +43,13 @@ const getProject = async () => {
   }
 }
 
-const debouncedSave = debounce(() => {
-  save()
-}, 2000)
+const debouncedSave = debounce(async () => {
+  await save()
+  if (refreshAfterSave.value) {
+    await getProject()
+    refreshAfterSave.value = false
+  }
+}, 1000)
 
 const saveProjectAndRedirect = async () => {
   try {
@@ -77,6 +82,7 @@ const addEmptyNote = (noteType) => {
     useStore().setToast(trans('app.project.select_note_type'), true)
     return
   }
+  refreshAfterSave.value = false
   project.notes.push({
     'project_id': project.id,
     'note_type_id': noteType.id,
@@ -224,9 +230,9 @@ getStatuses().then((response) => {
                               :note-type-label="note.note_type_label"
                               :project-description="project.description"
                               :project-title="project.title"
-                              :project-note="note"/>
+                              :project-note="note" @change="refreshAfterSave = true"/>
                 </div>
-                <div class="flex flex-row hover:cursor-pointer">
+                <div class="flex flex-row hover:cursor-pointer space-x-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                        class="lucide lucide-trash-2 hover:cursor-pointer" @click="deleteNote($event, note)">
@@ -252,7 +258,7 @@ getStatuses().then((response) => {
                   </svg>
                 </div>
               </div>
-              <TextArea v-model="note.content" rows="6" class="w-full" @change="getProject"></TextArea>
+              <TextArea v-model="note.content" rows="6" class="w-full" @input="refreshAfterSave = true"></TextArea>
             </div>
 
             <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">

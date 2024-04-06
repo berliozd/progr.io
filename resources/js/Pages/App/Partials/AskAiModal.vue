@@ -19,6 +19,8 @@ const props = defineProps({
   noteTypeLabel: null,
 })
 
+const emits = defineEmits(['change'])
+
 const isShowModal = ref(false)
 const aiResponse = ref('');
 const loading = ref(false)
@@ -113,6 +115,7 @@ const hideModal = () => {
 const useForNote = () => {
   props.projectNote.content = aiResponse
   useStore().setToast('Field filled with AI response.')
+  emits('change')
   hideModal()
 }
 
