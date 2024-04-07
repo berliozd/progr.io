@@ -244,20 +244,22 @@ getStatuses().then((response) => {
                     <line x1="10" x2="10" y1="11" y2="17"/>
                     <line x1="14" x2="14" y1="11" y2="17"/>
                   </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                       class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)" v-if="previousNote(note)">
-                    <path d="m18 9-6-6-6 6"/>
-                    <path d="M12 3v14"/>
-                    <path d="M5 21h14"/>
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                       class="lucide lucide-arrow-down-from-line" @click="moveDown($event, note)" v-if="nextNote(note)">
-                    <path d="M19 3H5"/>
-                    <path d="M12 21V7"/>
-                    <path d="m6 15 6 6 6-6"/>
-                  </svg>
+                  <div class="flex flex-row w-12 justify-end">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)" v-if="previousNote(note)">
+                      <path d="m18 9-6-6-6 6"/>
+                      <path d="M12 3v14"/>
+                      <path d="M5 21h14"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-arrow-down-from-line" @click="moveDown($event, note)" v-if="nextNote(note)">
+                      <path d="M19 3H5"/>
+                      <path d="M12 21V7"/>
+                      <path d="m6 15 6 6 6-6"/>
+                    </svg>
+                  </div>
                 </div>
               </div>
               <TextArea v-model="note.content" rows="6" class="w-full" @input="refreshAfterSave = true"></TextArea>
