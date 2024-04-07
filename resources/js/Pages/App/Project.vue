@@ -119,7 +119,8 @@ const endDrag = (event, item) => {
   sortNotes();
 }
 
-const dragover = (event, item) => {
+const dragOver = (event, item) => {
+  event.dataTransfer.dropEffect = 'link'
   dropOverNote.value = item
 }
 
@@ -221,8 +222,9 @@ getStatuses().then((response) => {
             class="collapse collapse-arrow bg-neutral/70 border text-white/70">
           <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
           <div class="collapse-content">
-            <div v-for="note in project.notes" class="my-4 hover:cursor-grab" :key="note.id" draggable="true"
-                 @dragend="endDrag($event, note)" @dragover="dragover($event, note)">
+            <div v-for="note in project.notes" class="my-4 hover:cursor-grab note" :key="note.id" draggable="true"
+                 @dragend="endDrag($event, note)" @dragover="dragOver($event, note)"
+                 @dragover.prevent>
               <div class="flex flex-row justify-between mb-2">
                 <div class="flex flex-row w-fit">
                   <label class="text-xs sm:text-base">{{ capitalize(note.note_type_label) }}:</label>
