@@ -43,21 +43,18 @@ class ProjectController extends Controller
 
     public function show(string $id)
     {
-        $project = Project::where('id', $id)->first();
+        $project = Project::with('competitors.notes.type')
+            ->with('notes.type')
+            ->find($id);
 
-        // Add project notes
-        $projectNotes = ProjectsNote::addSelect([
-            'note_type_label' => NotesType::select('label')->whereColumn('id', 'projects_notes.note_type_id')->limit(1),
-            'note_type_code' => NotesType::select('code')->whereColumn('id', 'projects_notes.note_type_id')->limit(1)
-        ])->where('project_id', $project->id)->get();
-        $project->notes = $projectNotes;
-
-        // Add available notes types
+        // Add available note types
         $ids = array_map(function ($projectNote) {
             return $projectNote['note_type_id'];
-        }, $projectNotes->toArray());
+        }, $project->notes->toArray());
         $availableNotesTypes = NotesType::whereNotIn('id', $ids)->get();
         $project->availableNotesTypes = $availableNotesTypes;
+
+        // Add all note types
         $project->allNotesTypes = NotesType::all();
 
         return $project;
@@ -78,19 +75,19 @@ class ProjectController extends Controller
             }
             $projectNote = ProjectsNote::where([
                 ['project_id', '=', $note['project_id']],
-                ['note_type_id', '=', $note['note_type_id']]
+                ['note_type_id', '=', $note['type']['id']]
             ])->first();
             if ($projectNote !== null) {
                 $projectNote->update([
                     'project_id' => $note['project_id'],
-                    'note_type_id' => $note['note_type_id'],
+                    'note_type_id' => $note['type']['id'],
                     'content' => $note['content'],
                     'order' => $note['order']
                 ]);
             } else {
                 ProjectsNote::create([
                     'project_id' => $note['project_id'],
-                    'note_type_id' => $note['note_type_id'],
+                    'note_type_id' => $note['type']['id'],
                     'content' => $note['content'],
                     'order' => $note['order']
                 ]);

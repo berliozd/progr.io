@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use OpenAI;
 use OpenAI\Client;
 
@@ -12,7 +11,6 @@ class AiAssistantController extends Controller
 {
     public function ask(Request $request)
     {
-        Log::debug('AI controller ask');
         $context = $request->get('context');
         $question = $request->get('question');
         $aiInsight = $this->askAi($context, $question);

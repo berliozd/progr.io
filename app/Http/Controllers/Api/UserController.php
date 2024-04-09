@@ -19,12 +19,8 @@ class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-        \Log::debug($id);
-        \Log::debug(array_keys($request->toArray()));
         /** @var User $user */
         $user = auth()->user();
-
-        \Log::debug($user->id);
 
         if ($id !== (string)$user->id) {
             throw new \Exception('Not allowed');
@@ -41,5 +37,4 @@ class UserController extends Controller
         $user->save();
         return $user->toArray();
     }
-
 }

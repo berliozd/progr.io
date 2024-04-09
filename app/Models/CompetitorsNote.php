@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class ProjectsNote extends Model
+class CompetitorsNote extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['project_id', 'note_type_id', 'content', 'order'];
+    protected $fillable = ['content', 'competitor_id', 'notes_type_id'];
 
     public function type(): HasOne
     {
