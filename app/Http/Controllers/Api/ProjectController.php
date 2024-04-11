@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\ProjectsNote;
 use App\Models\ProjectsStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -45,9 +46,20 @@ class ProjectController extends Controller
 
     public function show(string $id)
     {
-        $project = Project::with('competitors.notes.type')
+        $project = Project::with(['competitors.notes.type'])
             ->with('notes.type')
             ->find($id);
+
+        $competitorsAllNotesTypesIds = NotesType::whereNotIn('code', ['competitors', 'domains'])
+            ->pluck('id')->toArray();
+
+        foreach ($project->competitors as $competitor) {
+            $competitor->allNotesTypes = NotesType::whereIn('id', $competitorsAllNotesTypesIds)->get();
+            $competitor->availableNotesTypes = NotesType::whereNotIn(
+                'id',
+                array_merge($competitor->notes->pluck('note_type_id')->toArray())
+            )->whereIn('id', $competitorsAllNotesTypesIds)->get();
+        }
 
         // Add available note types
         $ids = array_map(function ($projectNote) {

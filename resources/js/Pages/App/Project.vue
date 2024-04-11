@@ -367,8 +367,7 @@ getStatuses().then((response) => {
             </div>
           </template>
 
-          <div v-for="competitor in competitors"
-               class="rounded-xl border p-2 my-4 flex flex-col justify-between border-spacing-y-1">
+          <div v-for="competitor in competitors" class="rounded-xl border p-2 my-4 flex flex-row justify-between">
             <div class="flex flex-col">
               <div class="mb-2 w-fit">
                 <span class="underline font-bold">{{ $t('app.project.competitor.name') }}</span> :
@@ -383,44 +382,65 @@ getStatuses().then((response) => {
                 <a :href="competitor.url" target="_blank">{{ competitor.url }}</a>
               </div>
             </div>
-            <div class="flex justify-end">
+            <div class="flex flex-col justify-end">
               <PrimaryButton @click="addCompetitor(competitor.name, competitor.description, competitor.url )">
                 {{ $t('app.add') }}
               </PrimaryButton>
             </div>
           </div>
-
         </Collapsable>
 
         <Collapsable :title="$t('app.project.competitors')">
-          <div v-for="competitor in project.competitors" class="my-4 hover:cursor-grab competitor" :key="competitor.id">
+          <span v-if="project?.competitors?.length === 0">{{ $t('app.project.no_competitors') }}</span>
+          <div v-for="competitor in project.competitors"
+               class="my-4 hover:cursor-grab border p-4 rounded-2xl bg-neutral-content/40"
+               :key="competitor.id">
             <div class="flex flex-col justify-between mb-2">
-              <div class="flex flex-col w-full">
-                <TextInput v-model="competitor.name" class="w-full"/>
-                <TextInput v-model="competitor.url" class="w-full"/>
-                <a :href="competitor.url" target="_blank">{{ competitor.url }}</a>
-                <TextArea model-value="" v-model="competitor.description" rows="3" class="w-full"/>
+
+              <div class="flex flex-col sm:flex-row sm:space-x-4 ">
+                <div class="flex flex-col w-full">
+                  <div>Name :</div>
+                  <TextInput v-model="competitor.name" class="w-full"/>
+                  <div>Url : <a :href="competitor.url" target="_blank"
+                                class="text-xs sm:text-base underline">{{ competitor.url }}</a></div>
+                  <TextInput v-model="competitor.url" class="w-full"/>
+                </div>
+                <div class="flex flex-col w-full h-full">
+                  <div>Description :</div>
+                  <TextArea model-value="" v-model="competitor.description" rows="3" class="w-full h-full"/>
+                </div>
               </div>
-              <div class="flex flex-col w-full">
-                <Collapsable :title="$t('app.project.competitor.notes')">
-                  <div v-for="competitorNote in competitor.notes" class="my-4 hover:cursor-grab competitor"
-                       :key="competitorNote.id"
-                       draggable="true" @dragend="endDrag($event, competitorNote)"
-                       @dragover="dragOver($event, competitorNote)" @dragover.prevent>
-                    <div class="flex flex-row justify-between mb-2">
-                      <div class="flex flex-col w-full">
-                        <label class="text-xs sm:text-base">{{ capitalize(competitorNote.type.label) }}:</label>
-                        <TextArea v-model="competitorNote.content" rows="6" class="w-full"/>
-                      </div>
+
+              <Collapsable :title="$t('app.project.competitor.notes')">
+                <div v-for="competitorNote in competitor.notes" class="my-4 hover:cursor-grab competitor"
+                     :key="competitorNote.id"
+                     draggable="true" @dragend="endDrag($event, competitorNote)"
+                     @dragover="dragOver($event, competitorNote)" @dragover.prevent>
+                  <div class="flex flex-row justify-between mb-2">
+                    <div class="flex flex-col w-full">
+                      <label class="text-xs sm:text-base">{{ capitalize(competitorNote.type.label) }}:</label>
+                      <TextArea v-model="competitorNote.content" rows="6" class="w-full"/>
                     </div>
                   </div>
-                </Collapsable>
-              </div>
+                </div>
+                <div class="flex flex-col" v-if="competitor.availableNotesTypes?.length > 0">
+                  <div>{{ $t('app.project.select_note_type') }}</div>
+                  <div class="items-center">
+                    <select class="select bg-white mr-2">
+                      <option v-for="notesType in competitor.availableNotesTypes"
+                              v-bind:value="notesType"
+                              :key='notesType.id'>
+                        {{ capitalize(notesType.label) }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </Collapsable>
             </div>
           </div>
         </Collapsable>
-      </Collapsable>
 
+      </Collapsable>
     </Box>
 
     <Box class="bg-primary/80">
