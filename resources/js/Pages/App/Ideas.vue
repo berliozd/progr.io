@@ -4,21 +4,21 @@ import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import {useStore} from "@/Composables/store.js";
 
-import {Head, usePage} from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
 import {inject, nextTick, ref} from "vue";
 import axios from "axios";
 import {getActiveLanguage, trans} from "laravel-vue-i18n";
+import {useStore} from "@/Composables/store.js";
+import aiAvailable from "@/Composables/App/aiAvailable.js";
+import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 
 const ideas = ref([]);
-const aiAvailable = ref(true)
 const limitExceeded = ref(false)
 const loading = ref(false)
 const context = ref('')
-const usedAiCredits = ref(false)
+const ai = ref(true)
 const errorElement = ref(null)
-
 const smoothScroll = inject('smoothScroll')
 
 const scrollToErrorDisplay = () => {
@@ -30,44 +30,37 @@ const scrollToErrorDisplay = () => {
   })
 }
 
-
 const askAI = async () => {
   if (!context.value) {
     useStore().setToast(trans('app.ideas.no_context'), true)
     return
   }
-  await checkUserRights();
-  if (aiAvailable.value) {
-    try {
+
+  aiAvailable().then((aiAvailable) => {
+    ai.value = false
+    if (aiAvailable) {
+      ai.value = true
       useStore().setIsLoading(true)
       loading.value = true
-      const response = await axios.post('/api/ai/', {'context': getContext(), 'question': getQuestion()})
-      await incrementUserUsedCredits()
-      let results = response.data.response.split(/\n/g);
-      ideas.value = []
-      for (let i = 0; i < results.length; i++) {
-        let result = results[i];
-        if (result !== '') {
-          let [title, description] = result.split('|');
-          if (title && description) {
-            ideas.value.push({title, description});
+      reallyAskAi(getContext(), getQuestion()).then((response) => {
+        const results = response.split(/\n/g);
+        ideas.value = []
+        for (let i = 0; i < results.length; i++) {
+          let result = results[i];
+          if (result !== '') {
+            let [title, description] = result.split('|');
+            if (title && description) {
+              ideas.value.push({title, description});
+            }
           }
         }
-      }
-    } finally {
-      useStore().setIsLoading(false)
-      loading.value = false
+      }).finally(() => {
+            useStore().setIsLoading(false)
+            loading.value = false
+          }
+      )
     }
-  }
-}
-
-const incrementUserUsedCredits = async () => {
-  await axios.patch(
-      '/api/user/' + usePage().props.auth.user.id, {
-        'field': 'used_ai_credits',
-        'value': ++usedAiCredits.value
-      }
-  )
+  })
 }
 
 const getLanguage = () => {
@@ -105,13 +98,6 @@ const addProject = async (title, description) => {
   }
 }
 
-const checkUserRights = async () => {
-  const userResponse = await axios.get('/api/user/' + usePage().props.auth.user.id)
-  usedAiCredits.value = userResponse.data.used_ai_credits
-  aiAvailable.value = usePage().props.auth.subscription.is_subscribed
-      || userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
-}
-
 const gotTo = (url) => {
   window.location.href = url
 }
@@ -136,7 +122,7 @@ const gotTo = (url) => {
       </details>
     </Box>
 
-    <Box v-if="!aiAvailable || limitExceeded">
+    <Box v-if="!ai || limitExceeded">
       <div class="flex flex-col space-y-2 p-4" ref="errorElement">
         <div class="flex flex-row justify-between alert alert-warning">
           <template v-if="limitExceeded">

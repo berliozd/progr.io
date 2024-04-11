@@ -7,14 +7,18 @@ import TextArea from "@/Components/TextArea.vue";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import AskAiModal from "@/Pages/App/Partials/AskAiModal.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import Collapsable from "@/Components/Collapsable.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
 import {capitalize, reactive, ref, watch} from "vue";
-import {useStore} from "@/Composables/store.js";
-import getStatuses from "@/Composables/getStatuses.js";
 import {trans} from "laravel-vue-i18n";
 import debounce from 'lodash.debounce'
+import {useStore} from "@/Composables/store.js";
+import getStatuses from "@/Composables/getStatuses.js";
+import aiAvailable from "@/Composables/App/aiAvailable.js";
+import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 
 const noteTypeToAdd = ref(null)
 const dropOverNote = ref(null);
@@ -22,6 +26,9 @@ const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
 const saved = ref(false);
 const refreshAfterSave = ref(false);
+const competitors = ref([]);
+const ai = ref(true);
+const loading = ref(false)
 
 if (!useStore().projectId) {
   router.visit(route('app.projects'));
@@ -166,11 +173,62 @@ const deleteNote = async (event, note) => {
   }
 }
 
+const getContext = () => {
+  return project.title + ' - ' + project.description;
+}
+
+const searchCompetitor = () => {
+  aiAvailable().then((available) => {
+    if (available) {
+      loading.value = true
+      useStore().setIsLoading(true)
+      reallyAskAi(
+          getContext(),
+          'Give me a list of project that are potential competitors for my project idea. ' +
+          'Your answer must be separated by break line, without politeness phrase, no bulleted list, no numbering. ' +
+          'I want the name, a brief description, and the website url for each separated by |. ' +
+          'Do not add number or bullet in front of each item.' +
+          'I want only competitors with accessible website.',
+      ).then((response) => {
+        useStore().setIsLoading(false)
+        loading.value = false
+        const results = response.split(/\n/g);
+        competitors.value = []
+        for (let i = 0; i < results.length; i++) {
+          let result = results[i];
+          if (result !== '') {
+            let [name, description, url] = result.split('|');
+            if (name && description && url) {
+              competitors.value.push({name, description, url});
+            }
+          }
+        }
+      })
+    } else {
+      console.log('cannot search competitor');
+    }
+  })
+}
+
+const gotTo = (url) => {
+  window.location.href = url
+}
+
+const addCompetitor = async (name, description, url) => {
+  try {
+    let competitor = {'name': name, 'description': description, 'url': url}
+    await axios.post('/api/competitors/' + project.id, competitor);
+    project.competitors.push(competitor)
+    useStore().setToast(trans('app.project.competitors_added'));
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 getProject();
 getStatuses().then((response) => {
   statuses.value = response
 })
-
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
@@ -212,108 +270,157 @@ getStatuses().then((response) => {
     </Box>
 
     <Box class="space-y-4 relative bg-primary/80" v-if="project">
-      <div class="mt-2">
-        <details
-            class="collapse collapse-arrow bg-neutral/70 border text-white/70">
-          <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.notes') }}</summary>
-          <div class="collapse-content">
-            <div v-for="note in project.notes" class="my-4 hover:cursor-grab note" :key="note.id" draggable="true"
-                 @dragend="endDrag($event, note)" @dragover="dragOver($event, note)"
-                 @dragover.prevent>
-              <div class="flex flex-row justify-between mb-2">
-                <div class="flex flex-row w-fit">
-                  <label class="text-xs sm:text-base">{{ capitalize(note.type.label) }}:</label>
-                  <AskAiModal :note-type-code="note.type.code"
-                              :note-type-label="note.type.label"
-                              :project-description="project.description"
-                              :project-title="project.title"
-                              :project-note="note" @change="refreshAfterSave = true"/>
-                </div>
-                <div class="flex flex-row hover:cursor-pointer space-x-2">
-                  <div class="flex flex-row w-12 justify-end">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)"
-                         v-if="previousNote(note)">
-                      <path d="m18 9-6-6-6 6"/>
-                      <path d="M12 3v14"/>
-                      <path d="M5 21h14"/>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="lucide lucide-arrow-down-from-line" @click="moveDown($event, note)"
-                         v-if="nextNote(note)">
-                      <path d="M19 3H5"/>
-                      <path d="M12 21V7"/>
-                      <path d="m6 15 6 6 6-6"/>
-                    </svg>
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                       class="lucide lucide-trash-2 hover:cursor-pointer" @click="deleteNote($event, note)">
-                    <path d="M3 6h18"/>
-                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                    <line x1="10" x2="10" y1="11" y2="17"/>
-                    <line x1="14" x2="14" y1="11" y2="17"/>
-                  </svg>
-                </div>
-              </div>
-              <TextArea v-model="note.content" rows="6" class="w-full" @input="refreshAfterSave = true"></TextArea>
+      <Collapsable :title="$t('app.project.notes')">
+        <div v-for="note in project.notes" class="my-4 hover:cursor-grab note" :key="note.id" draggable="true"
+             @dragend="endDrag($event, note)" @dragover="dragOver($event, note)"
+             @dragover.prevent>
+          <div class="flex flex-row justify-between mb-2">
+            <div class="flex flex-row w-fit">
+              <label class="text-xs sm:text-base">{{ capitalize(note.type.label) }}:</label>
+              <AskAiModal :note-type-code="note.type.code"
+                          :note-type-label="note.type.label"
+                          :project-description="project.description"
+                          :project-title="project.title"
+                          :project-note="note" @change="refreshAfterSave = true"/>
             </div>
-
-            <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">
-              <div>
-                {{ $t('app.project.select_note_type') }}
+            <div class="flex flex-row hover:cursor-pointer space-x-2">
+              <div class="flex flex-row w-12 justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)"
+                     v-if="previousNote(note)">
+                  <path d="m18 9-6-6-6 6"/>
+                  <path d="M12 3v14"/>
+                  <path d="M5 21h14"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-arrow-down-from-line" @click="moveDown($event, note)"
+                     v-if="nextNote(note)">
+                  <path d="M19 3H5"/>
+                  <path d="M12 21V7"/>
+                  <path d="m6 15 6 6 6-6"/>
+                </svg>
               </div>
-              <div class="items-center">
-                <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
-                        v-model="noteTypeToAdd">
-                  <option v-for="notesType in project.availableNotesTypes"
-                          v-bind:value="notesType"
-                          :key='notesType.id'>
-                    {{ capitalize(notesType.label) }}
-                  </option>
-                </select>
-              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   class="lucide lucide-trash-2 hover:cursor-pointer" @click="deleteNote($event, note)">
+                <path d="M3 6h18"/>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                <line x1="10" x2="10" y1="11" y2="17"/>
+                <line x1="14" x2="14" y1="11" y2="17"/>
+              </svg>
             </div>
-
           </div>
-        </details>
-      </div>
+          <TextArea v-model="note.content" rows="6" class="w-full" @input="refreshAfterSave = true"></TextArea>
+        </div>
+        <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">
+          <div>
+            {{ $t('app.project.select_note_type') }}
+          </div>
+          <div class="items-center">
+            <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
+                    v-model="noteTypeToAdd">
+              <option v-for="notesType in project.availableNotesTypes"
+                      v-bind:value="notesType"
+                      :key='notesType.id'>
+                {{ capitalize(notesType.label) }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </Collapsable>
+
     </Box>
 
+
     <Box class="space-y-4 relative bg-primary/80" v-if="project">
-      <details class="collapse collapse-arrow bg-neutral/70 border text-white/70 mt-2">
-        <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.competitors') }}</summary>
-        <div class="collapse-content">
-          <div v-for="competitor in project.competitors" class="my-4 hover:cursor-grab competitor" :key="competitor.id"
-               draggable="true" @dragend="endDrag($event, competitor)"
-               @dragover="dragOver($event, competitor)" @dragover.prevent>
-            <div class="flex flex-row justify-between mb-2">
-              <div class="flex flex-col w-full">
-                <label class="text-xs sm:text-base">{{ capitalize(competitor.name) }}:</label>
+
+      <Collapsable :title="$t('app.project.competitors')">
+
+        <Collapsable :title="$t('app.project.competitor.search')" :open="true">
+
+          <div class="flex flex-col sm:flex-row text-xs justify-between">
+            <div class="flex flex-row space-x-2 mb-1">
+              <span class="sm:text-lg">{{ $t('app.project.competitor.get_help_from_ai') }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   class="lucide lucide-bot-message-square">
+                <path d="M12 6V2H8"/>
+                <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/>
+                <path d="M2 12h2"/>
+                <path d="M9 11v2"/>
+                <path d="M15 11v2"/>
+                <path d="M20 12h2"/>
+              </svg>
+            </div>
+            <PrimaryButton @click="searchCompetitor" v-bind:disabled="loading">
+              {{ $t('app.project.competitor.search') }}
+            </PrimaryButton>
+          </div>
+
+          <template v-if="!ai">
+            <div class=" alert alert-warning m-4 w-fit">
+              <div>{{ $t('app.ai_not_available') }}</div>
+              <PrimaryButton @click="gotTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
+            </div>
+          </template>
+
+          <div v-for="competitor in competitors"
+               class="rounded-xl border p-2 my-4 flex flex-col justify-between border-spacing-y-1">
+            <div class="flex flex-col">
+              <div class="mb-2 w-fit">
+                <span class="underline font-bold">{{ $t('app.project.competitor.name') }}</span> :
+                {{ competitor.name }}
+              </div>
+              <div class="mb-2 break-word">
+                <span class="underline font-bold">{{ $t('app.project.competitor.description') }}</span> :
+                {{ competitor.description }}
+              </div>
+              <div class="mb-2 break-all text-xs sm:text-base">
+                <span class="underline font-bold">{{ $t('app.project.competitor.url') }}</span> :
                 <a :href="competitor.url" target="_blank">{{ competitor.url }}</a>
-                <details class="collapse collapse-arrow bg-neutral/70 border text-white/70 mt-2">
-                  <summary class="collapse-title text-xl mb-2 font-medium">{{ $t('app.project.competitor.notes') }}</summary>
-                  <div class="collapse-content">
-                    <div v-for="competitorNote in competitor.notes" class="my-4 hover:cursor-grab competitor" :key="competitorNote.id"
-                         draggable="true" @dragend="endDrag($event, competitorNote)"
-                         @dragover="dragOver($event, competitorNote)" @dragover.prevent>
-                      <div class="flex flex-row justify-between mb-2">
-                        <div class="flex flex-col w-full">
-                          <label class="text-xs sm:text-base">{{ capitalize(competitorNote.type.label) }}:</label>
-                          <TextArea v-model="competitorNote.content" rows="6" class="w-full" @input="refreshAfterSave = true"></TextArea>
-                        </div>
+              </div>
+            </div>
+            <div class="flex justify-end">
+              <PrimaryButton @click="addCompetitor(competitor.name, competitor.description, competitor.url )">
+                {{ $t('app.add') }}
+              </PrimaryButton>
+            </div>
+          </div>
+
+        </Collapsable>
+
+        <Collapsable :title="$t('app.project.competitors')">
+          <div v-for="competitor in project.competitors" class="my-4 hover:cursor-grab competitor" :key="competitor.id">
+            <div class="flex flex-col justify-between mb-2">
+              <div class="flex flex-col w-full">
+                <TextInput v-model="competitor.name" class="w-full"/>
+                <TextInput v-model="competitor.url" class="w-full"/>
+                <a :href="competitor.url" target="_blank">{{ competitor.url }}</a>
+                <TextArea model-value="" v-model="competitor.description" rows="3" class="w-full"/>
+              </div>
+              <div class="flex flex-col w-full">
+                <Collapsable :title="$t('app.project.competitor.notes')">
+                  <div v-for="competitorNote in competitor.notes" class="my-4 hover:cursor-grab competitor"
+                       :key="competitorNote.id"
+                       draggable="true" @dragend="endDrag($event, competitorNote)"
+                       @dragover="dragOver($event, competitorNote)" @dragover.prevent>
+                    <div class="flex flex-row justify-between mb-2">
+                      <div class="flex flex-col w-full">
+                        <label class="text-xs sm:text-base">{{ capitalize(competitorNote.type.label) }}:</label>
+                        <TextArea v-model="competitorNote.content" rows="6" class="w-full"/>
                       </div>
                     </div>
                   </div>
-                </details>
+                </Collapsable>
               </div>
             </div>
           </div>
-        </div>
-      </details>
+        </Collapsable>
+      </Collapsable>
+
     </Box>
 
     <Box class="bg-primary/80">

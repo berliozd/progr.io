@@ -4,14 +4,14 @@ import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
 import DeleteProject from "@/Pages/App/Partials/DeleteProject.vue";
 import AddProjectButton from "@/Pages/App/Partials/AddProjectButton.vue";
+import SimpleLink from "@/Components/SimpleLink.vue";
+import Badge from "@/Components/Badge.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
 import {computed, ref} from "vue";
-import {useStore} from "@/Composables/store.js";
 import {truncate} from 'lodash';
-import Badge from "@/Components/Badge.vue";
-import SimpleLink from "@/Components/SimpleLink.vue";
+import {useStore} from "@/Composables/store.js";
 
 const getData = async () => {
   try {

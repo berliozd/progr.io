@@ -16,4 +16,9 @@ class CompetitorsNote extends Model
     {
         return $this->hasOne(NotesType::class, 'id', 'note_type_id');
     }
+
+    public function competitor()
+    {
+        return $this->belongsTo(Competitor::class);
+    }
 }

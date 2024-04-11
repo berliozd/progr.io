@@ -11,8 +11,8 @@ import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import {Head, router, usePage} from '@inertiajs/vue3';
 import axios from "axios";
 import {reactive, ref} from "vue";
-import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
+import {useStore} from "@/Composables/store.js";
 import getStatuses from "@/Composables/getStatuses.js";
 
 const statuses = ref(null)

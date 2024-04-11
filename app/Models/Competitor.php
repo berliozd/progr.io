@@ -15,4 +15,9 @@ class Competitor extends Model
     {
         return $this->hasMany(CompetitorsNote::class);
     }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

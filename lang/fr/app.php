@@ -23,7 +23,15 @@ return [
         'use_for_note' => 'Utilisez pour pour la note',
         'copy' => 'Copier vers le presse-papier',
         'question_asked' => 'Question posée : ',
-        'competitor' => ['notes' => 'Notes du concurrent : '],
+        'competitor' => [
+            'notes' => 'Notes du concurrent : ',
+            'name' => 'Nom',
+            'description' => 'Description',
+            'url' => 'Url',
+            'add_as_project_competitor' => 'Ajoutez comme concurrent du projet',
+            'search' => 'Recherchez des concurrents',
+            'get_help_from_ai' => 'Demandez de l\'aide à l\'IA pour trouver des concurrents.',
+        ],
     ],
     'cancel' => 'Annuer',
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',
@@ -44,5 +52,6 @@ return [
         'generator_line3' => 'Il générera rapidement une liste d’idées pertinentes et inspirantes que vous pourrez utiliser comme point de départ pour votre projet.'
     ],
     'out_of_ideas' => 'En panne d\'idées?',
-    'subscribe' => 'Abonnez-vous'
+    'subscribe' => 'Abonnez-vous',
+    'add' => 'Ajoutez'
 ];

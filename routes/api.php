@@ -47,5 +47,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'show']);
 
     // Competitors
-    Route::get('/competitors/{projectId}', [CompetitorController::class, 'index']);
+    Route::post('/competitors/{projectId}', [CompetitorController::class, 'store']);
 });

@@ -2,12 +2,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 import {Head, usePage} from '@inertiajs/vue3';
+import {computed} from 'vue'
 import price from '@/Composables/price.js'
 import date from '@/Composables/date.js'
-import {computed} from 'vue'
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const subscription = computed(() => usePage().props.auth.subscription)
 defineProps({

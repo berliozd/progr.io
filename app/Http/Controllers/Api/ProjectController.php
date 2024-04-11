@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Competitor;
+use App\Models\CompetitorsNote;
 use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
@@ -63,12 +65,28 @@ class ProjectController extends Controller
     public function update(Request $request, string $id)
     {
         /** @var Project $project */
-        $project = Project::where('id', $id)->first();
+        $project = Project::whereId($id)->first();
         if ($project->owner()->getResults()->id !== auth()->user()->id) {
             throw new \Exception('Not allowed');
         }
         $data = $request->toArray();
-        $notes = $data['notes'];
+
+        $project->fill($data);
+
+        $this->updateNotes($data['notes']);
+        $this->updateCompetitors($data['competitors']);
+
+        $project->save();
+        return $data;
+    }
+
+    public function destroy(string $id)
+    {
+        Project::destroy([$id]);
+    }
+
+    public function updateNotes($notes): void
+    {
         foreach ($notes as $note) {
             if (empty($note['content'])) {
                 continue;
@@ -93,12 +111,30 @@ class ProjectController extends Controller
                 ]);
             }
         }
-        $project->update($data);
-        return $data;
     }
 
-    public function destroy(string $id)
+    public function updateCompetitors($competitors): void
     {
-        Project::destroy([$id]);
+        foreach ($competitors as $competitor) {
+            if (empty($competitor['name'] || empty($competitor['description']) || empty($competitor['url']))) {
+                continue;
+            }
+            $projectCompetitor = Competitor::whereId($competitor['id'])->first();
+            if ($projectCompetitor !== null) {
+                $projectCompetitor->update([
+                    'project_id' => $competitor['project_id'],
+                    'name' => $competitor['name'],
+                    'description' => $competitor['description'],
+                    'url' => $competitor['url']
+                ]);
+            } else {
+                CompetitorsNote::create([
+                    'project_id' => $competitor['project_id'],
+                    'name' => $competitor['name'],
+                    'description' => $competitor['description'],
+                    'url' => $competitor['url']
+                ]);
+            }
+        }
     }
 }

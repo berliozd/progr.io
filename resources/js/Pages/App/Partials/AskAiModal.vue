@@ -3,13 +3,12 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import TextArea from "@/Components/TextArea.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-
-import axios from "axios";
 import {capitalize, ref} from "vue";
 import {getActiveLanguage} from "laravel-vue-i18n";
-import {usePage} from "@inertiajs/vue3";
 import {Clipboard} from 'v-clipboard'
 import {useStore} from "@/Composables/store.js";
+import aiAvailable from "@/Composables/App/aiAvailable.js";
+import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 
 const props = defineProps({
   projectTitle: null,
@@ -18,23 +17,13 @@ const props = defineProps({
   noteTypeCode: null,
   noteTypeLabel: null,
 })
-
 const emits = defineEmits(['change'])
-
 const isShowModal = ref(false)
 const aiResponse = ref('');
 const loading = ref(false)
-const aiAvailable = ref(true)
-const usedAiCredits = ref(false)
+const ai = ref(true);
 
-const checkUserRights = async () => {
-  const userResponse = await axios.get('/api/user/' + usePage().props.auth.user.id)
-  usedAiCredits.value = userResponse.data.used_ai_credits
-  aiAvailable.value = usePage().props.auth.subscription.is_subscribed
-      || userResponse.data.used_ai_credits < usePage().props.app.free_ai_credits
-}
-
-function getContext() {
+const getContext = () => {
   let context = props.projectTitle + ' - ' + props.projectDescription;
   if (typeof props.title === "object") {
     context = props.projectTitle.value + ' - ' + props.projectDescription.value;
@@ -43,23 +32,17 @@ function getContext() {
 }
 
 const askAI = async () => {
-  await checkUserRights()
-  if (aiAvailable.value) {
-    loading.value = true
-    const response = await axios.post('/api/ai/', {'context': getContext(), 'question': getQuestion()})
-    loading.value = false
-    aiResponse.value = response.data.response
-    await incrementUserUsedCredits()
-  }
-}
-
-const incrementUserUsedCredits = async () => {
-  await axios.patch(
-      '/api/user/' + usePage().props.auth.user.id, {
-        'field': 'used_ai_credits',
-        'value': ++usedAiCredits.value
-      }
-  )
+  ai.value = false
+  aiAvailable().then((aiAvailable) => {
+    if (aiAvailable) {
+      ai.value = true
+      loading.value = true
+      reallyAskAi(getContext(), getQuestion()).then((response) => {
+        aiResponse.value = response
+        loading.value = false
+      })
+    }
+  })
 }
 
 const getQuestion = () => {
@@ -147,7 +130,7 @@ const goTo = (url) => {
 
   <Modal :show="isShowModal">
 
-    <div class="p-4 w-full space-y-4 flex flex-col" v-if="aiAvailable">
+    <div class="p-4 w-full space-y-4 flex flex-col" v-if="ai">
       <div class="flex flex-row w-full justify-between">
         <div>
           {{ $t('app.project.note', {'label': capitalize(noteTypeLabel)}) }}

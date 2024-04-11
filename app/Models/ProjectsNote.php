@@ -16,4 +16,9 @@ class ProjectsNote extends Model
     {
         return $this->hasOne(NotesType::class, 'id', 'note_type_id');
     }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
