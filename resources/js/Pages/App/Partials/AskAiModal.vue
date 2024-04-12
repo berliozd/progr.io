@@ -3,6 +3,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import TextArea from "@/Components/TextArea.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+
 import {capitalize, ref} from "vue";
 import {getActiveLanguage} from "laravel-vue-i18n";
 import {Clipboard} from 'v-clipboard'
@@ -11,11 +12,8 @@ import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 
 const props = defineProps({
-  projectTitle: null,
-  projectDescription: null,
-  projectNote: null,
-  noteTypeCode: null,
-  noteTypeLabel: null,
+  context: null,
+  note: null
 })
 const emits = defineEmits(['change'])
 const isShowModal = ref(false)
@@ -23,21 +21,13 @@ const aiResponse = ref('');
 const loading = ref(false)
 const ai = ref(true);
 
-const getContext = () => {
-  let context = props.projectTitle + ' - ' + props.projectDescription;
-  if (typeof props.title === "object") {
-    context = props.projectTitle.value + ' - ' + props.projectDescription.value;
-  }
-  return context;
-}
-
 const askAI = async () => {
   ai.value = false
   aiAvailable().then((aiAvailable) => {
     if (aiAvailable) {
       ai.value = true
       loading.value = true
-      reallyAskAi(getContext(), getQuestion()).then((response) => {
+      reallyAskAi(props.context, getQuestion()).then((response) => {
         aiResponse.value = response
         loading.value = false
       })
@@ -62,25 +52,25 @@ const getLanguage = () => {
 
 const getBaseQuestion = () => {
   // return 'give disagreements my users get when they do not use my tool, your answers should be a list of answers formatted in a human speaking manner starting by "oh sheet I"'
-  if (props.noteTypeCode === 'benefits') {
+  if (props.note.type.code === 'benefits') {
     return 'give me benefits for future users'
   }
-  if (props.noteTypeCode === 'monetization') {
+  if (props.note.type.code === 'monetization') {
     return 'give me how I can monetize it'
   }
-  if (props.noteTypeCode === 'pricing') {
+  if (props.note.type.code === 'pricing') {
     return 'give me possible pricing plans and features associated'
   }
-  if (props.noteTypeCode === 'features') {
+  if (props.note.type.code === 'features') {
     return 'give me possible features'
   }
-  if (props.noteTypeCode === 'domains') {
+  if (props.note.type.code === 'domains') {
     return 'give me possible short and cool domains names'
   }
-  if (props.noteTypeCode === 'targets') {
+  if (props.note.type.code === 'targets') {
     return 'tell me who could be interested by my tool'
   }
-  if (props.noteTypeCode === 'competitors') {
+  if (props.note.type.code === 'competitors') {
     return 'tell me who are the competitors for a project like this and their website if it exists'
   }
 }
@@ -96,7 +86,7 @@ const hideModal = () => {
 }
 
 const useForNote = () => {
-  props.projectNote.content = aiResponse
+  props.note.content = aiResponse
   useStore().setToast('Field filled with AI response.')
   emits('change')
   hideModal()
@@ -105,10 +95,6 @@ const useForNote = () => {
 const copy = () => {
   Clipboard.copy(aiResponse.value)
   useStore().setToast('Copied to clipboard.')
-}
-
-const goTo = (url) => {
-  window.location.href = url
 }
 </script>
 
@@ -133,7 +119,7 @@ const goTo = (url) => {
     <div class="p-4 w-full space-y-4 flex flex-col" v-if="ai">
       <div class="flex flex-row w-full justify-between">
         <div>
-          {{ $t('app.project.note', {'label': capitalize(noteTypeLabel)}) }}
+          {{ $t('app.project.note', {'label': capitalize(note.type.label)}) }}
         </div>
         <div class="space-x-2 items-center">
           <span class="loading loading-spinner loading-s" v-show="loading"></span>
@@ -171,7 +157,9 @@ const goTo = (url) => {
     <div class="flex flex-col space-y-2 p-4" v-else>
       <div class="flex flex-row justify-between alert alert-error">
         {{ $t('app.ai_not_available') }}
-        <PrimaryButton @click="goTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
+        <PrimaryButton @click="window.location.href = route('subscribe.checkout')">
+          {{ $t('app.subscribe') }}
+        </PrimaryButton>
       </div>
       <SecondaryButton @click="hideModal" class="w-fit">{{ $t('app.cancel') }}</SecondaryButton>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competitor;
+use App\Models\CompetitorsNote;
 use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
@@ -140,6 +141,25 @@ class ProjectController extends Controller
                     'description' => $competitor['description'],
                     'url' => $competitor['url']
                 ]);
+
+                foreach ($competitor['notes'] as $note) {
+                    $competitorsNote = null;
+                    if (isset($note['id'])) {
+                        $competitorsNote = CompetitorsNote::whereId($note['id'])->first();
+                    }
+                    if ($competitorsNote !== null) {
+                        $competitorsNote->update(['content' => $note['content']]);
+                    } else {
+                        \Log::debug('before');
+                        \Log::debug($note['type']['id']);
+                        CompetitorsNote::create([
+                            'competitor_id' => $projectCompetitor['id'],
+                            'note_type_id' => $note['type']['id'],
+                            'content' => $note['content']
+                        ]);
+                    }
+                }
+
             } else {
                 Competitor::create([
                     'project_id' => $competitor['project_id'],

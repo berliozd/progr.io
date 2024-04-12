@@ -6,22 +6,20 @@ import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
-import AskAiModal from "@/Pages/App/Partials/AskAiModal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Collapsable from "@/Components/Collapsable.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
-import {capitalize, reactive, ref, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 import {trans} from "laravel-vue-i18n";
 import debounce from 'lodash.debounce'
 import {useStore} from "@/Composables/store.js";
 import getStatuses from "@/Composables/getStatuses.js";
 import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
+import Notes from "@/Pages/App/Partials/Notes.vue";
 
-const noteTypeToAdd = ref(null)
-const dropOverNote = ref(null);
 const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
 const saved = ref(false);
@@ -39,7 +37,7 @@ const getProject = async () => {
     if (useStore().projectId) {
       const response = await axios.get('/api/projects/' + useStore().projectId)
       Object.assign(project, response.data);
-      sortNotes()
+      sortNotes(project.notes)
       watch(project, () => {
         debouncedSave()
       })
@@ -84,97 +82,8 @@ const selectProjectStatus = (status) => {
   project.status = status.id;
 }
 
-const addEmptyNote = (noteType) => {
-  if (!noteType) {
-    useStore().setToast(trans('app.project.select_note_type'), true)
-    return
-  }
-  refreshAfterSave.value = false
-  project.notes.push({
-    'project_id': project.id,
-    'type': {'id': noteType.id, 'label': noteType.label, 'code': noteType.code},
-    'content': '',
-    'order': maxOrderNotes() + 1
-  });
-  sortNotes()
-  noteTypeToAdd.value = null
-  project.availableNotesTypes = project.availableNotesTypes.filter(type => {
-    return noteType.id !== type.id
-  });
-}
-
-const sortNotes = () => {
-  project.notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
-}
-
-const maxOrderNotes = () => {
-  let maxOrder = 0
-  project.notes.forEach(note => {
-    if (note.order > maxOrder) {
-      maxOrder = note.order
-    }
-  })
-  return maxOrder
-}
-
-const endDrag = (event, item) => {
-  const noteDroppedOverOrder = dropOverNote.value.order;
-  dropOverNote.value.order = item.order
-  item.order = noteDroppedOverOrder
-  sortNotes();
-}
-
-const dragOver = (event, item) => {
-  event.dataTransfer.dropEffect = 'link'
-  dropOverNote.value = item
-}
-
-const moveUp = (event, note) => {
-  const currentOrder = note.order;
-  note.order = previousNote(note).order
-  previousNote(note).order = currentOrder
-  sortNotes();
-}
-
-const moveDown = (event, note) => {
-  const currentOrder = note.order;
-  note.order = nextNote(note).order
-  nextNote(note).order = currentOrder
-  sortNotes();
-}
-
-const getNoteIndexInArray = (note) => {
-  let idx = 0;
-  for (let item in project.notes) {
-    if (project.notes[item].content === note.content && project.notes[item].type.code === note.type.code) {
-      return idx;
-    }
-    idx++;
-  }
-  return idx;
-}
-
-const previousNote = (note) => {
-  const currentNoteIndex = getNoteIndexInArray(note);
-  return project.notes[currentNoteIndex - 1]
-}
-
-const nextNote = (note) => {
-  const currentNoteIndex = getNoteIndexInArray(note);
-  return project.notes[currentNoteIndex + 1]
-}
-
-const deleteNote = async (event, note) => {
-  if (note.id) {
-    const index = project.notes.indexOf(note);
-    project.notes.splice(index, 1);
-    project.availableNotesTypes.push(project.allNotesTypes.find(type => type.id === note.note_type_id))
-    await axios.delete('/api/projects_notes/' + note.id);
-  }
-}
-
-const getContext = () => {
-  return project.title + ' - ' + project.description;
+const sortNotes = (notes) => {
+  notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
 }
 
 const searchCompetitor = () => {
@@ -183,7 +92,7 @@ const searchCompetitor = () => {
       loading.value = true
       useStore().setIsLoading(true)
       reallyAskAi(
-          getContext(),
+          project.title + ' - ' + project.description,
           'Give me a list of project that are potential competitors for my project idea. ' +
           'Your answer must be separated by break line, without politeness phrase, no bulleted list, no numbering. ' +
           'I want the name, a brief description, and the website url for each separated by |. ' +
@@ -211,10 +120,6 @@ const searchCompetitor = () => {
       console.log('cannot search competitor');
     }
   })
-}
-
-const gotTo = (url) => {
-  window.location.href = url
 }
 
 const addCompetitor = async (name, description, url) => {
@@ -273,67 +178,12 @@ getStatuses().then((response) => {
 
     <Box class="space-y-4 relative bg-primary/80" v-if="project">
       <Collapsable :title="$t('app.project.notes')">
-        <div v-for="note in project.notes" class="my-4 hover:cursor-grab" :key="note.id" draggable="true"
-             @dragend="endDrag($event, note)" @dragover="dragOver($event, note)"
-             @dragover.prevent>
-          <div class="flex flex-row justify-between mb-2">
-            <div class="flex flex-row w-fit">
-              <label class="text-xs sm:text-base">{{ capitalize(note.type.label) }}:</label>
-              <AskAiModal :note-type-code="note.type.code"
-                          :note-type-label="note.type.label"
-                          :project-description="project.description"
-                          :project-title="project.title"
-                          :project-note="note" @change="refreshAfterSave = true"/>
-            </div>
-            <div class="flex flex-row hover:cursor-pointer space-x-2">
-              <div class="flex flex-row w-12 justify-end">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-arrow-up-from-line" @click="moveUp($event, note)"
-                     v-if="previousNote(note)">
-                  <path d="m18 9-6-6-6 6"/>
-                  <path d="M12 3v14"/>
-                  <path d="M5 21h14"/>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-arrow-down-from-line" @click="moveDown($event, note)"
-                     v-if="nextNote(note)">
-                  <path d="M19 3H5"/>
-                  <path d="M12 21V7"/>
-                  <path d="m6 15 6 6 6-6"/>
-                </svg>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                   class="lucide lucide-trash-2 hover:cursor-pointer" @click="deleteNote($event, note)">
-                <path d="M3 6h18"/>
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                <line x1="10" x2="10" y1="11" y2="17"/>
-                <line x1="14" x2="14" y1="11" y2="17"/>
-              </svg>
-            </div>
-          </div>
-          <TextArea v-model="note.content" rows="6" class="w-full" @input="refreshAfterSave = true"></TextArea>
-        </div>
-        <div class="flex flex-col" v-if="project.availableNotesTypes?.length > 0">
-          <div>
-            {{ $t('app.project.select_note_type') }}
-          </div>
-          <div class="items-center">
-            <select class="select bg-white mr-2" @change="addEmptyNote(noteTypeToAdd)"
-                    v-model="noteTypeToAdd">
-              <option v-for="notesType in project.availableNotesTypes"
-                      v-bind:value="notesType"
-                      :key='notesType.id'>
-                {{ capitalize(notesType.label) }}
-              </option>
-            </select>
-          </div>
-        </div>
+        <Notes :all-notes-types="project.allNotesTypes" :available-notes-types="project.availableNotesTypes"
+               :notes="project.notes" :context="project.title + '-' + project.description" :notes-parent-id="project.id"
+               :notes-parent-id-field-name="'project_id'"
+               :api-url="'\/api/projects_notes\/'"
+               @change="refreshAfterSave = true" @start-add-note="refreshAfterSave = false"/>
       </Collapsable>
-
     </Box>
 
 
@@ -365,7 +215,9 @@ getStatuses().then((response) => {
           <template v-if="!ai">
             <div class=" alert alert-warning m-4 w-fit">
               <div>{{ $t('app.ai_not_available') }}</div>
-              <PrimaryButton @click="gotTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
+              <PrimaryButton @click="window.location.href = route('subscribe.checkout')">
+                {{ $t('app.subscribe') }}
+              </PrimaryButton>
             </div>
           </template>
 
@@ -415,29 +267,13 @@ getStatuses().then((response) => {
               </div>
 
               <Collapsable :title="$t('app.project.competitor.notes')">
-                <div v-for="competitorNote in competitor.notes" class="my-4 hover:cursor-grab competitor"
-                     :key="competitorNote.id"
-                     draggable="true" @dragend="endDrag($event, competitorNote)"
-                     @dragover="dragOver($event, competitorNote)" @dragover.prevent>
-                  <div class="flex flex-row justify-between mb-2">
-                    <div class="flex flex-col w-full">
-                      <label class="text-xs sm:text-base">{{ capitalize(competitorNote.type.label) }}:</label>
-                      <TextArea v-model="competitorNote.content" rows="6" class="w-full"/>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex flex-col" v-if="competitor.availableNotesTypes?.length > 0">
-                  <div>{{ $t('app.project.select_note_type') }}</div>
-                  <div class="items-center">
-                    <select class="select bg-white mr-2">
-                      <option v-for="notesType in competitor.availableNotesTypes"
-                              v-bind:value="notesType"
-                              :key='notesType.id'>
-                        {{ capitalize(notesType.label) }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
+                <Notes :all-notes-types="competitor.allNotesTypes"
+                       :available-notes-types="competitor.availableNotesTypes"
+                       :notes="competitor.notes" :context="competitor.name + '-' + competitor.description"
+                       :notes-parent-id="competitor.id"
+                       :notes-parent-id-field-name="'competitor_id'"
+                       :api-url="'\/api/competitors_notes\/'"
+                       @change="refreshAfterSave = true" @start-add-note="refreshAfterSave = false"/>
               </Collapsable>
             </div>
           </div>

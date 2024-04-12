@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AiAssistantController;
-use App\Http\Controllers\Api\CompetitorController;
+use App\Http\Controllers\Api\CompetitorNoteController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
@@ -38,6 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // projects_notes
     Route::delete('/projects_notes/{id}', [ProjectNoteController::class, 'destroy']);
+
+    // competitors_notes
+    Route::delete('/competitors_notes/{id}', [CompetitorNoteController::class, 'destroy']);
 
     // AI
     Route::post('/ai', [AiAssistantController::class, 'ask']);

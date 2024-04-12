@@ -10,7 +10,7 @@ class CompetitorsNote extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content', 'competitor_id', 'notes_type_id'];
+    protected $fillable = ['content', 'competitor_id', 'note_type_id'];
 
     public function type(): HasOne
     {
