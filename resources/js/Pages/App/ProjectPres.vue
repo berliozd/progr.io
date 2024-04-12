@@ -32,16 +32,16 @@ getProject();
   <PresentationLayout>
     <Box class="space-y-2 bg-primary/80 relative" v-if="projectFound">
 
-      <div class="flex flex-col mx-4 rounded-xl border p-4 shadow-2xl bg-neutral/70 text-2xl">
+      <div class="flex flex-col mx-4 rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
         <div>{{ project.title }}</div>
       </div>
 
-      <div class="flex flex-col mx-4 rounded-xl border p-4 shadow-2xl bg-neutral/70 text-xl">
+      <div class="flex flex-col mx-4 rounded-lg border p-4 shadow-2xl bg-neutral/70 text-xl">
         <div>{{ project.description }}</div>
       </div>
 
       <template v-for="note in project.notes" class="" :key="note.id">
-        <div class="flex flex-col m-4 rounded-xl border shadow-2xl bg-neutral/70">
+        <div class="flex flex-col m-4 rounded-lg border shadow-2xl bg-neutral/70">
           <h2 class="bg-white/20 rounded-t-xl p-2 text-2xl">{{ capitalize(note.type.label) }}:</h2>
           <div class="flex flex-row">
             <div class=" p-2">
@@ -118,16 +118,16 @@ getProject();
         </div>
       </template>
 
-      <div class="flex flex-col m-4 rounded-xl border shadow-2xl bg-neutral/70"
+      <div class="flex flex-col m-4 rounded-lg border shadow-2xl bg-neutral/70"
            v-if="project.competitors && project.competitors.length">
         <h2 class="bg-white/20 rounded-t-xl p-2 text-2xl">{{ $t('app.project.competitors') }}:</h2>
 
         <template v-for="competitor in project.competitors" class="" :key="competitor.id">
-          <div class="flex flex-col m-4 rounded-xl border shadow-2xl bg-neutral/70">
+          <div class="flex flex-col m-4 rounded-lg border shadow-2xl bg-neutral/70">
             <h2 class="bg-white/20 rounded-t-xl p-2 text-xl">{{ capitalize(competitor.name) }}:</h2>
             <template v-for="competitorNote in competitor.notes" class="" :key="competitorNote.id">
-              <div class="flex flex-col m-4 rounded-xl border shadow-2xl bg-neutral/70">
-                <h2 class="bg-white/20 rounded-t-xl p-2 text-xl">{{ capitalize(competitorNote.type.label) }}:</h2>
+              <div class="flex flex-col m-4 rounded-lg border shadow-2xl bg-neutral/70">
+                <h2 class="bg-white/20 rounded-t-lg p-2 text-xl">{{ capitalize(competitorNote.type.label) }}:</h2>
                 <div class="flex flex-row">
                   <div class=" p-2">
                     <svg v-if="competitorNote.type.code === 'benefits'" xmlns="http://www.w3.org/2000/svg" width="24"

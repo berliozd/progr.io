@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competitor;
-use App\Models\CompetitorsNote;
 use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
 use App\Models\ProjectsStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -131,7 +129,10 @@ class ProjectController extends Controller
             if (empty($competitor['name'] || empty($competitor['description']) || empty($competitor['url']))) {
                 continue;
             }
-            $projectCompetitor = Competitor::whereId($competitor['id'])->first();
+            $projectCompetitor = null;
+            if (isset($competitor['id'])) {
+                $projectCompetitor = Competitor::whereId($competitor['id'])->first();
+            }
             if ($projectCompetitor !== null) {
                 $projectCompetitor->update([
                     'project_id' => $competitor['project_id'],
@@ -140,7 +141,7 @@ class ProjectController extends Controller
                     'url' => $competitor['url']
                 ]);
             } else {
-                CompetitorsNote::create([
+                Competitor::create([
                     'project_id' => $competitor['project_id'],
                     'name' => $competitor['name'],
                     'description' => $competitor['description'],

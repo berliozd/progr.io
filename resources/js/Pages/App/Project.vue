@@ -193,12 +193,15 @@ const searchCompetitor = () => {
         useStore().setIsLoading(false)
         loading.value = false
         const results = response.split(/\n/g);
+        console.log(results);
         competitors.value = []
         for (let i = 0; i < results.length; i++) {
-          let result = results[i];
+          const result = results[i];
+          console.log(result);
           if (result !== '') {
             let [name, description, url] = result.split('|');
             if (name && description && url) {
+              console.log({name, description, url});
               competitors.value.push({name, description, url});
             }
           }
@@ -216,8 +219,7 @@ const gotTo = (url) => {
 
 const addCompetitor = async (name, description, url) => {
   try {
-    let competitor = {'name': name, 'description': description, 'url': url}
-    await axios.post('/api/competitors/' + project.id, competitor);
+    let competitor = {'name': name, 'description': description, 'url': url, 'project_id': project.id, 'notes': []}
     project.competitors.push(competitor)
     useStore().setToast(trans('app.project.competitors_added'));
   } catch (error) {
@@ -271,7 +273,7 @@ getStatuses().then((response) => {
 
     <Box class="space-y-4 relative bg-primary/80" v-if="project">
       <Collapsable :title="$t('app.project.notes')">
-        <div v-for="note in project.notes" class="my-4 hover:cursor-grab note" :key="note.id" draggable="true"
+        <div v-for="note in project.notes" class="my-4 hover:cursor-grab" :key="note.id" draggable="true"
              @dragend="endDrag($event, note)" @dragover="dragOver($event, note)"
              @dragover.prevent>
           <div class="flex flex-row justify-between mb-2">
@@ -367,7 +369,8 @@ getStatuses().then((response) => {
             </div>
           </template>
 
-          <div v-for="competitor in competitors" class="rounded-xl border p-2 my-4 flex flex-row justify-between">
+          <div v-for="competitor in competitors"
+               class="rounded-lg border shadow-lg bg-neutral-content/40 shadow-secondary-content/50 p-2 my-4 flex flex-row justify-between">
             <div class="flex flex-col">
               <div class="mb-2 w-fit">
                 <span class="underline font-bold">{{ $t('app.project.competitor.name') }}</span> :
@@ -393,7 +396,7 @@ getStatuses().then((response) => {
         <Collapsable :title="$t('app.project.competitors')">
           <span v-if="project?.competitors?.length === 0">{{ $t('app.project.no_competitors') }}</span>
           <div v-for="competitor in project.competitors"
-               class="my-4 hover:cursor-grab border p-4 rounded-2xl bg-neutral-content/40"
+               class="my-4 hover:cursor-grab border p-4 rounded-lg bg-neutral-content/40 shadow-lg shadow-secondary-content/40"
                :key="competitor.id">
             <div class="flex flex-col justify-between mb-2">
 
