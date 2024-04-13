@@ -34,6 +34,7 @@ const dragOver = (event, item) => {
 }
 
 const sortNotes = (notes) => {
+  console.log('sort notes');
   notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
 }
 

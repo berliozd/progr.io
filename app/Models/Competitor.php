@@ -9,7 +9,7 @@ class Competitor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'url', 'project_id'];
+    protected $fillable = ['name', 'description', 'url', 'project_id', 'order'];
 
     public function notes()
     {

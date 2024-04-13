@@ -139,33 +139,41 @@ class ProjectController extends Controller
                     'project_id' => $competitor['project_id'],
                     'name' => $competitor['name'],
                     'description' => $competitor['description'],
-                    'url' => $competitor['url']
+                    'url' => $competitor['url'],
+                    'order' => $competitor['order']
                 ]);
 
                 foreach ($competitor['notes'] as $note) {
+                    if (empty($note['content'])) {
+                        continue;
+                    }
                     $competitorsNote = null;
                     if (isset($note['id'])) {
                         $competitorsNote = CompetitorsNote::whereId($note['id'])->first();
                     }
                     if ($competitorsNote !== null) {
-                        $competitorsNote->update(['content' => $note['content']]);
+                        $competitorsNote->update([
+                            'content' => $note['content'],
+                            'order' => $note['order']
+                        ]);
                     } else {
-                        \Log::debug('before');
-                        \Log::debug($note['type']['id']);
                         CompetitorsNote::create([
                             'competitor_id' => $projectCompetitor['id'],
                             'note_type_id' => $note['type']['id'],
-                            'content' => $note['content']
+                            'content' => $note['content'],
+                            'order' => $note['order']
                         ]);
                     }
                 }
-
             } else {
+                \Log::debug('creating with order');
+                \Log::debug($competitor['order']);
                 Competitor::create([
                     'project_id' => $competitor['project_id'],
                     'name' => $competitor['name'],
                     'description' => $competitor['description'],
-                    'url' => $competitor['url']
+                    'url' => $competitor['url'],
+                    'order' => (int)$competitor['order']
                 ]);
             }
         }

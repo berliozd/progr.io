@@ -27,7 +27,7 @@ const sortItems = (items) => {
 <template>
   <div class="flex flex-row w-12 justify-end">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
          class="lucide lucide-arrow-up-from-line" @click="moveUp($event, item, items)"
          v-if="items[items.indexOf(item) - 1]">
       <path d="m18 9-6-6-6 6"/>
@@ -35,7 +35,7 @@ const sortItems = (items) => {
       <path d="M5 21h14"/>
     </svg>
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
          class="lucide lucide-arrow-down-from-line" @click="moveDown($event, item, items)"
          v-if="items[items.indexOf(item) + 1]">
       <path d="M19 3H5"/>

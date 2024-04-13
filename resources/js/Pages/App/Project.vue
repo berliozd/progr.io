@@ -20,6 +20,7 @@ import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import Notes from "@/Pages/App/Partials/Notes.vue";
 import DeleteModal from "@/Components/DeleteModal.vue";
+import UpAndDown from "@/Components/UpAndDown.vue";
 
 const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
@@ -34,11 +35,12 @@ if (!useStore().projectId) {
 }
 
 const getProject = async () => {
+  console.log('getProject');
   try {
     if (useStore().projectId) {
       const response = await axios.get('/api/projects/' + useStore().projectId)
       Object.assign(project, response.data);
-      sortNotes(project.notes)
+      sortNotes(project)
       watch(project, () => {
         debouncedSave()
       })
@@ -83,8 +85,12 @@ const selectProjectStatus = (status) => {
   project.status = status.id;
 }
 
-const sortNotes = (notes) => {
-  notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
+const sortNotes = (project) => {
+  project.notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
+  project.competitors.sort((competitorA, competitorB) => competitorA.order > competitorB.order ? 1 : -1);
+  for (let competitorIndex in project.competitors) {
+    project.competitors[competitorIndex].notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
+  }
 }
 
 const searchCompetitor = () => {
@@ -104,15 +110,12 @@ const searchCompetitor = () => {
         useStore().setIsLoading(false)
         loading.value = false
         const results = response.split(/\n/g);
-        console.log(results);
         competitors.value = []
         for (let i = 0; i < results.length; i++) {
           const result = results[i];
-          console.log(result);
           if (result !== '') {
             let [name, description, url] = result.split('|');
             if (name && description && url) {
-              console.log({name, description, url});
               competitors.value.push({name, description, url});
             }
           }
@@ -124,11 +127,30 @@ const searchCompetitor = () => {
   })
 }
 
+const maxOrderCompetitors = (competitors) => {
+  let maxOrder = 0
+  competitors.forEach(competitor => {
+    if (competitor.order > maxOrder) {
+      maxOrder = competitor.order
+    }
+  })
+  return maxOrder
+}
+
 const addCompetitor = async (name, description, url) => {
   try {
-    let competitor = {'name': name, 'description': description, 'url': url, 'project_id': project.id, 'notes': []}
+    let competitor = {
+      'name': name,
+      'description': description,
+      'url': url,
+      'project_id': project.id,
+      'order': maxOrderCompetitors(project.competitors) + 1,
+      'notes': [],
+    }
+    console.log(competitor);
     refreshAfterSave.value = true
     project.competitors.push(competitor)
+    console.log(project.competitors);
     useStore().setToast(trans('app.project.competitor_added'));
   } catch (error) {
     console.log(error)
@@ -260,6 +282,7 @@ getStatuses().then((response) => {
                :key="competitor.id">
             <div class="flex flex-col mb-2">
               <div class="flex justify-end">
+                <UpAndDown :item="competitor" :items="project.competitors"/>
                 <DeleteModal :question="'Are you sure you want to delete this competitor ?'"
                              :api-url="'\/api/competitors\/'" :id="competitor.id"
                              :confirmation-button-text="'Delete competitor'"
