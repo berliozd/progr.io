@@ -133,6 +133,13 @@ const addCompetitor = async (name, description, url) => {
   }
 }
 
+const deleteCompetitor = async (event, competitor, competitors) => {
+  const index = competitors.indexOf(competitor);
+  competitors.splice(index, 1);
+  await axios.delete('/api/competitors/' + competitor.id);
+}
+
+
 getProject();
 getStatuses().then((response) => {
   statuses.value = response
@@ -251,8 +258,19 @@ getStatuses().then((response) => {
           <div v-for="competitor in project.competitors"
                class="my-4 hover:cursor-grab border p-4 rounded-lg bg-neutral-content/40 shadow-lg shadow-secondary-content/40"
                :key="competitor.id">
-            <div class="flex flex-col justify-between mb-2">
-
+            <div class="flex flex-col mb-2">
+              <div class="flex justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-trash-2 hover:cursor-pointer"
+                     @click="deleteCompetitor($event, competitor, project.competitors)">
+                  <path d="M3 6h18"/>
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                  <line x1="10" x2="10" y1="11" y2="17"/>
+                  <line x1="14" x2="14" y1="11" y2="17"/>
+                </svg>
+              </div>
               <div class="flex flex-col sm:flex-row sm:space-x-4 ">
                 <div class="flex flex-col w-full">
                   <div>Name :</div>
