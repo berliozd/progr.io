@@ -24,6 +24,7 @@ return [
         'use_for_note' => 'Use for note',
         'copy' => 'Copy to clipboard',
         'question_asked' => 'Question asked : ',
+        'deletion_confirmation_question' => 'Are you sure you want to delete this project?',
         'competitor' => [
             'notes' => 'Notes : ',
             'name' => 'Name',

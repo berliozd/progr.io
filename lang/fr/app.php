@@ -24,6 +24,7 @@ return [
         'use_for_note' => 'Utilisez pour pour la note',
         'copy' => 'Copier vers le presse-papier',
         'question_asked' => 'Question posée : ',
+        'deletion_confirmation_question' => 'Voulez-vous vraiment supprimer le projet?',
         'competitor' => [
             'notes' => 'Notes : ',
             'name' => 'Nom',

@@ -36,7 +36,7 @@ const deleteProject = async () => {
     <Modal :show="confirmingProjectDeletion" @close="closeModal">
         <div class="p-6">
             <h2 class="text-lg font-medium">
-                {{ $t('app.projects.deletion_confirmation_question') }}
+                {{ $t('app.project.deletion_confirmation_question') }}
             </h2>
 
             <div class="mt-6 flex justify-end">

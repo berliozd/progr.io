@@ -125,6 +125,7 @@ const searchCompetitor = () => {
 const addCompetitor = async (name, description, url) => {
   try {
     let competitor = {'name': name, 'description': description, 'url': url, 'project_id': project.id, 'notes': []}
+    refreshAfterSave.value = true
     project.competitors.push(competitor)
     useStore().setToast(trans('app.project.competitors_added'));
   } catch (error) {
@@ -265,7 +266,6 @@ getStatuses().then((response) => {
                   <TextArea model-value="" v-model="competitor.description" rows="3" class="w-full h-full"/>
                 </div>
               </div>
-
               <Collapsable :title="$t('app.project.competitor.notes')">
                 <Notes :all-notes-types="competitor.allNotesTypes"
                        :available-notes-types="competitor.availableNotesTypes"
