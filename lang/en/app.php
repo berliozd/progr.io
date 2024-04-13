@@ -11,6 +11,7 @@ return [
         'status' => 'Status',
         'updated_date' => 'Updated on',
         'delete' => 'Delete project',
+        'delete_note' => 'Delete note',
         'title_error' => 'Title is missing or incomplete',
         'description_error' => 'Description is missing or incomplete',
         'notes' => 'Notes',
@@ -25,6 +26,8 @@ return [
         'copy' => 'Copy to clipboard',
         'question_asked' => 'Question asked : ',
         'deletion_confirmation_question' => 'Are you sure you want to delete this project?',
+        'deletion_note_confirmation_question' => 'Are you sure you want to delete this note?',
+        'competitor_added' => 'Competitor added',
         'competitor' => [
             'notes' => 'Notes : ',
             'name' => 'Name',

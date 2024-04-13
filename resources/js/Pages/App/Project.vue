@@ -19,6 +19,7 @@ import getStatuses from "@/Composables/getStatuses.js";
 import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import Notes from "@/Pages/App/Partials/Notes.vue";
+import DeleteModal from "@/Components/DeleteModal.vue";
 
 const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
@@ -96,6 +97,7 @@ const searchCompetitor = () => {
           'Give me a list of project that are potential competitors for my project idea. ' +
           'Your answer must be separated by break line, without politeness phrase, no bulleted list, no numbering. ' +
           'I want the name, a brief description, and the website url for each separated by |. ' +
+          'Example of output: ' + 'Name|Description|Url' +
           'Do not add number or bullet in front of each item.' +
           'I want only competitors with accessible website.',
       ).then((response) => {
@@ -127,18 +129,16 @@ const addCompetitor = async (name, description, url) => {
     let competitor = {'name': name, 'description': description, 'url': url, 'project_id': project.id, 'notes': []}
     refreshAfterSave.value = true
     project.competitors.push(competitor)
-    useStore().setToast(trans('app.project.competitors_added'));
+    useStore().setToast(trans('app.project.competitor_added'));
   } catch (error) {
     console.log(error)
   }
 }
 
-const deleteCompetitor = async (event, competitor, competitors) => {
+const deleteCompetitor = (competitor, competitors) => {
   const index = competitors.indexOf(competitor);
   competitors.splice(index, 1);
-  await axios.delete('/api/competitors/' + competitor.id);
 }
-
 
 getProject();
 getStatuses().then((response) => {
@@ -260,16 +260,10 @@ getStatuses().then((response) => {
                :key="competitor.id">
             <div class="flex flex-col mb-2">
               <div class="flex justify-end">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-trash-2 hover:cursor-pointer"
-                     @click="deleteCompetitor($event, competitor, project.competitors)">
-                  <path d="M3 6h18"/>
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                  <line x1="10" x2="10" y1="11" y2="17"/>
-                  <line x1="14" x2="14" y1="11" y2="17"/>
-                </svg>
+                <DeleteModal :question="'Are you sure you want to delete this competitor ?'"
+                             :api-url="'\/api/competitors\/'" :id="competitor.id"
+                             :confirmation-button-text="'Delete competitor'"
+                             @deleted="deleteCompetitor(competitor, project.competitors)"/>
               </div>
               <div class="flex flex-col sm:flex-row sm:space-x-4 ">
                 <div class="flex flex-col w-full">

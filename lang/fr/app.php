@@ -11,6 +11,7 @@ return [
         'status' => 'Status',
         'updated_date' => 'Mise à jour le',
         'delete' => 'Supprimer le project',
+        'delete_note' => 'Supprimer la note',
         'title_error' => 'Le titre manque ou bien est incomplet.',
         'description_error' => 'La description manque ou bien est incomplète.',
         'notes' => 'Notes',
@@ -25,6 +26,8 @@ return [
         'copy' => 'Copier vers le presse-papier',
         'question_asked' => 'Question posée : ',
         'deletion_confirmation_question' => 'Voulez-vous vraiment supprimer le projet?',
+        'deletion_note_confirmation_question' => 'Etes vous sûr de vouloir supprimer cette note?',
+        'competitor_added' => 'Concurrent ajouté',
         'competitor' => [
             'notes' => 'Notes : ',
             'name' => 'Nom',

@@ -2,10 +2,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
-import DeleteProject from "@/Pages/App/Partials/DeleteProject.vue";
 import AddProjectButton from "@/Pages/App/Partials/AddProjectButton.vue";
 import SimpleLink from "@/Components/SimpleLink.vue";
 import Badge from "@/Components/Badge.vue";
+import DeleteModal from "@/Components/DeleteModal.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
@@ -82,7 +82,9 @@ useStore().setIsLoading(true)
             <Badge :label="project.status_label"></Badge>
           </div>
           <div class="flex justify-end ">
-            <DeleteProject v-bind:project-id="project.id"/>
+            <DeleteModal :id="project.id" :api-url="'\/api/projects\/'" @deleted="getData"
+                         :question=" $t('app.project.deletion_confirmation_question')"
+                         :confirmation-button-text="$t('app.project.delete')"/>
           </div>
         </div>
       </div>
