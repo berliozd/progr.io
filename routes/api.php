@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CompetitorNoteController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
+use App\Http\Controllers\Api\ProjectVisibilityController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // project_status
     Route::apiResource('projects_status', ProjectStatusController::class);
+    // project_visibilities
+    Route::apiResource('projects_visibilities', ProjectVisibilityController::class);
 
     // projects_notes
     Route::delete('/projects_notes/{id}', [ProjectNoteController::class, 'destroy']);

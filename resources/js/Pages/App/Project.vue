@@ -1,11 +1,10 @@
 <script setup>
+import Box from "@/Components/Box.vue";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
-import Box from "@/Components/Box.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
-import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Collapsable from "@/Components/Collapsable.vue";
 import Competitor from "@/Pages/App/Partials/Competitor.vue";
@@ -13,22 +12,24 @@ import DeleteModal from "@/Components/DeleteModal.vue";
 import UpAndDown from "@/Components/UpAndDown.vue";
 import SavedLabel from "@/Components/SavedLabel.vue";
 import Notes from "@/Pages/App/Partials/Notes.vue";
+import Separator from "@/Components/Separator.vue";
+import AILogo from "@/Components/AILogo.vue";
+import Visibilities from "@/Pages/App/Partials/Visibilities.vue";
+import Statuses from "@/Pages/App/Partials/Statuses.vue";
 
+import {inject, nextTick, reactive, ref, watch} from "vue";
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
-import {inject, nextTick, reactive, ref, watch} from "vue";
 import {trans} from "laravel-vue-i18n";
 import debounce from 'lodash.debounce'
 import {useStore} from "@/Composables/store.js";
-import getStatuses from "@/Composables/getStatuses.js";
+import statuses from "@/Composables/statuses.js";
 import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import isUrlHttp from 'is-url-http';
-import Separator from "@/Components/Separator.vue";
-import AILogo from "@/Components/AILogo.vue";
+import {sortNotes} from "@/Composables/App/useProject.js";
 
 const smoothScroll = inject('smoothScroll')
-const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
 const refreshAfterSave = ref(false);
 const competitors = ref([]);
@@ -37,6 +38,7 @@ const loading = ref(false)
 const newCompetitor = reactive({name: '', description: '', url: ''});
 const opened = ref(false);
 const errors = ref([]);
+const bottomCompetitors = ref(null)
 
 const resetNewCompetitor = () => {
   newCompetitor.name = '';
@@ -85,18 +87,6 @@ const save = async () => {
     useStore().setSaved(trans('app.project_saved'));
   } catch (error) {
     console.log(error)
-  }
-}
-
-const selectProjectStatus = (status) => {
-  project.status = status.id;
-}
-
-const sortNotes = (project) => {
-  project.notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
-  project.competitors.sort((competitorA, competitorB) => competitorA.order > competitorB.order ? 1 : -1);
-  for (let competitorIndex in project.competitors) {
-    project.competitors[competitorIndex].notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
   }
 }
 
@@ -195,8 +185,6 @@ const deleteCompetitor = (competitor, competitors) => {
   competitors.splice(index, 1);
 }
 
-const bottomCompetitors = ref(null)
-
 const scrollToCompetitors = () => {
   nextTick(() => {
     smoothScroll({
@@ -205,11 +193,11 @@ const scrollToCompetitors = () => {
     })
   })
 }
+const gotTo = (url) => {
+  window.location.href = url
+}
 
 getProject();
-getStatuses().then((response) => {
-  statuses.value = response
-})
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
@@ -267,7 +255,7 @@ getStatuses().then((response) => {
           <template v-if="!ai">
             <div class=" alert alert-warning m-4 w-fit">
               <div>{{ $t('app.ai_not_available') }}</div>
-              <PrimaryButton @click="window.location.href = route('subscribe.checkout')">
+              <PrimaryButton @click="gotTo(route('subscribe.checkout'))">
                 {{ $t('app.subscribe') }}
               </PrimaryButton>
             </div>
@@ -344,11 +332,9 @@ getStatuses().then((response) => {
     </Box>
 
     <Box class="bg-primary/80">
-      <label for="description" class="block mb-2">{{ $t('app.project.status') }}:</label>
-      <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status"
-                    v-bind:on-click="selectProjectStatus"/>
+      <Statuses :project="project" :all-statuses="project.allStatuses"/>
+      <Visibilities :project="project" :all-visibilities="project.allVisibilities"/>
     </Box>
-
     <div class="flex flex-row justify-end">
       <SavedLabel/>
       <div>

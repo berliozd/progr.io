@@ -9,6 +9,7 @@ use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
 use App\Models\ProjectsStatus;
+use App\Models\ProjectsVisibility;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -33,13 +34,8 @@ class ProjectController extends Controller
             ], 403);
         }
 
-        $rawData = $request->toArray();
-        $data = [
-            'user_id' => auth()->user()->id,
-            'title' => $rawData['title']['value'] ?? $rawData['title'],
-            'description' => $rawData['description']['value'] ?? $rawData['description'],
-            'status' => $rawData['status']['value'] ?? $rawData['status']
-        ];
+        $data = $request->toArray();
+        $data['user_id'] = auth()->user()->id;
         return Project::create($data);
     }
 
@@ -66,9 +62,9 @@ class ProjectController extends Controller
         }, $project->notes->toArray());
         $availableNotesTypes = NotesType::whereNotIn('id', $ids)->get();
         $project->availableNotesTypes = $availableNotesTypes;
-
-        // Add all note types
         $project->allNotesTypes = NotesType::all();
+        $project->allVisibilities = ProjectsVisibility::all();
+        $project->allStatuses = ProjectsStatus::all();
 
         return $project;
     }

@@ -5,33 +5,37 @@ import Box from "@/Components/Box.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import ErrorAlert from "@/Components/ErrorAlert.vue";
-import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
+import Visibilities from "@/Pages/App/Partials/Visibilities.vue";
+import Statuses from "@/Pages/App/Partials/Statuses.vue";
 
 import {Head, router, usePage} from '@inertiajs/vue3';
 import axios from "axios";
 import {reactive, ref} from "vue";
 import {trans} from "laravel-vue-i18n";
 import {useStore} from "@/Composables/store.js";
-import getStatuses from "@/Composables/getStatuses.js";
+import statuses from "@/Composables/statuses.js";
+import visibilities from "@/Composables/visibilities.js";
 
-const statuses = ref(null)
-getStatuses().then((response) => {
-  statuses.value = response
+const allStatuses = ref(null)
+statuses().then((response) => {
+  allStatuses.value = response
+})
+const allVisibilities = ref(null)
+visibilities().then((response) => {
+  allVisibilities.value = response
 })
 
 const project = reactive({
-  title: {type: String, value: ''},
-  description: {type: String, value: ''},
-  status: {type: Number, value: 1},
+  title: '',
+  description: '',
+  status: 1,
+  visibility: 1
 })
 
 const save = async () => {
   if (!validate()) {
     return;
-  }
-  if (project.title.value === '') {
-    usePage().props.error = trans('app.project.title_error')
   }
   try {
     await axios.post('/api/projects/', project);
@@ -44,21 +48,20 @@ const save = async () => {
 
 const validate = () => {
   usePage().props.error = ''
-  if (project.title.value === '') {
+  if (project.title === '') {
     usePage().props.error = trans('app.project.title_error')
     return false;
   }
-  if (project.description.value === '') {
+  if (project.description === '') {
     usePage().props.error = trans('app.project.description_error')
+    return false;
+  }
+  if (!project.visibility) {
+    usePage().props.error = trans('app.project.visibility_error')
     return false;
   }
   return true;
 }
-
-const selectProjectStatus = (status) => {
-  project.status.value = status.id;
-}
-
 </script>
 <template>
   <Head v-bind:title="$t('Project')"/>
@@ -70,15 +73,14 @@ const selectProjectStatus = (status) => {
       <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
       <label for="title">{{ $t('app.project.title') }}:</label>
       <div class="mt-2 flex flex-row">
-        <TextInput v-model="project.title.value" name="title" class="w-full"></TextInput>
+        <TextInput v-model="project.title" name="title" class="w-full"></TextInput>
       </div>
       <label for="description">{{ $t('app.project.description') }}:</label>
       <div class="mt-2 flex flex-row">
-        <TextArea v-model="project.description.value" rows="8" class="w-full"></TextArea>
+        <TextArea v-model="project.description" rows="8" class="w-full"></TextArea>
       </div>
-      <label for="description" class="block">{{ $t('app.project.status') }}:</label>
-      <StatusBadges v-bind:statuses="statuses" v-bind:project-status="project.status.value"
-                    v-bind:on-click="selectProjectStatus"></StatusBadges>
+      <Statuses :project="project" :all-statuses="allStatuses"/>
+      <Visibilities :project="project" :all-visibilities="allVisibilities"/>
     </Box>
     <SaveProjectButton v-bind:on-click="save"></SaveProjectButton>
   </AuthenticatedLayout>

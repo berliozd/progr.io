@@ -15,6 +15,7 @@ class Project extends Model
         'title',
         'description',
         'status',
+        'visibility',
     ];
 
     public function owner()

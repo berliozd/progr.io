@@ -9,7 +9,6 @@ const userId = computed(() => usePage().props.auth.user.id);
 const settings = ref(null);
 let lang = ref(getActiveLanguage())
 
-
 axios.get('/api/user/' + userId.value)
     .then(response => {
       settings.value = JSON.parse(response.data.settings);

@@ -35,8 +35,11 @@ return [
             'add_as_project_competitor' => 'Ajoutez comme concurrent du projet',
             'search' => 'Recherchez des concurrents',
             'get_help_from_ai' => 'Demandez de l\'aide à l\'IA pour trouver des concurrents.',
-            'add_manually'=>'Ou saisissez le manuellement'
+            'add_manually' => 'Ou saisissez le manuellement'
         ],
+        'visibility' => 'Visibilité',
+        'visibilities' => ['private' => 'Privé', 'public' => 'Public', 'only_members' => 'Seulement les membres']
+
     ],
     'cancel' => 'Annuer',
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',

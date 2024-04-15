@@ -100,6 +100,9 @@ const copy = () => {
   Clipboard.copy(aiResponse.value)
   useStore().setToast('Copied to clipboard.')
 }
+const gotTo = (url) => {
+  window.location.href = url
+}
 </script>
 
 <template>
@@ -148,7 +151,7 @@ const copy = () => {
     <div class="flex flex-col space-y-2 p-4" v-else>
       <div class="flex flex-row justify-between alert alert-error">
         {{ $t('app.ai_not_available') }}
-        <PrimaryButton @click="window.location.href = route('subscribe.checkout')">
+        <PrimaryButton @click="gotTo(route('subscribe.checkout'))">
           {{ $t('app.subscribe') }}
         </PrimaryButton>
       </div>

@@ -37,6 +37,8 @@ return [
             'get_help_from_ai' => 'Get help from AI to find competitors',
             'add_manually' => 'Or enter it manually'
         ],
+        'visibility' => 'Visibility',
+        'visibilities' => ['private' => 'Private', 'public' => 'Public', 'only_members' => 'Only members']
     ],
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',

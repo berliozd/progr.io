@@ -1,11 +1,12 @@
 <script setup>
 import Box from "@/Components/Box.vue";
 import PresentationLayout from "@/Layouts/PresentationLayout.vue";
+import NoteLogo from "@/Pages/App/Partials/NoteLogo.vue";
 
 import {Head} from '@inertiajs/vue3';
 import axios from "axios";
 import {capitalize, reactive, ref} from "vue";
-import NoteLogo from "@/Pages/App/Partials/NoteLogo.vue";
+import {sortNotes} from "@/Composables/App/useProject.js";
 
 const project = reactive({title: '', description: '', status: ''})
 const projectFound = ref(false);
@@ -16,17 +17,9 @@ const getProject = async () => {
     const response = await axios.get('/api/projects/' + id)
     projectFound.value = true
     Object.assign(project, response.data);
-    sortNotes()
+    await sortNotes(project)
   } catch (error) {
     console.log(error)
-  }
-}
-
-const sortNotes = () => {
-  project.notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
-  project.competitors.sort((competitorA, competitorB) => competitorA.order > competitorB.order ? 1 : -1);
-  for (let competitorIndex in project.competitors) {
-    project.competitors[competitorIndex].notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
   }
 }
 

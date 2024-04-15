@@ -86,7 +86,7 @@ const getContext = () => {
 
 const addProject = async (title, description) => {
   try {
-    let project = {'title': title, 'description': description, 'status': 1}
+    let project = {'title': title, 'description': description, 'status': 1, 'visibility': 1}
     await axios.post('/api/projects/', project);
     useStore().setToast(trans('app.ideas.project_added'));
   } catch (error) {
