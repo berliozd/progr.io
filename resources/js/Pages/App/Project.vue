@@ -21,30 +21,29 @@ import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import Notes from "@/Pages/App/Partials/Notes.vue";
 import DeleteModal from "@/Components/DeleteModal.vue";
 import UpAndDown from "@/Components/UpAndDown.vue";
+import SavedLabel from "@/Components/SavedLabel.vue";
 
 const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
-const saved = ref(false);
 const refreshAfterSave = ref(false);
 const competitors = ref([]);
 const ai = ref(true);
 const loading = ref(false)
 
-if (!useStore().projectId) {
+const projectId = window.location.href.split('/').pop();
+if (!projectId) {
   router.visit(route('app.projects'));
 }
 
 const getProject = async () => {
   console.log('getProject');
   try {
-    if (useStore().projectId) {
-      const response = await axios.get('/api/projects/' + useStore().projectId)
-      Object.assign(project, response.data);
-      sortNotes(project)
-      watch(project, () => {
-        debouncedSave()
-      })
-    }
+    const response = await axios.get('/api/projects/' + projectId)
+    Object.assign(project, response.data);
+    sortNotes(project)
+    watch(project, () => {
+      debouncedSave()
+    })
   } catch
       (error) {
     console.log(error)
@@ -70,12 +69,8 @@ const saveProjectAndRedirect = async () => {
 
 const save = async () => {
   try {
-    await axios.patch('/api/projects/' + useStore().projectId, project);
-    saved.value = true
-    setTimeout(() => {
-      saved.value = false
-    }, 3000);
-
+    await axios.patch('/api/projects/' + projectId, project);
+    useStore().setSaved(trans('app.project_saved'));
   } catch (error) {
     console.log(error)
   }
@@ -137,21 +132,24 @@ const maxOrderCompetitors = (competitors) => {
   return maxOrder
 }
 
-const addCompetitor = async (name, description, url) => {
+const addCompetitor = async (competitorData, competitors) => {
   try {
     let competitor = {
-      'name': name,
-      'description': description,
-      'url': url,
+      'name': competitorData.name,
+      'description': competitorData.description,
+      'url': competitorData.url,
       'project_id': project.id,
       'order': maxOrderCompetitors(project.competitors) + 1,
       'notes': [],
     }
-    console.log(competitor);
     refreshAfterSave.value = true
     project.competitors.push(competitor)
     console.log(project.competitors);
     useStore().setToast(trans('app.project.competitor_added'));
+
+    const index = competitors.indexOf(competitorData);
+    competitors.splice(index, 1);
+
   } catch (error) {
     console.log(error)
   }
@@ -174,16 +172,8 @@ getStatuses().then((response) => {
       <PageHeader v-bind:title="$t('Project')"/>
     </template>
 
-    <Transition
-        enter-active-class="transition ease-in-out"
-        enter-from-class="opacity-0"
-        leave-active-class="transition ease-in-out"
-        leave-to-class="opacity-0"
-    >
-      <p v-if="saved" class="text-sm ">{{ $t('app.project_saved') }}</p>
-    </Transition>
-
     <div class="flex flex-row justify-end" v-if="project && project.id">
+      <SavedLabel/>
       <a v-bind:href="route('app.projects.presentation', {id: project.id})" target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor"
@@ -268,7 +258,7 @@ getStatuses().then((response) => {
               </div>
             </div>
             <div class="flex flex-col justify-end">
-              <PrimaryButton @click="addCompetitor(competitor.name, competitor.description, competitor.url )">
+              <PrimaryButton @click="addCompetitor(competitor, competitors)">
                 {{ $t('app.add') }}
               </PrimaryButton>
             </div>
@@ -278,7 +268,7 @@ getStatuses().then((response) => {
         <Collapsable :title="$t('app.project.competitors')">
           <span v-if="project?.competitors?.length === 0">{{ $t('app.project.no_competitors') }}</span>
           <div v-for="competitor in project.competitors"
-               class="my-4 hover:cursor-grab border p-4 rounded-lg bg-neutral-content/40 shadow-lg shadow-secondary-content/40"
+               class="my-4 border p-4 rounded-lg bg-neutral-content/40 shadow-lg shadow-secondary-content/40"
                :key="competitor.id">
             <div class="flex flex-col mb-2">
               <div class="flex justify-end">
@@ -323,16 +313,12 @@ getStatuses().then((response) => {
                     v-bind:on-click="selectProjectStatus"/>
     </Box>
 
-    <Transition
-        enter-active-class="transition ease-in-out"
-        enter-from-class="opacity-0"
-        leave-active-class="transition ease-in-out"
-        leave-to-class="opacity-0"
-    >
-      <p v-if="saved" class="text-sm ">{{ $t('app.project_saved') }}</p>
-    </Transition>
-
-    <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>
+    <div class="flex flex-row justify-end">
+      <SavedLabel/>
+      <div>
+        <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>
+      </div>
+    </div>
 
   </AuthenticatedLayout>
 </template>

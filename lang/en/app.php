@@ -29,7 +29,7 @@ return [
         'deletion_note_confirmation_question' => 'Are you sure you want to delete this note?',
         'competitor_added' => 'Competitor added',
         'competitor' => [
-            'notes' => 'Notes : ',
+            'notes' => 'Notes',
             'name' => 'Name',
             'description' => 'Description',
             'url' => 'Url',

@@ -16,7 +16,7 @@ import {trans} from "laravel-vue-i18n";
 
 const subscription = computed(() => usePage().props.auth.subscription)
 if (usePage().props.errors.msg) {
-  useStore().setToast(trans(usePage().props.errors.msg), true, 5000);
+  useStore().setToast(trans(usePage().props.errors.msg), true);
 }
 const showingNavigationDropdown = ref(false);
 

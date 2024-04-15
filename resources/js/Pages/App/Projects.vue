@@ -31,8 +31,7 @@ const hasProject = computed(() => {
 });
 getData()
 const navToProject = (project) => {
-  useStore().setProjectId(project.id);
-  router.visit(route('app.projects.detail'));
+  router.visit(route('app.projects.detail', project.id));
 }
 useStore().setIsLoading(true)
 </script>

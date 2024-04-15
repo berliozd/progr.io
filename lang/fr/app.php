@@ -29,7 +29,7 @@ return [
         'deletion_note_confirmation_question' => 'Etes vous sûr de vouloir supprimer cette note?',
         'competitor_added' => 'Concurrent ajouté',
         'competitor' => [
-            'notes' => 'Notes : ',
+            'notes' => 'Notes',
             'name' => 'Nom',
             'description' => 'Description',
             'url' => 'Url',
