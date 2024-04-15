@@ -128,10 +128,6 @@ const copy = () => {
           </PrimaryButton>
         </div>
       </div>
-      <div>
-        {{ $t('app.project.question_asked') }}
-        <div class="italic">"{{ getBaseQuestion() }}"</div>
-      </div>
       <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
       <div class="flex flex-row justify-between">
         <SecondaryButton @click="hideModal">{{ $t('app.cancel') }}</SecondaryButton>

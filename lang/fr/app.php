@@ -24,7 +24,6 @@ return [
         'note' => 'Note: :label',
         'use_for_note' => 'Utilisez pour pour la note',
         'copy' => 'Copier vers le presse-papier',
-        'question_asked' => 'Question posée : ',
         'deletion_confirmation_question' => 'Voulez-vous vraiment supprimer le projet?',
         'deletion_note_confirmation_question' => 'Etes vous sûr de vouloir supprimer cette note?',
         'competitor_added' => 'Concurrent ajouté',
@@ -36,6 +35,7 @@ return [
             'add_as_project_competitor' => 'Ajoutez comme concurrent du projet',
             'search' => 'Recherchez des concurrents',
             'get_help_from_ai' => 'Demandez de l\'aide à l\'IA pour trouver des concurrents.',
+            'add_manually'=>'Ou saisissez le manuellement'
         ],
     ],
     'cancel' => 'Annuer',

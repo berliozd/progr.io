@@ -24,7 +24,6 @@ return [
         'note' => 'Note: :label',
         'use_for_note' => 'Use for note',
         'copy' => 'Copy to clipboard',
-        'question_asked' => 'Question asked : ',
         'deletion_confirmation_question' => 'Are you sure you want to delete this project?',
         'deletion_note_confirmation_question' => 'Are you sure you want to delete this note?',
         'competitor_added' => 'Competitor added',
@@ -36,6 +35,7 @@ return [
             'add_as_project_competitor' => 'Add as a project competitor',
             'search' => 'Search competitors',
             'get_help_from_ai' => 'Get help from AI to find competitors',
+            'add_manually' => 'Or enter it manually'
         ],
     ],
     'cancel' => 'Cancel',

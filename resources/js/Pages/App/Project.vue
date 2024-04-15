@@ -9,6 +9,10 @@ import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Collapsable from "@/Components/Collapsable.vue";
 import Competitor from "@/Pages/App/Partials/Competitor.vue";
+import DeleteModal from "@/Components/DeleteModal.vue";
+import UpAndDown from "@/Components/UpAndDown.vue";
+import SavedLabel from "@/Components/SavedLabel.vue";
+import Notes from "@/Pages/App/Partials/Notes.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
@@ -19,10 +23,8 @@ import {useStore} from "@/Composables/store.js";
 import getStatuses from "@/Composables/getStatuses.js";
 import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
-import Notes from "@/Pages/App/Partials/Notes.vue";
-import DeleteModal from "@/Components/DeleteModal.vue";
-import UpAndDown from "@/Components/UpAndDown.vue";
-import SavedLabel from "@/Components/SavedLabel.vue";
+import isUrlHttp from 'is-url-http';
+import Separator from "@/Components/Separator.vue";
 
 const smoothScroll = inject('smoothScroll')
 const statuses = ref(null)
@@ -32,6 +34,8 @@ const competitors = ref([]);
 const ai = ref(true);
 const loading = ref(false)
 const newCompetitor = reactive({name: '', description: '', url: ''});
+const opened = ref(false);
+const errors = ref([]);
 
 const resetNewCompetitor = () => {
   newCompetitor.name = '';
@@ -44,7 +48,6 @@ if (!projectId) {
 }
 
 const getProject = async () => {
-  console.log('getProject');
   try {
     const response = await axios.get('/api/projects/' + projectId)
     Object.assign(project, response.data);
@@ -140,7 +143,22 @@ const maxOrderCompetitors = (competitors) => {
   return maxOrder
 }
 
-const addCompetitor = async (competitorData, competitors) => {
+const checkCompetitor = (competitor) => {
+  errors.value = []
+  if (competitor.url === '') {
+    errors.value.push('Url required.');
+  } else if (!isUrlHttp(competitor.url)) {
+    errors.value.push('Url invalid.');
+  }
+  if (competitor.description === '') {
+    errors.value.push('Description required.');
+  }
+  if (competitor.name === '') {
+    errors.value.push('Name required.');
+  }
+}
+
+const addCompetitor = async (competitorData, competitors, reset = false) => {
   try {
     let competitor = {
       'name': competitorData.name,
@@ -150,13 +168,22 @@ const addCompetitor = async (competitorData, competitors) => {
       'order': maxOrderCompetitors(project.competitors) + 1,
       'notes': [],
     }
+
+    checkCompetitor(competitorData)
+    if (errors.value.length) {
+      return;
+    }
+    if (reset) {
+      resetNewCompetitor()
+    }
+
     refreshAfterSave.value = true
     project.competitors.push(competitor)
-    console.log(project.competitors);
     useStore().setToast(trans('app.project.competitor_added'));
     const index = competitors.indexOf(competitorData);
     competitors.splice(index, 1);
-    scrollToBottomCompetitors()
+    scrollToCompetitors()
+    opened.value = true
   } catch (error) {
     console.log(error)
   }
@@ -169,7 +196,7 @@ const deleteCompetitor = (competitor, competitors) => {
 
 const bottomCompetitors = ref(null)
 
-const scrollToBottomCompetitors = () => {
+const scrollToCompetitors = () => {
   nextTick(() => {
     smoothScroll({
       scrollTo: bottomCompetitors.value,
@@ -224,13 +251,9 @@ getStatuses().then((response) => {
       </Collapsable>
     </Box>
 
-
     <Box class="space-y-4 relative bg-primary/80" v-if="project">
-
       <Collapsable :title="$t('app.project.competitors')">
-
         <Collapsable :title="$t('app.project.competitor.search')" :open="true">
-
           <div class="flex flex-col sm:flex-row text-xs justify-between">
             <div class="flex flex-row space-x-2 mb-1">
               <span class="sm:text-lg">{{ $t('app.project.competitor.get_help_from_ai') }}</span>
@@ -249,7 +272,6 @@ getStatuses().then((response) => {
               {{ $t('app.project.competitor.search') }}
             </PrimaryButton>
           </div>
-
           <template v-if="!ai">
             <div class=" alert alert-warning m-4 w-fit">
               <div>{{ $t('app.ai_not_available') }}</div>
@@ -258,7 +280,6 @@ getStatuses().then((response) => {
               </PrimaryButton>
             </div>
           </template>
-
           <div v-for="competitor in competitors"
                class="rounded-lg border shadow-lg bg-neutral-content/40 shadow-secondary-content/50 p-2 my-4 flex flex-row justify-between">
             <div class="flex flex-col">
@@ -281,21 +302,24 @@ getStatuses().then((response) => {
               </PrimaryButton>
             </div>
           </div>
-
-
+          <Separator :text="$t('app.project.competitor.add_manually')"/>
           <div class="border rounded p-2 my-2 flex flex-col justify-end">
             <Competitor :competitor="newCompetitor"/>
             <div class="flex justify-end">
               <PrimaryButton
-                  @click="addCompetitor(newCompetitor, competitors); resetNewCompetitor()">
+                  @click="addCompetitor(newCompetitor, competitors, true)">
                 {{ $t('app.add') }}
               </PrimaryButton>
             </div>
+            <div v-if="errors.length" class="alert alert-error mt-2 block">
+              <ul>
+                <li v-for="error in errors">{{ error }}</li>
+              </ul>
+            </div>
           </div>
-
         </Collapsable>
 
-        <Collapsable :title="$t('app.project.competitors')">
+        <Collapsable :title="$t('app.project.competitors')" :open="opened">
           <span v-if="project?.competitors?.length === 0">{{ $t('app.project.no_competitors') }}</span>
           <div v-for="competitor in project.competitors"
                class="my-4 border p-4 rounded-lg bg-neutral-content/40 shadow-lg shadow-secondary-content/40"
