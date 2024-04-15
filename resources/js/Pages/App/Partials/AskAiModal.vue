@@ -3,6 +3,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import TextArea from "@/Components/TextArea.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import AILogo from "@/Components/AILogo.vue";
 
 import {capitalize, ref} from "vue";
 import {getActiveLanguage} from "laravel-vue-i18n";
@@ -13,7 +14,11 @@ import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 
 const props = defineProps({
   context: null,
-  note: null
+  note: null,
+  isCompetitor: {
+    type: Boolean,
+    default: false
+  }
 })
 const emits = defineEmits(['change'])
 const isShowModal = ref(false)
@@ -51,24 +56,23 @@ const getLanguage = () => {
 }
 
 const getBaseQuestion = () => {
-  // return 'give disagreements my users get when they do not use my tool, your answers should be a list of answers formatted in a human speaking manner starting by "oh sheet I"'
   if (props.note.type.code === 'benefits') {
-    return 'give me benefits for future users'
+    return props.isCompetitor ? 'tell me their what are the current users benefits' : 'tell me what could be benefits for future users'
   }
   if (props.note.type.code === 'monetization') {
-    return 'give me how I can monetize it'
+    return props.isCompetitor ? 'tell me how they currently monetize it' : 'tell me how I could monetize it'
   }
   if (props.note.type.code === 'pricing') {
-    return 'give me possible pricing plans and features associated'
+    return props.isCompetitor ? 'tell me what are their current pricing plans' : 'give me possible pricing plans and features associated'
   }
   if (props.note.type.code === 'features') {
-    return 'give me possible features'
+    return props.isCompetitor ? 'tell me what are their current features' : 'give me possible features'
+  }
+  if (props.note.type.code === 'targets') {
+    return props.isCompetitor ? 'tell me who use their tool' : 'tell me who could be interested by my tool'
   }
   if (props.note.type.code === 'domains') {
     return 'give me possible short and cool domains names'
-  }
-  if (props.note.type.code === 'targets') {
-    return 'tell me who could be interested by my tool'
   }
   if (props.note.type.code === 'competitors') {
     return 'tell me who are the competitors for a project like this and their website if it exists'
@@ -102,16 +106,7 @@ const copy = () => {
 
   <div class="flex flex-row sm:ml-10 space-x-2 text-xs items-center hover:cursor-pointer" @click="showModal">
     <span class="underline hidden sm:block">{{ $t('app.project.ask_ai_help') }}</span>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-         class="lucide lucide-bot-message-square">
-      <path d="M12 6V2H8"/>
-      <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/>
-      <path d="M2 12h2"/>
-      <path d="M9 11v2"/>
-      <path d="M15 11v2"/>
-      <path d="M20 12h2"/>
-    </svg>
+    <AILogo/>
   </div>
 
   <Modal :show="isShowModal">

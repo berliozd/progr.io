@@ -25,6 +25,7 @@ import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import isUrlHttp from 'is-url-http';
 import Separator from "@/Components/Separator.vue";
+import AILogo from "@/Components/AILogo.vue";
 
 const smoothScroll = inject('smoothScroll')
 const statuses = ref(null)
@@ -257,16 +258,7 @@ getStatuses().then((response) => {
           <div class="flex flex-col sm:flex-row text-xs justify-between">
             <div class="flex flex-row space-x-2 mb-1">
               <span class="sm:text-lg">{{ $t('app.project.competitor.get_help_from_ai') }}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                   class="lucide lucide-bot-message-square">
-                <path d="M12 6V2H8"/>
-                <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/>
-                <path d="M2 12h2"/>
-                <path d="M9 11v2"/>
-                <path d="M15 11v2"/>
-                <path d="M20 12h2"/>
-              </svg>
+              <AILogo/>
             </div>
             <PrimaryButton @click="searchCompetitor" v-bind:disabled="loading">
               {{ $t('app.project.competitor.search') }}
@@ -340,6 +332,7 @@ getStatuses().then((response) => {
                        :notes-parent-id="competitor.id"
                        :notes-parent-id-field-name="'competitor_id'"
                        :api-url="'\/api/competitors_notes\/'"
+                       :is-competitor="true"
                        @change="refreshAfterSave = true" @start-add-note="refreshAfterSave = false"/>
               </Collapsable>
             </div>

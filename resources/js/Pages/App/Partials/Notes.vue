@@ -18,7 +18,8 @@ const props = defineProps({
   'context': null,
   'notesParentIdFieldName': null,
   'notesParentId': null,
-  'apiUrl': null
+  'apiUrl': null,
+  'isCompetitor': null
 })
 
 const endDrag = (event, item, notes) => {
@@ -34,7 +35,6 @@ const dragOver = (event, item) => {
 }
 
 const sortNotes = (notes) => {
-  console.log('sort notes');
   notes.sort((noteA, noteB) => noteA.order > noteB.order ? 1 : -1);
 }
 
@@ -84,7 +84,7 @@ const maxOrderNotes = (notes) => {
     <div class="flex flex-row justify-between mb-2">
       <div class="flex flex-row w-fit">
         <label class="text-xs sm:text-base">{{ capitalize(note.type.label) }}:</label>
-        <AskAiModal :context="context" :note="note" @change="emit('change')"/>
+        <AskAiModal :context="context" :note="note" @change="emit('change')" :is-competitor="isCompetitor"/>
       </div>
       <div class="flex flex-row hover:cursor-pointer space-x-2">
         <UpAndDown :item="note" :items="notes"/>
