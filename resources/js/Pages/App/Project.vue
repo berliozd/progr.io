@@ -8,10 +8,11 @@ import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import StatusBadges from "@/Pages/App/Partials/StatusBadges.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Collapsable from "@/Components/Collapsable.vue";
+import Competitor from "@/Pages/App/Partials/Competitor.vue";
 
 import {Head, router} from '@inertiajs/vue3';
 import axios from "axios";
-import {reactive, ref, watch} from "vue";
+import {inject, nextTick, reactive, ref, watch} from "vue";
 import {trans} from "laravel-vue-i18n";
 import debounce from 'lodash.debounce'
 import {useStore} from "@/Composables/store.js";
@@ -23,13 +24,20 @@ import DeleteModal from "@/Components/DeleteModal.vue";
 import UpAndDown from "@/Components/UpAndDown.vue";
 import SavedLabel from "@/Components/SavedLabel.vue";
 
+const smoothScroll = inject('smoothScroll')
 const statuses = ref(null)
 const project = reactive({title: '', description: '', status: ''})
 const refreshAfterSave = ref(false);
 const competitors = ref([]);
 const ai = ref(true);
 const loading = ref(false)
+const newCompetitor = reactive({name: '', description: '', url: ''});
 
+const resetNewCompetitor = () => {
+  newCompetitor.name = '';
+  newCompetitor.description = '';
+  newCompetitor.url = '';
+};
 const projectId = window.location.href.split('/').pop();
 if (!projectId) {
   router.visit(route('app.projects'));
@@ -146,10 +154,9 @@ const addCompetitor = async (competitorData, competitors) => {
     project.competitors.push(competitor)
     console.log(project.competitors);
     useStore().setToast(trans('app.project.competitor_added'));
-
     const index = competitors.indexOf(competitorData);
     competitors.splice(index, 1);
-
+    scrollToBottomCompetitors()
   } catch (error) {
     console.log(error)
   }
@@ -158,6 +165,17 @@ const addCompetitor = async (competitorData, competitors) => {
 const deleteCompetitor = (competitor, competitors) => {
   const index = competitors.indexOf(competitor);
   competitors.splice(index, 1);
+}
+
+const bottomCompetitors = ref(null)
+
+const scrollToBottomCompetitors = () => {
+  nextTick(() => {
+    smoothScroll({
+      scrollTo: bottomCompetitors.value,
+      hash: '#bottomCompetitors'
+    })
+  })
 }
 
 getProject();
@@ -263,6 +281,18 @@ getStatuses().then((response) => {
               </PrimaryButton>
             </div>
           </div>
+
+
+          <div class="border rounded p-2 my-2 flex flex-col justify-end">
+            <Competitor :competitor="newCompetitor"/>
+            <div class="flex justify-end">
+              <PrimaryButton
+                  @click="addCompetitor(newCompetitor, competitors); resetNewCompetitor()">
+                {{ $t('app.add') }}
+              </PrimaryButton>
+            </div>
+          </div>
+
         </Collapsable>
 
         <Collapsable :title="$t('app.project.competitors')">
@@ -278,19 +308,7 @@ getStatuses().then((response) => {
                              :confirmation-button-text="'Delete competitor'"
                              @deleted="deleteCompetitor(competitor, project.competitors)"/>
               </div>
-              <div class="flex flex-col sm:flex-row sm:space-x-4 ">
-                <div class="flex flex-col w-full">
-                  <div>Name :</div>
-                  <TextInput v-model="competitor.name" class="w-full"/>
-                  <div>Url : <a :href="competitor.url" target="_blank"
-                                class="text-xs sm:text-base underline">{{ competitor.url }}</a></div>
-                  <TextInput v-model="competitor.url" class="w-full"/>
-                </div>
-                <div class="flex flex-col w-full h-full">
-                  <div>Description :</div>
-                  <TextArea model-value="" v-model="competitor.description" rows="3" class="w-full h-full"/>
-                </div>
-              </div>
+              <Competitor :competitor="competitor"/>
               <Collapsable :title="$t('app.project.competitor.notes')">
                 <Notes :all-notes-types="competitor.allNotesTypes"
                        :available-notes-types="competitor.availableNotesTypes"
@@ -302,6 +320,7 @@ getStatuses().then((response) => {
               </Collapsable>
             </div>
           </div>
+          <div ref="bottomCompetitors"></div>
         </Collapsable>
 
       </Collapsable>
