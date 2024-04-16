@@ -30,7 +30,6 @@ const ai = ref(true);
 const errors = ref([])
 
 const askAI = async () => {
-  ai.value = false
   useStore().setIsLoading(true);
   aiAvailable().then((aiAvailable) => {
     useStore().setIsLoading(false);
@@ -43,6 +42,8 @@ const askAI = async () => {
         aiResponse.value = response
         loading.value = false
       })
+    } else {
+      ai.value = false
     }
   })
 }
@@ -155,7 +156,9 @@ const checkForm = () => {
               <path d="m22 2-7 20-4-9-9-4Z"/>
               <path d="M22 2 11 13"/>
             </svg>
-            {{ $t('app.project.send.button_text') }}
+            <div class="ml-2">
+              {{ $t('app.project.send.button_text') }}
+            </div>
           </PrimaryButton>
         </div>
       </div>

@@ -27,7 +27,6 @@ const loading = ref(false)
 const ai = ref(true);
 
 const askAI = async () => {
-  ai.value = false
   aiAvailable().then((aiAvailable) => {
     if (aiAvailable) {
       ai.value = true
@@ -36,6 +35,8 @@ const askAI = async () => {
         aiResponse.value = response
         loading.value = false
       })
+    } else {
+      ai.value = false
     }
   })
 }

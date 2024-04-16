@@ -124,7 +124,7 @@ const gotTo = (url) => {
 
     <Box v-if="!ai || limitExceeded">
       <div class="flex flex-col space-y-2 p-4" ref="errorElement">
-        <div class="flex flex-row justify-between alert alert-warning">
+        <div class="flex flex-row justify-between alert alert-error">
           <template v-if="limitExceeded">
             <div>{{ $t('app.nb_free_projects_reached') }}</div>
           </template>
