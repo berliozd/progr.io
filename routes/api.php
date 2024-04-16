@@ -26,11 +26,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/projects/{id}', [ProjectController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // projects
     Route::get('/projects', [ProjectController::class, 'index']);
-    Route::get('/projects/{id}', [ProjectController::class, 'show']);
     Route::patch('/projects/{id}', [ProjectController::class, 'update']);
     Route::post('/projects', [ProjectController::class, 'store']);
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy']);

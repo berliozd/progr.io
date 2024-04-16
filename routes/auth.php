@@ -97,7 +97,6 @@ Route::middleware(['auth', 'verified'])
 
         Route::inertia('/projects', 'App/Projects')->name('app.projects');
         Route::inertia('/project/{id}', 'App/Project')->name('app.projects.detail');
-        Route::inertia('/project-presentation/{id}', 'App/ProjectPres')->name('app.projects.presentation');
         Route::inertia('/project-create', 'App/NewProject')->name('app.projects.new')->middleware(
             RedirectIfNotSubscribed::class
         );

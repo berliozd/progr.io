@@ -38,8 +38,9 @@ return [
             'add_manually' => 'Ou saisissez le manuellement'
         ],
         'visibility' => 'Visibilité',
-        'visibilities' => ['private' => 'Privé', 'public' => 'Public', 'only_members' => 'Seulement les membres']
-
+        'visibilities' => ['private' => 'Privé', 'public' => 'Public', 'only_members' => 'Seulement les membres'],
+        'only_members_project' => 'Seulement les membres peuvent voir ce projet. Veuillez créerr un compte.',
+        'private_project' => 'Pas de projet public n\'a pu être trouver',
     ],
     'cancel' => 'Annuer',
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',

@@ -10,7 +10,7 @@ const cssClass = () => {
 </script>
 <template>
     <Link :href="route(usePage().props.app.home_route)">
-        <div class="mt-1 flex flex-col  p-1" :class="cssClass()">
+        <div class="mt-1 flex flex-col p-1" :class="cssClass()">
             <img src="/img/icon.png" width="30px" height="30px" v-bind:alt="appName" v-bind:title="appName">
             {{ appName }}
         </div>

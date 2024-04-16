@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\App\ProjectPresentationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,11 +22,9 @@ Route::get('/', function () {
     );
 })->name('home');
 
-Route::get('/terms', function () {
-    return Inertia::render('Home/Terms');
-})->name('terms');
-Route::get('/privacy-policy', function () {
-    return Inertia::render('Home/Privacy');
-})->name('privacy-policy');
+Route::inertia('/terms', 'Home/Terms')->name('terms');
+Route::inertia('/privacy-policy', 'Home/Privacy')->name('privacy-policy');
+Route::get('/project-presentation/{id}', ProjectPresentationController::class)->name('app.projects.presentation');
+
 
 require __DIR__ . '/auth.php';

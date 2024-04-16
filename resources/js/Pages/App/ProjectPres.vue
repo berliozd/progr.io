@@ -7,6 +7,7 @@ import {Head} from '@inertiajs/vue3';
 import axios from "axios";
 import {capitalize, reactive, ref} from "vue";
 import {sortNotes} from "@/Composables/App/useProject.js";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const project = reactive({title: '', description: '', status: ''})
 const projectFound = ref(false);
@@ -29,6 +30,10 @@ getProject();
   <Head v-bind:title="$t('Project')"/>
   <PresentationLayout>
     <Box class="space-y-2 bg-primary/80 relative" v-if="projectFound">
+
+      <div class="flex flex-row justify-center">
+        <ApplicationLogo/>
+      </div>
 
       <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
         <div>{{ project.title }}</div>
@@ -53,11 +58,13 @@ getProject();
         <h2 class="bg-white/20 rounded-t-lg p-2 text-2xl">{{ $t('app.project.competitors') }}:</h2>
 
         <template v-for="competitor in project.competitors" class="" :key="competitor.id">
-          <div class="flex flex-col m-4 rounded-lg border shadow-2xl bg-neutral/70">
+          <div class="flex flex-col m-2 rounded-lg border shadow-2xl bg-neutral/70">
             <h2 class="bg-white/30 rounded-t-lg p-2 text-xl">{{ capitalize(competitor.name) }}:</h2>
             <div class="">
               <div class="m-4">{{ competitor.description }}</div>
-              <div class="m-4"><a :href="competitor.url" target="_blank" class="underline">{{ competitor.url }}</a></div>
+              <div class="m-4">
+                <a :href="competitor.url" target="_blank" class="underline">{{ competitor.url }}</a>
+              </div>
               <template v-for="competitorNote in competitor.notes" class="" :key="competitorNote.id">
                 <div class="flex flex-col rounded-b-lg border-t shadow-2xl bg-neutral/70">
                   <h2 class="bg-white/10 p-2 text-xl">{{ capitalize(competitorNote.type.label) }}:</h2>
