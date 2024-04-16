@@ -28,6 +28,7 @@ import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import isUrlHttp from 'is-url-http';
 import {sortNotes} from "@/Composables/App/useProject.js";
+import SendModal from "@/Pages/App/Partials/SendModal.vue";
 
 const smoothScroll = inject('smoothScroll')
 const project = reactive({title: '', description: '', status: ''})
@@ -206,12 +207,13 @@ getProject();
       <PageHeader v-bind:title="$t('Project')"/>
     </template>
 
-    <div class="flex flex-row justify-end" v-if="project && project.id">
+    <div class="flex flex-row justify-end space-x-2" v-if="project && project.id">
       <SavedLabel/>
+      <SendModal :title="project.title" :description="project.description" :project-id="project.id"/>
       <a v-bind:href="route('app.projects.presentation', {id: project.id})" target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation">
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation">
           <path d="M2 3h20"/>
           <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/>
           <path d="m7 21 5-5 5 5"/>

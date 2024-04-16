@@ -21,6 +21,7 @@
     "dependencies": {
         "@vueuse/core": "^10.9.0",
         "date-fns": "^3.3.1",
+        "is-email": "^1.0.2",
         "is-url-http": "^2.3.8",
         "laravel-vue-i18n": "^2.7.6",
         "lodash": "^4.17.21",

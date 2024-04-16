@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\ProjectVisibilityController;
+use App\Http\Controllers\Api\SendMailController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // AI
     Route::post('/ai', [AiAssistantController::class, 'ask']);
+
+    // Mail send
+    Route::post('/mail', [SendMailController::class, 'send']);
 
     // users
     Route::patch('/user/{id}', [UserController::class, 'update']);

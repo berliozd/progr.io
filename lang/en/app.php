@@ -40,7 +40,15 @@ return [
         'visibility' => 'Visibility',
         'visibilities' => ['private' => 'Private', 'public' => 'Public', 'only_members' => 'Only members'],
         'only_members_project' => 'Only members can see this project. Please consider creating an account.',
-        'private_project' => 'No public project could be found'
+        'private_project' => 'No public project could be found',
+        'send' => [
+            'title' => 'Share your idea',
+            'title_prefix' => 'I am sharing this idea with you : ',
+            'recipient' => 'Recipient :',
+            'subject' => 'Subject :',
+            'content' => 'Message :',
+            'button_text' => 'Send'
+        ],
     ],
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',

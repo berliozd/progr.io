@@ -41,6 +41,14 @@ return [
         'visibilities' => ['private' => 'Privé', 'public' => 'Public', 'only_members' => 'Seulement les membres'],
         'only_members_project' => 'Seulement les membres peuvent voir ce projet. Veuillez créerr un compte.',
         'private_project' => 'Pas de projet public n\'a pu être trouver',
+        'send' => [
+            'title' => 'Partagez votre idée',
+            'title_prefix' => 'Je partage cette idée :',
+            'recipient' => 'Destinataire :',
+            'subject' => 'Objet :',
+            'content' => 'Message :',
+            'button_text' => 'Envoyez'
+        ],
     ],
     'cancel' => 'Annuer',
     'no_projects' => 'Vous n\'avez pas de projets pour le moment.',
