@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\SubscriptionCreated;
-use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Subscription;
 use Mailjet\Client;
 use Mailjet\Resources;
@@ -38,7 +37,7 @@ class SendSubscriptionCreatedNotification
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => 'berliozd@gmail.com',
+                        'Email' => config('services.mailjet.mail_from'),
                         'Name' => "Me"
                     ],
                     'To' => [
@@ -55,12 +54,12 @@ class SendSubscriptionCreatedNotification
                 ],
                 [
                     'From' => [
-                        'Email' => 'berliozd@gmail.com',
+                        'Email' => config('services.mailjet.mail_from'),
                         'Name' => 'Me'
                     ],
                     'To' => [
                         [
-                            'Email' => 'berliozd@gmail.com',
+                            'Email' => config('services.mailjet.mail_from'),
                             'Name' => 'You'
                         ]
                     ],

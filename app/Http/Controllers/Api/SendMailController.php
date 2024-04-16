@@ -33,8 +33,10 @@ class SendMailController extends Controller
         $body = [
             'Messages' => [
                 [
-//                    'From' => ['Email' => 'no-reply@progr.io'],
-                    'From' => ['Email' => 'berliozd@gmail.com'],
+                    'From' => [
+                        'Email' => config('services.mailjet.mail_from'),
+                        'Name' => auth()->user()->name . '(via Progr.io)'
+                    ],
                     'To' => [['Email' => $recipient]],
                     'Subject' => $subject,
                     'HTMLPart' => $content
