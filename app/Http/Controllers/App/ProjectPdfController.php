@@ -22,6 +22,7 @@ class ProjectPdfController extends Controller
                 'margin-left' => '10mm',
                 'margin-right' => '10mm',
             ])
+            ->waitUntil('#presentation')
             ->pdf();
 
         return response($pdf, 200, [

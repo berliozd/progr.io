@@ -12,6 +12,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 const project = reactive({title: '', description: '', status: ''})
 const projectFound = ref(true);
 const props = defineProps({id: null})
+const loaded = ref(false);
 
 const getProject = async () => {
   try {
@@ -19,6 +20,9 @@ const getProject = async () => {
     projectFound.value = true
     Object.assign(project, response.data);
     await sortNotes(project)
+    setTimeout(() => {
+      loaded.value = true
+    }, 1000)
   } catch (error) {
     console.log(error)
     projectFound.value = false
@@ -84,6 +88,7 @@ getProject();
     <Box class="space-y-2 bg-primary/80 relative" v-else>
       {{ $t('app.no_projects_found') }}
     </Box>
+    <div id='presentation' v-if="loaded"></div>
 
   </PresentationLayout>
 </template>
