@@ -8,8 +8,7 @@ const props = defineProps({
 })
 
 const exportAsPdf = (id) => {
-  var opts = ['save-link=' + route('app.projects.presentation', id), 'pageOrientation=auto'];
-  window.open('https://www.sejda.com/html-to-pdf?' + opts.join('&'));
+  window.open(route('app.projects.pdf', id));
 }
 </script>
 

@@ -16,6 +16,7 @@ import Separator from "@/Components/Separator.vue";
 import AILogo from "@/Components/AILogo.vue";
 import Visibilities from "@/Pages/App/Partials/Visibilities.vue";
 import Statuses from "@/Pages/App/Partials/Statuses.vue";
+import ProjectActions from "@/Pages/App/Partials/ProjectActions.vue";
 
 import {inject, nextTick, reactive, ref, watch} from "vue";
 import {Head, router} from '@inertiajs/vue3';
@@ -28,7 +29,6 @@ import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
 import isUrlHttp from 'is-url-http';
 import {sortNotes} from "@/Composables/App/useProject.js";
-import ProjectActions from "@/Pages/App/Partials/ProjectActions.vue";
 
 const smoothScroll = inject('smoothScroll')
 const project = reactive({title: '', description: '', status: ''})
