@@ -10,17 +10,18 @@ import {sortNotes} from "@/Composables/App/useProject.js";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const project = reactive({title: '', description: '', status: ''})
-const projectFound = ref(false);
+const projectFound = ref(true);
+const props = defineProps({id: null})
 
 const getProject = async () => {
   try {
-    const id = window.location.href.split('/').pop();
-    const response = await axios.get('/api/projects/' + id)
+    const response = await axios.get('/api/projects/' + props.id)
     projectFound.value = true
     Object.assign(project, response.data);
     await sortNotes(project)
   } catch (error) {
     console.log(error)
+    projectFound.value = false
   }
 }
 
