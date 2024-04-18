@@ -5,6 +5,11 @@
     <title>Project PDF {{$project->title}}</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            -webkit-print-color-adjust: exact;
+        }
+    </style>
 </head>
 <body class="font-sans antialiased">
 
