@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\SubscriptionCreated;
+use Laravel\Cashier\Events\WebhookHandled;
 use Laravel\Cashier\Subscription;
 use Mailjet\Client;
 use Mailjet\Resources;
@@ -19,9 +19,10 @@ class SendSubscriptionCreatedNotification
     /**
      * Handle the event.
      */
-    public function handle(SubscriptionCreated $event): void
+    public function handle(WebhookHandled $event): void
     {
-        $this->sendEmail($event->getSubscription());
+        \Log::info(json_encode($event->payload));
+//        $this->sendEmail($event->getSubscription());
     }
 
     private function sendEmail(Subscription $subscription): void
