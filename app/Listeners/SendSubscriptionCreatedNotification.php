@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
 use Laravel\Cashier\Events\WebhookHandled;
-use Laravel\Cashier\Subscription;
 use Mailjet\Client;
 use Mailjet\Resources;
 
@@ -21,19 +21,26 @@ class SendSubscriptionCreatedNotification
      */
     public function handle(WebhookHandled $event): void
     {
-        \Log::info(json_encode($event->payload));
-//        $this->sendEmail($event->getSubscription());
+        \Log::info($event->payload['type']);
+        if ('customer.subscription.created' !== $event->payload['type']) {
+            \Log::info($event->payload['type'] . ' so returning.');
+            return;
+        }
+        $stripeCustomer = $event->payload['data']['object']['customer'];
+        \Log::info($stripeCustomer);
+        $user = User::where('stripe_id', $stripeCustomer)->first();
+        $this->sendEmail($user);
     }
 
-    private function sendEmail(Subscription $subscription): void
+    private function sendEmail(User $user): void
     {
+        \Log::info('Sending email to ' . $user->email);
         $mj = new Client(
             config('services.mailjet.client_id'),
             config('services.mailjet.client_secret'),
             true,
             ['version' => 'v3.1']
         );
-        $userData = $subscription->user()->get(['name', 'email'])[0];
         $body = [
             'Messages' => [
                 [
@@ -43,14 +50,14 @@ class SendSubscriptionCreatedNotification
                     ],
                     'To' => [
                         [
-                            'Email' => $userData['email'],
+                            'Email' => $user->email,
                             'Name' => 'You'
                         ]
                     ],
                     'Subject' => 'Thanks for your subscription.',
                     'HTMLPart' => __(
                         'Congratulation :name! You have just subscribed to ......',
-                        ['name' => $userData['name']]
+                        ['name' => $user->name]
                     )
                 ],
                 [
@@ -67,7 +74,7 @@ class SendSubscriptionCreatedNotification
                     'Subject' => 'New subscription',
                     'HTMLPart' => __(
                         ':name :email has just subscribed to ......',
-                        ['name' => $userData['name'], 'email' => $userData['email']]
+                        ['name' => $user->name, 'email' => $user->email]
                     )
                 ]
             ]
