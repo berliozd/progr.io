@@ -5,6 +5,8 @@ namespace App\Http\Controllers\App;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Spatie\LaravelPdf\Enums\Format;
+use Spatie\LaravelPdf\Enums\Unit;
 use function Spatie\LaravelPdf\Support\pdf;
 
 
@@ -23,7 +25,10 @@ class ProjectPdfController extends Controller
         if ($request->get('view')) {
             return view($viewTemplate, $data);
         }
-        return pdf($viewTemplate, $data)->landscape();
+        return pdf($viewTemplate, $data)
+            ->landscape()
+            ->format(Format::A4)
+            ->margins(20, 20, 20, 20, Unit::Pixel);
 
 //        $pdf = Browsershot::url(route('app.projects.presentation', $id))
 //            ->setPaper('a4')
