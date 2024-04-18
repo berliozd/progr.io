@@ -13,7 +13,7 @@
 
         <div class="flex flex-row justify-center">
             <div class="mt-1 flex flex-col p-1 border h-auto rounded">
-                <img src="/img/icon.png" width="30px" height="30px">
+                <img src="{{asset('/img/icon.png')}}" width="30px" height="30px">
                 Progr.io
             </div>
         </div>
