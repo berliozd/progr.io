@@ -3,16 +3,8 @@
       data-theme="dracula">
 <head>
     <title>Project PDF {{$project->title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        import 'daisyui';
-        daisyui.config({
-            themes: ['dracula'],
-            base: true,
-            styled: true,
-            logs: true
-        });
-    </script>
 </head>
 <body class="font-sans antialiased">
 <div class="bg-red-500">
