@@ -3,20 +3,70 @@
       data-theme="dracula">
 <head>
     <title>Project PDF {{$project->title}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="font-sans antialiased">
-<div class="bg-red-500">
-    <table style="border: 1px red solid;">
-        <tr style="border: 1px red solid;">
-            <td style="border: 1px red solid;">
-                <div class="border rounded bg-amber-400">abc</div>
-                <div class="border rounded bg-primary">{{$project}}</div>
-                <div class="border rounded bg-neutral">abc</div>
-            </td>
-        </tr>
-    </table>
+
+<div class="p-4 mx-auto">
+    <div class="space-y-2">
+
+        <div class="flex flex-row justify-center">
+            <div class="mt-1 flex flex-col p-1 border h-auto rounded">
+                <img src="/img/icon.png" width="30px" height="30px">
+                Progr.io
+            </div>
+        </div>
+
+        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
+            <div>{{ $project->title }}</div>
+        </div>
+
+        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-xl">
+            <div>{{ $project->description }}</div>
+        </div>
+
+        @foreach ($project->notes as $note)
+            <div class="flex flex-col rounded-lg border shadow-2xl bg-neutral/70">
+                <h2 class="bg-white/20 rounded-t-lg p-2 text-2xl">{{ ucfirst($note->type->label) }}:</h2>
+                <div class="flex flex-row">
+                    <div class="p-2">
+                        @include('project.note-logo', ['note' => $note])
+                    </div>
+                    <pre class="text-wrap font-sans p-2">{{ $note->content }}</pre>
+                </div>
+            </div>
+        @endforeach
+
+        @if ($project->competitors->count() > 0)
+            <div class="flex flex-col rounded-lg border shadow-2xl bg-neutral/70">
+                <h2 class="bg-white/20 rounded-t-lg p-2 text-2xl">{{ __('app.project.competitors') }}:</h2>
+                @foreach ($project->competitors as $competitor)
+                    <div class="flex flex-col m-2 rounded-lg border shadow-2xl bg-neutral/70">
+                        <h2 class="bg-white/30 rounded-t-lg p-2 text-xl">{{ ucfirst($competitor->name) }}:</h2>
+                        <div class="">
+                            <div class="m-4">{{ $competitor->description }}</div>
+                            <div class="m-4">
+                                <a href="{{$competitor->url}}" target="_blank"
+                                   class="underline">{{ $competitor->url }}</a>
+                            </div>
+                            @foreach ($competitor->notes as $competitorNote)
+                                <div class="flex flex-col rounded-b-lg border-t shadow-2xl bg-neutral/70">
+                                    <h2 class="bg-white/10 p-2 text-xl">{{ ucfirst($competitorNote->type->label) }}
+                                        :</h2>
+                                    <div class="flex flex-row ">
+                                        @include('project.note-logo', ['note' => $competitorNote])
+                                        <pre class="text-wrap font-sans p-2 rounded-b-lg">{{ $competitorNote->content }}</pre>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+            </div>
+            @endforeach
+        @endif
+    </div>
 </div>
+
 </body>
 </html>
