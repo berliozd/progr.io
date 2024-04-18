@@ -25,7 +25,6 @@ class HandleInertiaRequests extends Middleware
     {
         \Log::debug('promotekit_referral : [' . ($_COOKIE['promotekit_referral'] ?? '') . ']');
 
-
         $locales = array_map('basename', glob(base_path('lang') . '/*', GLOB_ONLYDIR));
         $res = [
             ...parent::share($request),
@@ -42,24 +41,15 @@ class HandleInertiaRequests extends Middleware
             ],
         ];
         if (!empty($request->user())) {
-            $product = null;
-            $subscriptionGracePeriod = false;
-            $subscriptionPremium = false;
-            $subscriptionEndDate = null;
             if (!empty($subscription = auth()->user()?->subscription())) {
-                $product = Product::where('stripe_product_id', $subscription->stripe_price)->first();
-                $subscriptionGracePeriod = $subscription->onGracePeriod();
                 /** @var Carbon $subscriptionEndDate */
-                $subscriptionEndDate = $subscription->ends_at;
-                $subscriptionPremium = auth()->user()?->subscribedToPrice(config('cashier.premium_price'));
+                $subscription->product = Product::where('stripe_product_id', $subscription->stripe_price)->first();
+                $subscription->is_premium = auth()->user()?->subscribedToPrice(config('cashier.premium_price'));
+                $subscription->on_grace_period = $subscription->onGracePeriod();
+                $subscription->end_date = $subscription->ends_at ? $subscription->ends_at->timestamp : 0;
+                $subscription->is_valid = $subscription->valid();
             }
-            $res['auth']['subscription'] = [
-                'is_subscribed' => !empty($subscription),
-                'on_grace_period' => $subscriptionGracePeriod,
-                'is_premium' => $subscriptionPremium,
-                'end_date' => $subscriptionEndDate ? $subscriptionEndDate->timestamp : 0,
-                'product' => $product
-            ];
+            $res['auth']['subscription'] = $subscription;
         }
         return $res;
     }

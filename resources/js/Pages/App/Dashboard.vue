@@ -27,7 +27,7 @@ const goTo = (url) => {
     </template>
 
     <Box>
-      <div v-if="subscription?.is_subscribed">
+      <div v-if="subscription">
         <div v-if="subscription?.on_grace_period">
           {{ $t('dashboard.subscription_end_on', {'date': date(subscription?.end_date)}) }}
         </div>

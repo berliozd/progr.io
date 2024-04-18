@@ -120,6 +120,7 @@ const searchCompetitor = () => {
         }
       })
     } else {
+      ai.value = false
       console.log('cannot search competitor');
     }
   })
@@ -243,7 +244,7 @@ getProject();
             </PrimaryButton>
           </div>
           <template v-if="!ai">
-            <div class=" alert alert-warning m-4 w-fit">
+            <div class="alert alert-error my-4 w-full flex justify-between">
               <div>{{ $t('app.ai_not_available') }}</div>
               <PrimaryButton @click="gotTo(route('subscribe.checkout'))">
                 {{ $t('app.subscribe') }}

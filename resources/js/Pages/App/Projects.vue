@@ -47,7 +47,7 @@ useStore().setIsLoading(true)
       <div v-else class="my-4">{{ $t('app.nb_projects', {'nb': projects.length}) }}</div>
       <div class="flex flex-grow justify-between">
         <SimpleLink v-bind:href="route('app.ideas')">
-          <div class="rounded border p-1 hover:border-neutral">
+          <div class="rounded border border-white/50 p-2 hover:border-neutral">
             {{ $t('app.out_of_ideas') }}
             <div class="flex flex-row ml-10 space-x-2 text-xs items-center">
               <span class="underline">{{ $t('app.project.ask_ai_help') }}</span>
@@ -57,7 +57,10 @@ useStore().setIsLoading(true)
         </SimpleLink>
         <AddProjectButton/>
       </div>
-      <div class="overflow-auto h-80 my-2">
+      <div v-if="!hasProject" class="my-4 h-32 rounded p-4 flex justify-center items-center border border-white/50 uppercase text-3xl">
+        {{ $t('app.project.no_project') }}
+      </div>
+      <div class="overflow-auto h-80 my-2" v-else>
         <div class="grid grid-cols-6 w-full mb-2">
           <div class="text-lg col-span-3">{{ $t('app.project.title') }}</div>
           <div class="flex justify-around text-lg col-span-2">{{ $t('app.project.status') }}</div>

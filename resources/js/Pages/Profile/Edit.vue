@@ -48,7 +48,7 @@ defineProps({
             <DeleteUserForm class="max-w-xl"/>
         </Box>
 
-        <Box v-if="subscription.is_subscribed">
+        <Box v-if="subscription">
             <div v-if="subscription.on_grace_period">
                 {{ trans('You subscription will end on ') }} {{ date(subscription.end_date) }}
             </div>

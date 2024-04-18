@@ -6,6 +6,7 @@ return [
     'project_status' => 'Status',
     'need_subscription_to_add_more_projects' => 'Vous devez être abonné pour ajouter plus de projets.',
     'project' => [
+        'no_project' => 'Pas de projet',
         'title' => 'Titre',
         'description' => 'Description',
         'status' => 'Status',
