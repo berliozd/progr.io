@@ -23,11 +23,11 @@
             </div>
         </div>
 
-        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-text-2xl">
+        <div class="flex flex-col rounded-lg border p-4 shadow-2xl text-2xl">
             <div>{{ $project->title }}</div>
         </div>
 
-        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-text-xl">
+        <div class="flex flex-col rounded-lg border p-4 shadow-2xl text-xl">
             <div>{{ $project->description }}</div>
         </div>
 
@@ -55,8 +55,8 @@
                                class="underline">{{ $competitor->url }}</a>
                         </div>
                         @foreach ($competitor->notes as $competitorNote)
-                            <div class="flex flex-col rounded-b-lg border-t shadow-2xl ">
-                                <h2 class=" p-2 text-xl">{{ ucfirst($competitorNote->type->label) }}
+                            <div class="flex flex-col m-2 rounded-lg border-t shadow-2xl ">
+                                <h2 class="p-2 text-xl">{{ ucfirst($competitorNote->type->label) }}
                                     :</h2>
                                 <div class="flex flex-row ">
                                     @include('project.note-logo', ['note' => $competitorNote])

@@ -23,7 +23,7 @@ class ProjectPdfController extends Controller
         if ($request->get('view')) {
             return view($viewTemplate, $data);
         }
-        return pdf($viewTemplate, $data);
+        return pdf($viewTemplate, $data)->landscape();
 
 //        $pdf = Browsershot::url(route('app.projects.presentation', $id))
 //            ->setPaper('a4')
