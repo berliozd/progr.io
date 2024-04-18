@@ -16,7 +16,14 @@ class ProjectPdfController extends Controller
     public function __invoke(Request $request, int $id)
     {
 
-        return pdf('project-pdf', ['project' => Project::findOrFail($id)]);
+        $project = Project::findOrFail($id);
+        $data = ['project' => $project];
+        $viewTemplate = 'project-pdf';
+
+        if ($request->get('view')) {
+            return view($viewTemplate, $data);
+        }
+        return pdf($viewTemplate, $data);
 
 //        $pdf = Browsershot::url(route('app.projects.presentation', $id))
 //            ->setPaper('a4')
