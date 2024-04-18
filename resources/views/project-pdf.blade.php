@@ -23,17 +23,17 @@
             </div>
         </div>
 
-        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
+        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-text-2xl">
             <div>{{ $project->title }}</div>
         </div>
 
-        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-xl">
+        <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-text-xl">
             <div>{{ $project->description }}</div>
         </div>
 
         @foreach ($project->notes as $note)
-            <div class="flex flex-col rounded-lg border shadow-2xl bg-neutral/70">
-                <h2 class="bg-white/20 rounded-t-lg p-2 text-2xl">{{ ucfirst($note->type->label) }}:</h2>
+            <div class="flex flex-col rounded-lg border shadow-2xl ">
+                <h2 class=" rounded-t-lg p-2 text-2xl">{{ ucfirst($note->type->label) }}:</h2>
                 <div class="flex flex-row">
                     <div class="p-2">
                         @include('project.note-logo', ['note' => $note])
@@ -44,31 +44,29 @@
         @endforeach
 
         @if ($project->competitors->count() > 0)
-            <div class="flex flex-col rounded-lg border shadow-2xl bg-neutral/70">
-                <h2 class="bg-white/20 rounded-t-lg p-2 text-2xl">{{ __('app.project.competitors') }}:</h2>
+            <div class="flex flex-col rounded-lg border shadow-2xl ">
+                <h2 class=" rounded-t-lg p-2 text-2xl">{{ __('app.project.competitors') }}:</h2>
                 @foreach ($project->competitors as $competitor)
-                    <div class="flex flex-col m-2 rounded-lg border shadow-2xl bg-neutral/70">
-                        <h2 class="bg-white/30 rounded-t-lg p-2 text-xl">{{ ucfirst($competitor->name) }}:</h2>
-                        <div class="">
-                            <div class="m-4">{{ $competitor->description }}</div>
-                            <div class="m-4">
-                                <a href="{{$competitor->url}}" target="_blank"
-                                   class="underline">{{ $competitor->url }}</a>
-                            </div>
-                            @foreach ($competitor->notes as $competitorNote)
-                                <div class="flex flex-col rounded-b-lg border-t shadow-2xl bg-neutral/70">
-                                    <h2 class="bg-white/10 p-2 text-xl">{{ ucfirst($competitorNote->type->label) }}
-                                        :</h2>
-                                    <div class="flex flex-row ">
-                                        @include('project.note-logo', ['note' => $competitorNote])
-                                        <pre class="text-wrap font-sans p-2 rounded-b-lg">{{ $competitorNote->content }}</pre>
-                                    </div>
-                                </div>
-                            @endforeach
+                    <div class="flex flex-col m-2 rounded-lg border shadow-2xl ">
+                        <h2 class=" rounded-t-lg p-2 text-xl">{{ ucfirst($competitor->name) }}:</h2>
+                        <div class="m-4">{{ $competitor->description }}</div>
+                        <div class="m-4">
+                            <a href="{{$competitor->url}}" target="_blank"
+                               class="underline">{{ $competitor->url }}</a>
                         </div>
+                        @foreach ($competitor->notes as $competitorNote)
+                            <div class="flex flex-col rounded-b-lg border-t shadow-2xl ">
+                                <h2 class=" p-2 text-xl">{{ ucfirst($competitorNote->type->label) }}
+                                    :</h2>
+                                <div class="flex flex-row ">
+                                    @include('project.note-logo', ['note' => $competitorNote])
+                                    <pre class="text-wrap font-sans p-2 rounded-b-lg">{{ $competitorNote->content }}</pre>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
+                @endforeach
             </div>
-            @endforeach
         @endif
     </div>
 </div>
