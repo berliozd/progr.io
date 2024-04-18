@@ -17,6 +17,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.9",
+        "league/csv": "^9.15",
         "mailjet/mailjet-apiv3-php": "^1.6",
         "openai-php/client": "^0.8.4",
         "spatie/browsershot": "^4.0",

@@ -7,8 +7,8 @@ const props = defineProps({
   project: null
 })
 
-const exportAsPdf = (id) => {
-  window.open(route('app.projects.pdf', id));
+const exportProject = (id, routeValue) => {
+  window.open(route(routeValue, id));
 }
 </script>
 
@@ -19,7 +19,7 @@ const exportAsPdf = (id) => {
       <div class="tooltip" data-tip="Export as CSV">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-             class="lucide lucide-sheet hover:cursor-pointer">
+             class="lucide lucide-sheet hover:cursor-pointer" @click="exportProject( project.id, 'app.projects.csv')">
           <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
           <line x1="3" x2="21" y1="9" y2="9"/>
           <line x1="3" x2="21" y1="15" y2="15"/>
@@ -31,7 +31,8 @@ const exportAsPdf = (id) => {
       <div class="tooltip" data-tip="Export as PDF">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-             class="lucide lucide-file-text hover:cursor-pointer" @click="exportAsPdf(project.id)">
+             class="lucide lucide-file-text hover:cursor-pointer"
+             @click="exportProject( project.id, 'app.projects.pdf')">
           <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
           <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
           <path d="M10 9H8"/>

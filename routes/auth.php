@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\App\DashboardController;
+use App\Http\Controllers\App\ProjectCsvController;
 use App\Http\Controllers\App\ProjectPdfController;
 use App\Http\Controllers\App\Subscribe\CheckoutController;
 use App\Http\Controllers\App\Subscribe\CreateController;
@@ -99,6 +100,7 @@ Route::middleware(['auth', 'verified'])
         Route::inertia('/projects', 'App/Projects')->name('app.projects');
         Route::inertia('/project/{id}', 'App/Project')->name('app.projects.detail');
         Route::get('/project-pdf/{id}', ProjectPdfController::class)->name('app.projects.pdf');
+        Route::get('/project-csv/{id}', ProjectCsvController::class)->name('app.projects.csv');
         Route::inertia('/project-create', 'App/NewProject')->name('app.projects.new')->middleware(
             RedirectIfNotSubscribed::class
         );
