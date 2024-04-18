@@ -100,7 +100,7 @@ const searchCompetitor = () => {
           project.title + ' - ' + project.description,
           'Give me a list of project that are potential competitors for my project idea. ' +
           'Your answer must be separated by break line, without politeness phrase, no bulleted list, no numbering. ' +
-          'I want the name, a brief description, and the website url for each separated by |. ' +
+          'I want the name, a brief description, and the complete website url with https://, for each competitor separated by |. ' +
           'Example of output: ' + 'Name|Description|Url' +
           'Do not add number or bullet in front of each item.' +
           'I want only competitors with accessible website.',
@@ -150,7 +150,7 @@ const checkCompetitor = (competitor) => {
   }
 }
 
-const addCompetitor = async (competitorData, competitors, reset = false) => {
+const addCompetitor = async (competitorData, competitors, check = true, reset = false) => {
   try {
     let competitor = {
       'name': competitorData.name,
@@ -161,7 +161,7 @@ const addCompetitor = async (competitorData, competitors, reset = false) => {
       'notes': [],
     }
 
-    checkCompetitor(competitorData)
+    !check || checkCompetitor(competitorData)
     if (errors.value.length) {
       return;
     }
@@ -267,7 +267,7 @@ getProject();
               </div>
             </div>
             <div class="flex flex-col justify-end">
-              <PrimaryButton @click="addCompetitor(competitor, competitors)">
+              <PrimaryButton @click="addCompetitor(competitor, competitors, false)">
                 {{ $t('app.add') }}
               </PrimaryButton>
             </div>
@@ -277,7 +277,7 @@ getProject();
             <Competitor :competitor="newCompetitor"/>
             <div class="flex justify-end">
               <PrimaryButton
-                  @click="addCompetitor(newCompetitor, competitors, true)">
+                  @click="addCompetitor(newCompetitor, competitors, true, true)">
                 {{ $t('app.add') }}
               </PrimaryButton>
             </div>
