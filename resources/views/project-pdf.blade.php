@@ -4,6 +4,15 @@
 <head>
     <title>Project PDF {{$project->title}}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        import 'daisyui';
+        daisyui.config({
+            themes: ['dracula'],
+            base: true,
+            styled: true,
+            logs: true
+        });
+    </script>
 </head>
 <body class="font-sans antialiased">
 <div class="bg-red-500">
