@@ -19,7 +19,6 @@ if (usePage().props.errors.msg) {
   useStore().setToast(trans(usePage().props.errors.msg), true);
 }
 const showingNavigationDropdown = ref(false);
-
 </script>
 
 <template>
@@ -31,9 +30,7 @@ const showingNavigationDropdown = ref(false);
         <div class="flex justify-between h-16">
           <div class="flex">
             <!-- Logo -->
-            <ApplicationLogo
-                class="block h-9 w-auto fill-current"
-            />
+            <ApplicationLogo class="block h-9 w-auto fill-current"/>
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
               <NavLink :href="route('app.projects')" :active="route().current('app.projects')">
@@ -151,7 +148,8 @@ const showingNavigationDropdown = ref(false);
 
           <div class="mt-3 space-y-1">
             <ResponsiveNavLink :href="route('profile.edit')"> Profile</ResponsiveNavLink>
-            <ResponsiveNavLink :href="route('logout')" method="post" as="button">{{ $t('auth.log_out') }}
+            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
+              {{ $t('auth.log_out') }}
             </ResponsiveNavLink>
           </div>
         </div>
