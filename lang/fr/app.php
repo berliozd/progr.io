@@ -48,7 +48,8 @@ return [
             'recipient' => 'Destinataire :',
             'subject' => 'Objet :',
             'content' => 'Message :',
-            'button_text' => 'Envoyez'
+            'button_text' => 'Envoyez',
+            'info'=> 'Veuillez noter que si votre projet n\'est pas désigné comme "public", toute personne avec laquelle vous partagez le projet ne sera pas en mesure d\'y accéder. Pour permettre l\'accès, vous devrez modifier les paramètres de visibilité du projet en "public" ou "membres uniquement". Si vous sélectionnez l\'option "membres uniquement", l\'individu devra créer un compte pour accéder au projet.'
         ],
     ],
     'cancel' => 'Annuer',

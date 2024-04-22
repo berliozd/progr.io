@@ -18,6 +18,8 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'log_github' => 'Log with Github',
     'log_google' => 'Log with Google',
+    'register_google' => 'Register with Google',
+    'register_github' => 'Register with Github',
     'log_out' => 'Log Out',
     'register' => 'Register',
     'login' => 'Login',

@@ -149,6 +149,11 @@ const checkForm = () => {
       </div>
 
       <div class="flex flex-row justify-between">
+        <div class="alert alert-info">
+          {{ $t('app.project.send.info') }}
+        </div>
+      </div>
+      <div class="flex flex-row justify-between">
         <SecondaryButton @click="hideModal">{{ $t('app.cancel') }}</SecondaryButton>
         <div class="flex flex-row justify-between space-x-5">
           <PrimaryButton @click="send" :title="$t('app.project.send')" :disabled="loading || sending">

@@ -48,7 +48,8 @@ return [
             'recipient' => 'Recipient :',
             'subject' => 'Subject :',
             'content' => 'Message :',
-            'button_text' => 'Send'
+            'button_text' => 'Send',
+            'info' => 'Please note that if your project is not designated as "public", any person you share the project with will not be able to access it. To enable access, you will need to modify the project\'s visibility settings to either "public" or "only members". If you select the "only members" option, the individual will be required to create an account in order to gain access to the project.'
         ],
     ],
     'cancel' => 'Cancel',
