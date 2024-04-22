@@ -73,7 +73,7 @@ Thank you for choosing us, and here's to turning your ideas into reality!
 Best Regards,
 <br/>
 Didier
-Founder of progr.io
+Founder of :app_name
 HTML;
 
         $mj = new Client(
