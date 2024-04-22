@@ -11,6 +11,15 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
     <link rel="icon" sizes="64x64" href="{{ asset('img/icon.png') }}" type="image/x-icon">
+    <script type="text/javascript">window.$crisp = [];
+        window.CRISP_WEBSITE_ID = "12df5444-a0ea-43a6-8750-4296cfedd8fc";
+        (function () {
+            d = document;
+            s = d.createElement("script");
+            s.src = "https://client.crisp.chat/l.js";
+            s.async = 1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();</script>
 
     <!-- Scripts -->
     @routes
