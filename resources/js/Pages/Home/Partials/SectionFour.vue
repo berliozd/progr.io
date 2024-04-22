@@ -1,9 +1,9 @@
 <script setup>
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ListTick from "@/Components/ListTick.vue";
-import Arrow from "@/Components/Arrow.vue";
 
-import {router} from "@inertiajs/vue3";
+import Arrow from "@/Components/Arrow.vue";
+import {router, usePage} from "@inertiajs/vue3";
 </script>
 <template>
   <section class="text-center md:p-12 p-6 bg-neutral">
@@ -30,7 +30,7 @@ import {router} from "@inertiajs/vue3";
               <ListTick>3 projects</ListTick>
             </li>
             <li class="flex items-center gap-2">
-              <ListTick>16 AI credits</ListTick>
+              <ListTick>{{ usePage().props.app.free_ai_credits }} AI credits</ListTick>
             </li>
           </ul>
           <div class="space-y-2">
@@ -59,7 +59,9 @@ import {router} from "@inertiajs/vue3";
             </div>
             <p class="text-5xl font-extrabold">$10</p>
             <div class="flex flex-col justify-end mb-[4px]">
-              <p class="text-xs uppercase font-semibold">USD <span class="text-base-content/50 lowercase">/ month</span></p>
+              <p class="text-xs uppercase font-semibold">
+                USD <span class="text-base-content/50 lowercase">/ month</span>
+              </p>
             </div>
           </div>
           <ul class="space-y-2.5 leading-relaxed text-base flex-1">
