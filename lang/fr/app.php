@@ -72,5 +72,6 @@ return [
     ],
     'out_of_ideas' => 'En panne d\'idées?',
     'subscribe' => 'Abonnez-vous',
-    'add' => 'Ajoutez'
+    'add' => 'Ajoutez',
+    'user' => ['nb_ai_credits_used' => 'Nombre de crédits d\'IA utilisés: :nb']
 ];

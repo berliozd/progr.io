@@ -5,18 +5,19 @@ import Box from "@/Components/Box.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 import {Head, usePage} from '@inertiajs/vue3';
-import {computed} from 'vue'
 import price from '@/Composables/price.js'
 import date from '@/Composables/date.js'
 
-const subscription = computed(() => usePage().props.auth.subscription)
 defineProps({
   invoices: Array,
 });
 
+const subscription = usePage().props.auth.subscription
 const goTo = (url) => {
   window.location.href = url
 }
+
+const nbUsedCredits = usePage().props.auth.user.used_ai_credits
 </script>
 
 <template>
@@ -41,6 +42,10 @@ const goTo = (url) => {
         <p>{{ $t('dashboard.consider_subscribing_for_full_features') }}</p>
         <PrimaryButton @click="goTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
       </div>
+    </Box>
+
+    <Box>
+      {{ $t('app.user.nb_ai_credits_used', {nb: nbUsedCredits}) }}
     </Box>
 
     <Box>

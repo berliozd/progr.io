@@ -72,5 +72,6 @@ return [
     ],
     'out_of_ideas' => 'Out of ideas?',
     'subscribe' => 'Subscribe',
-    'add' => 'Add'
+    'add' => 'Add',
+    'user' => ['nb_ai_credits_used' => 'AI credits used: :nb']
 ];
