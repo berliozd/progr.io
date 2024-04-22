@@ -16,14 +16,19 @@ import {router} from "@inertiajs/vue3";
         into
         <span class="border-b-8 border-dashed border-primary/50 italic">successful projects</span>
       </h1>
-      <div class="text-lg max-w-xl mx-auto">
-        Progr.io is the tool that helps you keep track of your ideas and turn them into successful projects.
+<!--      <div class="text-lg max-w-xl mx-auto">-->
+<!--        Progr.io is the tool that helps you keep track of your ideas and turn them into successful projects.-->
+<!--        <br>-->
+<!--        You can easily follow the progress of your ideas, collaborate with your team, get help from AI, and stay-->
+<!--        organized.-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        Don't let your ideas slip away - track them and turn them into successful projects.-->
+<!--      </div>-->
+      <div  class="text-lg max-w-xl mx-auto">
+        Our AI-powered tool not only helps you track progress and collaborate, but also provides valuable insights and information on your project's potential, including competitor analysis.
         <br>
-        You can easily follow the progress of your ideas, collaborate with your team, get help from AI, and stay
-        organized.
-        <br>
-        <br>
-        Don't let your ideas slip away - track them and turn them into successful projects.
+        Save time and make informed decisions with Progr.io.
       </div>
       <ul class="space-y-1.5">
         <li class="flex items-center justify-start gap-2">
