@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Events\UserAuthenticated;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -38,6 +39,7 @@ class ProvidersCallbackController extends Controller
                 'name' => $providerUser->name,
                 'email' => $providerUser->email
             ]);
+            event(new Registered($user));
         }
         Auth::login($user);
 
