@@ -9,7 +9,7 @@ import Back from "@/Components/Back.vue";
       <h1 class="text-3xl font-extrabold pb-6">Privacy Policy for progr.io</h1>
 
       <pre class="leading-relaxed whitespace-pre-wrap">
-  Last Updated: March 18, 2023
+  Last Updated: March 18, 2024
 
 
 At Progr.io ("Progr.io", "we", "us", or "our"), we are committed to protecting the privacy and security of our users. This privacy policy ("Privacy Policy") explains how we collect, use, and disclose information about you when you access and use our services, including the website located at https://progr.io (the "Site"), and our project management tool (the "Service").

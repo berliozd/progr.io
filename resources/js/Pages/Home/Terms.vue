@@ -9,7 +9,7 @@ import Back from "@/Components/Back.vue";
       <h1 class="text-3xl font-extrabold pb-6">Terms and Conditions for progr.io</h1>
 
       <pre class="leading-relaxed whitespace-pre-wrap">
-  Last Updated: March 18, 2023
+  Last Updated: March 18, 2024
 
 1. Acceptance of Terms
 

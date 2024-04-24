@@ -57,7 +57,7 @@ This allows you to keep all your ideas organized in one place and focus on bring
 <strong>2: Expanded AI Assistance:</strong><br>
 <p>
 Defining a project can sometimes be challenging, but with our AI technology integrated into the platform, 
-you'll receive more AI credits to gain valuable insights such as potential users, potential features, benefits, 
+you'll receive an unlimited number of AI credits to gain valuable insights such as potential users, potential features, benefits, 
 and monetization strategies for your projects. 
 Use these credits to shape your projects into successful ventures and make informed decisions.
 </p>
@@ -71,7 +71,7 @@ We're here to help you make the most of your experience with and ensure you have
 
 <p>
 Remember, the key to success is not just having great ideas, but also knowing how to execute them. 
-We believe that  Premium will be an invaluable tool in your creative journey.
+We believe that :app_name will be an invaluable tool in your creative journey.
 </p>
 
 <br/>
