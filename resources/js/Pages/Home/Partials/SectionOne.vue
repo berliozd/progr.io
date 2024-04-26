@@ -38,8 +38,7 @@ import {router} from "@inertiajs/vue3";
             </PrimaryButton>
 
             <div class="aspect-video w-full sm:w-1/2">
-                <iframe class="w-full h-full"
-                        src="https://www.youtube.com/embed/r-fareAicFk?si=uBYDp3VdunwXZsd6&amp;controls=0"
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/r-fareAicFk?si=RA3DayV6TycK7ICT"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
