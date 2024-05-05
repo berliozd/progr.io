@@ -5,7 +5,7 @@ import Box from "@/Components/Box.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 
-import {Head} from '@inertiajs/vue3';
+import {Head, router} from '@inertiajs/vue3';
 import {inject, nextTick, ref} from "vue";
 import axios from "axios";
 import {getActiveLanguage, trans} from "laravel-vue-i18n";
