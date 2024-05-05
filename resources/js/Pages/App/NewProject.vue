@@ -34,16 +34,17 @@ const project = reactive({
 })
 
 const save = async () => {
-  if (!validate()) {
-    return;
-  }
-  try {
-    await axios.post('/api/projects/', project);
-    useStore().setToast('Created!');
-    router.visit('/projects')
-  } catch (error) {
-    console.log(error)
-  }
+    if (!validate()) {
+        return;
+    }
+    try {
+        await axios.post('/api/projects/', project).then((response) => {
+            useStore().setToast('Created!');
+            router.visit('/project/' + response.data.id);
+        });
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const validate = () => {
