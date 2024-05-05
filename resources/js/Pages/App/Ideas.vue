@@ -85,17 +85,19 @@ const getContext = () => {
 }
 
 const addProject = async (title, description) => {
-  try {
-    let project = {'title': title, 'description': description, 'status': 1, 'visibility': 1}
-    await axios.post('/api/projects/', project);
-    useStore().setToast(trans('app.ideas.project_added'));
-  } catch (error) {
-    console.log(error)
-    if (error.response?.data?.code === 'LIMIT_EXCEEDED') {
-      limitExceeded.value = true
-      scrollToErrorDisplay()
+    try {
+        let project = {'title': title, 'description': description, 'status': 1, 'visibility': 1}
+        await axios.post('/api/projects/', project).then((response) => {
+            useStore().setToast(trans('app.ideas.project_added'));
+            router.visit('/project/' + response.data.id);
+        });
+    } catch (error) {
+        console.log(error)
+        if (error.response?.data?.code === 'LIMIT_EXCEEDED') {
+            limitExceeded.value = true
+            scrollToErrorDisplay()
+        }
     }
-  }
 }
 
 const gotTo = (url) => {
