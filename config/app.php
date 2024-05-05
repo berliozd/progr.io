@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'google-analytics-id' => env('GOOGLE_ANALYTICS_ID'),
     'free-nb-projects' => env('FREE_NB_PROJECTS'),
     'free-ai-credits' => env('FREE_AI_CREDITS'),
 
