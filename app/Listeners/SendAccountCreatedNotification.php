@@ -107,6 +107,7 @@ class SendAccountCreatedNotification
             );
             $response = $mj->post(Resources::$ContactManagemanycontacts, ['body' => $params]);
             \Log::info('added to contact list : ' . $response->success());
+            \Log::info($response->getData());
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
         }
