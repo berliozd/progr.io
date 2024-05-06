@@ -23,6 +23,8 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request): array
     {
+        $this->logReferer();
+
         \Log::debug('promotekit_referral : [' . ($_COOKIE['promotekit_referral'] ?? '') . ']');
 
         $locales = array_map('basename', glob(base_path('lang') . '/*', GLOB_ONLYDIR));
@@ -52,5 +54,15 @@ class HandleInertiaRequests extends Middleware
             $res['auth']['subscription'] = $subscription;
         }
         return $res;
+    }
+
+    private function logReferer(): void
+    {
+        $_SERVER['HTTP_REFERER'] = $_SERVER['HTTP_REFERER'] ?? '';
+        $parsedUrl = parse_url($_SERVER['HTTP_REFERER']);
+        $host = $parsedUrl['host'] ?? '';
+        if (!empty($host) && $host !== config('app.url')) {
+            \Log::debug('Referrer : ' . $_SERVER['HTTP_REFERER']);
+        }
     }
 }
