@@ -20,9 +20,9 @@ import {router, usePage} from "@inertiajs/vue3";
           <p class="text-lg lg:text-xl font-bold">Free</p>
           <p class="mt-2">Get a taste of progr.io - try it now</p>
           <div class="flex gap-2">
-            <p class="text-5xl font-extrabold">$0</p>
+            <p class="text-5xl font-extrabold">€0</p>
             <div class="flex flex-col justify-end">
-              <p class="text-xs  uppercase font-semibold">USD</p>
+              <p class="text-xs  uppercase font-semibold">EUR</p>
             </div>
           </div>
           <ul class="space-y-2.5 leading-relaxed text-base flex-1">
@@ -54,13 +54,13 @@ import {router, usePage} from "@inertiajs/vue3";
             <div class="flex flex-col justify-end mb-[4px] text-lg ">
               <p class="relative">
                 <span class="absolute bg-base-content h-[1.5px] inset-x-0 top-[53%]"></span>
-                <span class="text-base-content/80">$20</span>
+                <span class="text-base-content/80">€20</span>
               </p>
             </div>
-            <p class="text-5xl font-extrabold">$10</p>
+            <p class="text-5xl font-extrabold">€10</p>
             <div class="flex flex-col justify-end mb-[4px]">
               <p class="text-xs uppercase font-semibold">
-                USD <span class="text-base-content/50 lowercase">/ month</span>
+                EUR <span class="text-base-content/50 lowercase">/ month</span>
               </p>
             </div>
           </div>
