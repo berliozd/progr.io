@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\App\ProjectPresentationController;
+use App\Http\Controllers\Catalog\ProjectIdeaController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,6 +26,10 @@ Route::get('/', function () {
 Route::inertia('/terms', 'Home/Terms')->name('terms');
 Route::inertia('/privacy-policy', 'Home/Privacy')->name('privacy-policy');
 Route::get('/project-presentation/{id}', ProjectPresentationController::class)->name('app.projects.presentation');
+Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::class, 'show'])->name('app.projects.idea');
+Route::get('/project-ideas', [ProjectIdeaController::class, 'index'])->name('app.projects.ideas');
+Route::get('/project-ideas/{category}', [ProjectIdeaController::class, 'category'])
+    ->name('app.projects.ideas.category');
 
 
 require __DIR__ . '/auth.php';

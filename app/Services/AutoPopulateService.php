@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Events\ProjectCompetitorsPopulated;
 use App\Events\ProjectPopulated;
-use App\Models\AutoPopulations;
 use App\Models\Competitor;
 use App\Models\CompetitorsNote;
 use App\Models\NotesType;
@@ -33,15 +32,8 @@ class AutoPopulateService
             return;
         }
 
-        $project->update(['auto_population' => AutoPopulations::where('code', 'processing')->pluck('id')->first()]);
         $this->addProjectNotes($project);
         $this->addCompetitors($project);
-        $project->update(
-            [
-                'auto_population' => AutoPopulations::where('code', 'off')->pluck('id')->first(),
-                'auto_populated_at' => now()
-            ]
-        );
         $project->owner->update(
             ['used_ai_credits' => $project->owner->used_ai_credits + config('app.auto-population-credits')]
         );

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AutoPopulations;
+use App\Models\Category;
 use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
@@ -43,6 +44,7 @@ class ProjectController extends Controller
     {
         $project = Project::with(['competitors.notes.type'])
             ->with('notes.type')
+            ->with('category')
             ->find($id);
 
         // Add available note types
@@ -136,5 +138,20 @@ class ProjectController extends Controller
             $autoPopulation->label = trans('app.project.auto_populations.' . $autoPopulation->code);
         }
         return $autoPopulations;
+    }
+
+    public function list(Request $request)
+    {
+        $categoryCode = $request->get('category_code');
+        \Log::info($categoryCode);
+        $projects = Project::where('visibility', ProjectsVisibility::where('code', 'public')->first()->id)
+            ->whereNotNull('category_id')
+            ->with('category')
+            ->orderBy('updated_at', 'desc');
+        if ($categoryCode !== null) {
+            \Log::info('Filtering projects by category ' . $categoryCode);;
+            $projects->where('category_id', Category::where('code', $categoryCode)->first()->id);
+        }
+        return $projects->get();
     }
 }

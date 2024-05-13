@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AiAssistantController;
 use App\Http\Controllers\Api\AutoPopulationController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CompetitorController;
 use App\Http\Controllers\Api\CompetitorNoteController;
 use App\Http\Controllers\Api\ProjectController;
@@ -30,6 +31,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/projects/{id}', [ProjectController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/projects/public/list', [ProjectController::class, 'list']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // projects

@@ -41,11 +41,23 @@ class AutoPopulateProjects extends Command
             \Log::info('No projects to auto-populate');
             return;
         }
+
+        // Set all projects as 'processing' so that they cannot be updated
+        foreach ($projects as $project) {
+            $project->update(['auto_population' => AutoPopulations::where('code', 'processing')->pluck('id')->first()]);
+        }
+
         foreach ($projects as $project) {
             try {
                 $this->autoPopulateService->populate($project);
+                $project->update([
+                        'auto_population' => AutoPopulations::where('code', 'off')->pluck('id')->first(),
+                        'auto_populated_at' => now()
+                    ]
+                );
             } catch (\Exception $e) {
                 \Log::error($e->getMessage());
+                $project->update(['auto_population' => AutoPopulations::where('code', 'on')->pluck('id')->first()]);
             }
         }
         \Log::info('Projects auto populated');
