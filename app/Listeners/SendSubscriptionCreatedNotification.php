@@ -104,6 +104,6 @@ HTML;
             'Welcome Aboard! Thank You for Upgrading to paid version of :app_name!',
             ['app_name' => config('app.name')]
         );
-        $this->sendMailService->sendEmail($content, $subject, $user->email);
+        $this->sendMailService->sendEmail($content, $subject, $user);
     }
 }
