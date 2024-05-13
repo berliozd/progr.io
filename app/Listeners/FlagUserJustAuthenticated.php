@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\UserAuthenticated;
 use Illuminate\Http\Request;
 
-class FlagUserJustAuthenticated
+readonly class FlagUserJustAuthenticated
 {
     public function __construct(private Request $request)
     {

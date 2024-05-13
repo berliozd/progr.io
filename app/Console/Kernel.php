@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('sitemap:generate')->twiceDaily();
+        $schedule->command('project:auto_populate_projects')->everyFiveMinutes();
+        $schedule->command('project:enrich_projects')->everyFiveMinutes();
     }
 
     /**

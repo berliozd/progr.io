@@ -17,7 +17,7 @@ return [
         'description_error' => 'Description is missing or incomplete',
         'notes' => 'Notes',
         'competitors' => 'Competitors',
-        'no_competitors' => 'No competitors yet.',
+        'no_competitors' => 'Competitors have not been retrieved yet. If you have enough AI credits, they will be retrieved soon by our auto-population system based on AI.',
         'add_note' => 'Add a note',
         'ask_ai' => 'Ask AI',
         'ask_ai_help' => 'Ask help from AI',
@@ -51,6 +51,14 @@ return [
             'button_text' => 'Send',
             'info' => 'Please note that if your project is not designated as "public", any person you share the project with will not be able to access it. To enable access, you will need to modify the project\'s visibility settings to either "public" or "only members". If you select the "only members" option, the individual will be required to create an account in order to gain access to the project.'
         ],
+        'auto_populations' => [
+            'title' => 'Auto-population',
+            'on' => 'On',
+            'off' => 'Off',
+            'description' => 'If you enable auto-population, you won\'t be able to edit your project while auto-population is processing. All notes and competitors you could have added before will be automatically reset with content retrieved by AI. You need more than :nb_credits AI credits or a paid subscription.',
+            'in_progress' => 'Auto-population in progress...',
+            'in_progress_description' => 'You can not edit your project while it is being auto-populated. Please wait while your project is being auto-populated with content retrieved by AI. You will be received an email when auto-population is complete.',
+        ],
     ],
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',
@@ -73,5 +81,8 @@ return [
     'out_of_ideas' => 'Out of ideas?',
     'subscribe' => 'Subscribe',
     'add' => 'Add',
-    'user' => ['nb_ai_credits_used' => 'AI credits used: :nb']
+    'user' => [
+        'nb_ai_credits_used' => 'AI credits used: :nb',
+        'nb_free_ai_credits_given' => 'You have been given :nb free AI credits when you created your account.'
+    ]
 ];

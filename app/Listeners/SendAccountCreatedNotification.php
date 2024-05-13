@@ -3,16 +3,17 @@
 namespace App\Listeners;
 
 use App\Models\User;
+use App\Services\SendMailService;
 use Illuminate\Auth\Events\Registered;
 use Mailjet\Client;
 use Mailjet\Resources;
 
-class SendAccountCreatedNotification
+readonly class SendAccountCreatedNotification
 {
     /**
      * Create the event listener.
      */
-    public function __construct()
+    public function __construct(private SendMailService $sendMailService)
     {
     }
 
@@ -26,62 +27,21 @@ class SendAccountCreatedNotification
 
     private function sendEmail($user): void
     {
-        $content = $this->getContent();
-        $mj = new Client(
-            config('services.mailjet.client_id'),
-            config('services.mailjet.client_secret'),
-            true,
-            ['version' => 'v3.1']
-        );
         $subject = __(
             'Welcome to :app_name - Start Tracking Your Project Ideas Today!',
             ['app_name' => config('app.name')]
         );
-        $body = [
-            'Messages' => [
-                [
-                    'From' => [
-                        'Email' => config('services.mailjet.mail_from'),
-                        'Name' => config('app.name')
-                    ],
-                    'To' => [
-                        [
-                            'Email' => $user->email,
-                            'Name' => $user->name
-                        ]
-                    ],
-                    'Subject' => $subject,
-                    'HTMLPart' => __(
-                        $content,
-                        [
-                            'user_name' => $user->name,
-                            'app_name' => config('app.name'),
-                            'nb_fee_credits' => config('app.free-ai-credits'),
-                            'app_url' => config('app.url')
-                        ]
-                    )
-                ],
-                [
-                    'From' => [
-                        'Email' => config('services.mailjet.mail_from'),
-                        'Name' => config('app.name')
-                    ],
-                    'To' => [
-                        [
-                            'Email' => config('services.mailjet.mail_from'),
-                            'Name' => config('app.name')
-                        ]
-                    ],
-                    'Subject' => $subject,
-                    'HTMLPart' => __(
-                        ':name :email has just created an account.',
-                        ['name' => $user->name, 'email' => $user->email]
-                    )
-                ]
+        $content = $this->getContent();
+        $content = __(
+            $content,
+            [
+                'user_name' => $user->name,
+                'app_name' => config('app.name'),
+                'nb_fee_credits' => config('app.free-ai-credits'),
+                'app_url' => config('app.url')
             ]
-        ];
-        $mj->post(Resources::$Email, ['body' => $body]);
-
+        );
+        $this->sendMailService->sendEmail($content, $subject, $user);
         $this->addToContactList($user);
     }
 
@@ -118,7 +78,7 @@ class SendAccountCreatedNotification
      */
     public function getContent(): string
     {
-        $content = <<<HTML
+        return <<<HTML
 Dear :user_name,
 <br/>
 <br/>
@@ -145,6 +105,12 @@ Our platform allows you to keep all your ideas organized in one place, making it
 we've integrated AI technology into our platform. With your free account, you'll receive :nb_fee_credits AI credits. 
 Each credit allows you to gain valuable insights such as potential users, potential features, benefits, and monetization strategies for your project.
 </p>
+<strong>3: Use our NEW AUTO-POPULATION feature:</strong><br>
+
+<p>Our AI-powered auto-population feature allows you to quickly and easily define and execute your ideas.
+This feature allows you to focus on the details of your project, while our AI technology takes care of the rest.
+Automatically, we'll populate your project with ideas that are relevant to your needs and goals.
+</p>
 <br/>
 <strong>Here's how it works: </strong><br/>
 <p>One AI credit is used each time you request insights for a specific aspect of your project (like potential users or features). 
@@ -168,6 +134,5 @@ Best Regards,
 Didier
 Founder of :app_name
 HTML;
-        return $content;
     }
 }

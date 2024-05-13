@@ -36,6 +36,7 @@ class HandleInertiaRequests extends Middleware
                 'home_route' => config('app.home-route'),
                 'free_nb_projects' => config('app.free-nb-projects'),
                 'free_ai_credits' => config('app.free-ai-credits'),
+                'auto_population_credits' => config('app.auto-population-credits'),
             ],
             'auth' => [
                 'user' => $request->user(),

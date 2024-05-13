@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AiAssistantController;
+use App\Http\Controllers\Api\AutoPopulationController;
 use App\Http\Controllers\Api\CompetitorController;
 use App\Http\Controllers\Api\CompetitorNoteController;
 use App\Http\Controllers\Api\ProjectController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\ProjectVisibilityController;
 use App\Http\Controllers\Api\SendMailController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\CompetitorProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('projects_status', ProjectStatusController::class);
     // project_visibilities
     Route::apiResource('projects_visibilities', ProjectVisibilityController::class);
+    // auto populations
+    Route::apiResource('auto_populations', AutoPopulationController::class);
 
     // projects_notes
     Route::delete('/projects_notes/{id}', [ProjectNoteController::class, 'destroy']);
@@ -49,9 +53,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // competitors
     Route::delete('/competitors/{id}', [CompetitorController::class, 'destroy']);
+    Route::delete('/competitor_project/{id}', [CompetitorProject::class, 'destroy']);
 
     // AI
     Route::post('/ai', [AiAssistantController::class, 'ask']);
+    Route::post('/ai/note', [AiAssistantController::class, 'askNote']);
+    Route::post('/ai/competitors', [AiAssistantController::class, 'askCompetitors']);
 
     // Mail send
     Route::post('/mail', [SendMailController::class, 'send']);

@@ -6,7 +6,7 @@ import NoteLogo from "@/Pages/App/Partials/NoteLogo.vue";
 import {Head} from '@inertiajs/vue3';
 import axios from "axios";
 import {capitalize, reactive, ref} from "vue";
-import {sortNotes} from "@/Composables/App/useProject.js";
+import {sortProjectChildren} from "@/Composables/App/useProject.js";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const project = reactive({title: '', description: '', status: ''})
@@ -19,7 +19,7 @@ const getProject = async () => {
     const response = await axios.get('/api/projects/' + props.id)
     projectFound.value = true
     Object.assign(project, response.data);
-    await sortNotes(project)
+    await sortProjectChildren(project)
     setTimeout(() => {
       loaded.value = true
     }, 1000)

@@ -8,6 +8,7 @@ return [
     'google-analytics-id' => env('GOOGLE_ANALYTICS_ID'),
     'free-nb-projects' => env('FREE_NB_PROJECTS'),
     'free-ai-credits' => env('FREE_AI_CREDITS'),
+    'auto-population-credits' => env('AUTO_POPULATION_CREDITS'),
 
     'style-default-mode' => env('APP_STYLE_DEFAULT_MODE', 'dark'),
     'home-route' => env('APP_HOME_ROUTE', 'home'),

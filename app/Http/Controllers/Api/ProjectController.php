@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Competitor;
-use App\Models\CompetitorsNote;
+use App\Models\AutoPopulations;
 use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
 use App\Models\ProjectsStatus;
 use App\Models\ProjectsVisibility;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -45,17 +45,6 @@ class ProjectController extends Controller
             ->with('notes.type')
             ->find($id);
 
-        $competitorsAllNotesTypesIds = NotesType::whereNotIn('code', ['competitors', 'domains'])
-            ->pluck('id')->toArray();
-
-        foreach ($project->competitors as $competitor) {
-            $competitor->allNotesTypes = NotesType::whereIn('id', $competitorsAllNotesTypesIds)->get();
-            $competitor->availableNotesTypes = NotesType::whereNotIn(
-                'id',
-                array_merge($competitor->notes->pluck('note_type_id')->toArray())
-            )->whereIn('id', $competitorsAllNotesTypesIds)->get();
-        }
-
         // Add available note types
         $ids = array_map(function ($projectNote) {
             return $projectNote['note_type_id'];
@@ -63,8 +52,9 @@ class ProjectController extends Controller
         $availableNotesTypes = NotesType::whereNotIn('id', $ids)->get();
         $project->availableNotesTypes = $availableNotesTypes;
         $project->allNotesTypes = NotesType::all();
-        $project->allVisibilities = ProjectsVisibility::all();
+        $project->allVisibilities = $this->getVisibilities();
         $project->allStatuses = ProjectsStatus::all();
+        $project->allAutoPopulations = $this->getAutoPopulations();
 
         return $project;
     }
@@ -81,7 +71,7 @@ class ProjectController extends Controller
         $project->fill($data);
 
         $this->updateNotes($data['notes']);
-        $this->updateCompetitors($data['competitors']);
+        $this->updateCompetitorsOrder($project, $data['competitors']);
 
         $project->save();
         return $data;
@@ -120,58 +110,31 @@ class ProjectController extends Controller
         }
     }
 
-    public function updateCompetitors($competitors): void
+    private function updateCompetitorsOrder(Project $project, mixed $competitors): void
     {
         foreach ($competitors as $competitor) {
-            if (empty($competitor['name'] || empty($competitor['description']) || empty($competitor['url']))) {
-                continue;
-            }
-            $projectCompetitor = null;
-            if (isset($competitor['id'])) {
-                $projectCompetitor = Competitor::whereId($competitor['id'])->first();
-            }
-            if ($projectCompetitor !== null) {
-                $projectCompetitor->update([
-                    'project_id' => $competitor['project_id'],
-                    'name' => $competitor['name'],
-                    'description' => $competitor['description'],
-                    'url' => $competitor['url'],
-                    'order' => $competitor['order']
-                ]);
-
-                foreach ($competitor['notes'] as $note) {
-                    if (empty($note['content'])) {
-                        continue;
-                    }
-                    $competitorsNote = null;
-                    if (isset($note['id'])) {
-                        $competitorsNote = CompetitorsNote::whereId($note['id'])->first();
-                    }
-                    if ($competitorsNote !== null) {
-                        $competitorsNote->update([
-                            'content' => $note['content'],
-                            'order' => $note['order']
-                        ]);
-                    } else {
-                        CompetitorsNote::create([
-                            'competitor_id' => $projectCompetitor['id'],
-                            'note_type_id' => $note['type']['id'],
-                            'content' => $note['content'],
-                            'order' => $note['order']
-                        ]);
-                    }
-                }
-            } else {
-                \Log::debug('creating with order');
-                \Log::debug($competitor['order']);
-                Competitor::create([
-                    'project_id' => $competitor['project_id'],
-                    'name' => $competitor['name'],
-                    'description' => $competitor['description'],
-                    'url' => $competitor['url'],
-                    'order' => (int)$competitor['order']
-                ]);
-            }
+            $project->competitors()->updateExistingPivot(
+                $competitor['id'],
+                ['order' => $competitor['pivot']['order']]
+            );
         }
+    }
+
+    private function getVisibilities(): Collection
+    {
+        $visibilities = ProjectsVisibility::all();
+        foreach ($visibilities as $visibility) {
+            $visibility->label = trans('app.project.visibilities.' . $visibility->code);
+        }
+        return $visibilities;
+    }
+
+    private function getAutoPopulations(): Collection
+    {
+        $autoPopulations = AutoPopulations::where('code', 'on')->orWhere('code', 'off')->get();
+        foreach ($autoPopulations as $autoPopulation) {
+            $autoPopulation->label = trans('app.project.auto_populations.' . $autoPopulation->code);
+        }
+        return $autoPopulations;
     }
 }

@@ -3,36 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AIService;
 use Illuminate\Http\Request;
-use OpenAI;
-use OpenAI\Client;
 
 class AiAssistantController extends Controller
 {
-    public function ask(Request $request)
+    public function __construct(private readonly AIService $aiService)
+    {
+    }
+
+    public function ask(Request $request): array
     {
         $context = $request->get('context');
         $question = $request->get('question');
-        $aiInsight = $this->askAi($context, $question);
-        return ['response' => $aiInsight];
+        return ['response' => $this->aiService->getInsight($context, $question)];
     }
 
-    private function askAI(string $context, string $question): string
+    public function askNote(Request $request): array
     {
-        $client = $this->getClient();
-        $response = $client->chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => [
-                ['role' => 'user', 'content' => $context],
-                ['role' => 'user', 'content' => $question]
-            ],
-        ]);
-        return $response->choices[0]->message->content;
+        $projectTitle = $request->get('title');
+        $projectDescription = $request->get('description');
+        $noteTypeCode = $request->get('noteTypeCode');
+        $isCompetitor = $request->get('competitor') == 1;
+        return [
+            'response' => $this->aiService->getNote(
+                $projectTitle,
+                $projectDescription,
+                $noteTypeCode,
+                $isCompetitor
+            )
+        ];
     }
 
-    private function getClient(): Client
+    public function askCompetitors(Request $request): array
     {
-        $yourApiKey = config('services.openai.api_key');
-        return OpenAI::client($yourApiKey);
+        $projectTitle = $request->get('title');
+        $projectDescription = $request->get('description');
+        return [
+            'response' => $this->aiService->getCompetitors(
+                $projectTitle,
+                $projectDescription
+            )
+        ];
     }
 }

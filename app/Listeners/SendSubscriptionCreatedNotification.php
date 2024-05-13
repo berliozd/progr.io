@@ -3,16 +3,15 @@
 namespace App\Listeners;
 
 use App\Models\User;
+use App\Services\SendMailService;
 use Laravel\Cashier\Events\WebhookHandled;
-use Mailjet\Client;
-use Mailjet\Resources;
 
-class SendSubscriptionCreatedNotification
+readonly class SendSubscriptionCreatedNotification
 {
     /**
      * Create the event listener.
      */
-    public function __construct()
+    public function __construct(private SendMailService $sendMailService)
     {
     }
 
@@ -91,60 +90,20 @@ Best Regards,
 Didier
 Founder of :app_name
 HTML;
-
-        $mj = new Client(
-            config('services.mailjet.client_id'),
-            config('services.mailjet.client_secret'),
-            true,
-            ['version' => 'v3.1']
+        $content = __(
+            $content,
+            [
+                'user_name' => $user->name,
+                'app_name' => config('app.name'),
+                'nb_fee_credits' => config('app.free-ai-credits'),
+                'app_url' => config('app.url')
+            ]
         );
+
         $subject = __(
             'Welcome Aboard! Thank You for Upgrading to paid version of :app_name!',
             ['app_name' => config('app.name')]
         );
-        $body = [
-            'Messages' => [
-                [
-                    'From' => [
-                        'Email' => config('services.mailjet.mail_from'),
-                        'Name' => config('app.name')
-                    ],
-                    'To' => [
-                        [
-                            'Email' => $user->email,
-                            'Name' => $user->name
-                        ]
-                    ],
-                    'Subject' => $subject,
-                    'HTMLPart' => __(
-                        $content,
-                        [
-                            'user_name' => $user->name,
-                            'app_name' => config('app.name'),
-                            'nb_fee_credits' => config('app.free-ai-credits'),
-                            'app_url' => config('app.url')
-                        ]
-                    )
-                ],
-                [
-                    'From' => [
-                        'Email' => config('services.mailjet.mail_from'),
-                        'Name' => config('app.name')
-                    ],
-                    'To' => [
-                        [
-                            'Email' => config('services.mailjet.mail_from'),
-                            'Name' => config('app.name')
-                        ]
-                    ],
-                    'Subject' => $subject,
-                    'HTMLPart' => __(
-                        ':name :email has just subscribed to paid version.',
-                        ['name' => $user->name, 'email' => $user->email]
-                    )
-                ]
-            ]
-        ];
-        $mj->post(Resources::$Email, ['body' => $body]);
+        $this->sendMailService->sendEmail($content, $subject, $user->email);
     }
 }

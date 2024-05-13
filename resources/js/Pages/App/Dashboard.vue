@@ -45,7 +45,8 @@ const nbUsedCredits = usePage().props.auth.user.used_ai_credits
     </Box>
 
     <Box>
-      {{ $t('app.user.nb_ai_credits_used', {nb: nbUsedCredits}) }}
+        <div>{{ $t('app.user.nb_ai_credits_used', {nb: nbUsedCredits}) }}</div>
+        <div>{{ $t('app.user.nb_free_ai_credits_given', {nb: usePage().props.app.free_ai_credits}) }}</div>
     </Box>
 
     <Box>

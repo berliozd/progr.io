@@ -49,7 +49,15 @@ return [
             'subject' => 'Objet :',
             'content' => 'Message :',
             'button_text' => 'Envoyez',
-            'info'=> 'Veuillez noter que si votre projet n\'est pas désigné comme "public", toute personne avec laquelle vous partagez le projet ne sera pas en mesure d\'y accéder. Pour permettre l\'accès, vous devrez modifier les paramètres de visibilité du projet en "public" ou "membres uniquement". Si vous sélectionnez l\'option "membres uniquement", l\'individu devra créer un compte pour accéder au projet.'
+            'info' => 'Veuillez noter que si votre projet n\'est pas désigné comme "public", toute personne avec laquelle vous partagez le projet ne sera pas en mesure d\'y accéder. Pour permettre l\'accès, vous devrez modifier les paramètres de visibilité du projet en "public" ou "membres uniquement". Si vous sélectionnez l\'option "membres uniquement", l\'individu devra créer un compte pour accéder au projet.'
+        ],
+        'auto_populations' => [
+            'title' => 'Auto-population',
+            'on' => 'On',
+            'off' => 'Off',
+            'description' => 'Si vous activez l\'auto-population, vous ne serez pas en mesure d\'éditer le projet tant que le process d\'auto-population sera en cours d\'execution. Toutes les notes et autres informations que vous pourriez avoir ajoutées seront supprimées et remplacées par du contenu extrait par l\'IA. Vous avez besoin de :nb_credits crédits d\'AI ou bien d\'un abonnement payant.',
+            'in_progress' => 'Auto-population in progress...',
+            'in_progress_description' => 'You can not edit your project while it is being auto-populated. Please wait while your project is being auto-populated with content retrieved by AI. You will be received an email when auto-population is complete.',
         ],
     ],
     'cancel' => 'Annuer',
@@ -73,5 +81,8 @@ return [
     'out_of_ideas' => 'En panne d\'idées?',
     'subscribe' => 'Abonnez-vous',
     'add' => 'Ajoutez',
-    'user' => ['nb_ai_credits_used' => 'Nombre de crédits d\'IA utilisés: :nb']
+    'user' => [
+        'nb_ai_credits_used' => 'Nombre de crédits d\'IA utilisés: :nb',
+        'nb_free_ai_credits_given' => 'Vous avez reçu :nb credits d\'IA gratuits lors de la création de votre compte.',
+    ]
 ];
