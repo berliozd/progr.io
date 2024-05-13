@@ -88,7 +88,9 @@ return [
             'events' => 'Events',
             'food' => 'Food',
             'sport' => 'Sport',
-            'project-management' => 'Project management'
+            'project-management' => 'Project management',
+            'positiveness' => 'Positiveness',
+            'growth' => 'Growth',
         ],
     ],
     'cancel' => 'Cancel',
