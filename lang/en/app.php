@@ -91,6 +91,7 @@ return [
             'project-management' => 'Project management',
             'positiveness' => 'Positiveness',
             'growth' => 'Growth',
+            'pets' => 'Pets',
         ],
     ],
     'cancel' => 'Cancel',
