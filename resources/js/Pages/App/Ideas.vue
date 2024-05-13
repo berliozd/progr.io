@@ -107,8 +107,8 @@ const addProject = async (title, description) => {
             'title': title,
             'description': description,
             'status': 1,
-            'visibility': (addPublic ? 2 : 1),
-            'auto_population': (addWithAutoPopulation ? autoPopulationOn.value : autoPopulationOff.value)
+            'visibility': (addPublic.value ? 2 : 1),
+            'auto_population': (addWithAutoPopulation.value ? autoPopulationOn.value : autoPopulationOff.value)
         }
         await axios.post('/api/projects/', project).then((response) => {
             useStore().setToast(trans('app.ideas.project_added'));
