@@ -86,16 +86,13 @@ const deleteCompetitor = (competitor, competitors) => {
 
 idByCode('processing').then(
     (response) => {
-        console.log('rerere');
         autoPopulationProcessing.value = response
-        console.log(autoPopulationProcessing);
     }
 );
 
 getProject();
 </script>
 <template>
-    aaaaa{{autoPopulationProcessing}}bbbb
     <Head v-bind:title="$t('Project')"/>
     <AuthenticatedLayout>
         <template #header>
