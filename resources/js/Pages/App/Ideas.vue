@@ -12,10 +12,16 @@ import {getActiveLanguage, trans} from "laravel-vue-i18n";
 import {useStore} from "@/Composables/store.js";
 import aiAvailable from "@/Composables/App/aiAvailable.js";
 import reallyAskAi from "@/Composables/App/reallyAskAi.js";
+import {idByCode} from "@/Composables/autoPopulations.js";
 
 const ideas = ref([]);
 const limitExceeded = ref(false)
 const loading = ref(false)
+const autoPopulationOn = ref(null)
+const autoPopulationOff = ref(null)
+const redirectAfterAdd = ref(true)
+const addWithAutoPopulation = ref(false)
+const addPublic = ref(false)
 const context = ref('')
 const ai = ref(true)
 const errorElement = ref(null)
@@ -84,12 +90,31 @@ const getContext = () => {
     return 'As a indie hacker I would like you to give project ideas. The ideas should be related to ' + context.value;
 }
 
+idByCode('on').then(
+    (response) => {
+        autoPopulationOn.value = response
+    }
+);
+idByCode('off').then(
+    (response) => {
+        autoPopulationOff.value = response
+    }
+);
+
 const addProject = async (title, description) => {
     try {
-        let project = {'title': title, 'description': description, 'status': 1, 'visibility': 1, 'auto_population': 1}
+        let project = {
+            'title': title,
+            'description': description,
+            'status': 1,
+            'visibility': (addPublic ? 2 : 1),
+            'auto_population': (addWithAutoPopulation ? autoPopulationOn.value : autoPopulationOff.value)
+        }
         await axios.post('/api/projects/', project).then((response) => {
             useStore().setToast(trans('app.ideas.project_added'));
-            router.visit('/project/' + response.data.id);
+            if (redirectAfterAdd.value) {
+                router.visit('/project/' + response.data.id);
+            }
         });
     } catch (error) {
         console.log(error)
@@ -149,21 +174,42 @@ const gotTo = (url) => {
                     {{ $t('app.project.ask_ai') }}
                 </PrimaryButton>
             </div>
-            <div v-for="idea in ideas" class="rounded border p-2 my-4 flex flex-col border-spacing-y-1">
-                <div class="mb-2">
-                    <span class="underline font-bold">{{ $t('app.project.title') }}</span> : {{ idea.title }}
+
+            <template v-if="ideas.length > 0">
+                <div class="flex flex-row justify-start space-x-1">
+                    <label class="label cursor-pointer flex space-x-1">
+                        <span class="label-text text-xs">Redirect after add</span>
+                        <input type="checkbox" class="toggle" :checked="redirectAfterAdd"
+                               @click="redirectAfterAdd = !redirectAfterAdd"/>
+                    </label>
+                    <label class="label cursor-pointer flex space-x-2">
+                        <span class="label-text text-xs">Add with auto-population</span>
+                        <input type="checkbox" class="toggle focus-bg-black" :checked="addWithAutoPopulation"
+                               @click="addWithAutoPopulation = !addWithAutoPopulation"/>
+                    </label>
+                    <label class="label cursor-pointer flex space-x-2">
+                        <span class="label-text text-xs">Add public</span>
+                        <input type="checkbox" class="toggle focus-bg-black" :checked="addPublic"
+                               @click="addPublic = !addPublic"/>
+                    </label>
                 </div>
-                <div class="mb-2">
-                    <span class="underline font-bold">{{ $t('app.project.description') }}</span> : {{
-                        idea.description
-                    }}
+
+                <div v-for="idea in ideas" class="rounded border p-2 my-4 flex flex-col border-spacing-y-1">
+                    <div class="mb-2">
+                        <span class="underline font-bold">{{ $t('app.project.title') }}</span> : {{ idea.title }}
+                    </div>
+                    <div class="mb-2">
+                        <span class="underline font-bold">{{ $t('app.project.description') }}</span> : {{
+                            idea.description
+                        }}
+                    </div>
+                    <div>
+                        <PrimaryButton @click="addProject(idea.title, idea.description)">
+                            {{ $t('app.ideas.add_as_project') }}
+                        </PrimaryButton>
+                    </div>
                 </div>
-                <div>
-                    <PrimaryButton @click="addProject(idea.title, idea.description)">
-                        {{ $t('app.ideas.add_as_project') }}
-                    </PrimaryButton>
-                </div>
-            </div>
+            </template>
         </Box>
     </AuthenticatedLayout>
 </template>
