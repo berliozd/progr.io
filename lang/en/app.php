@@ -92,6 +92,7 @@ return [
             'positiveness' => 'Positiveness',
             'growth' => 'Growth',
             'pets' => 'Pets',
+            'sustainability' => 'Sustainability',
         ],
     ],
     'cancel' => 'Cancel',
