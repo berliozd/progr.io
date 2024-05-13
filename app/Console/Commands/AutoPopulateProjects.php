@@ -37,7 +37,11 @@ class AutoPopulateProjects extends Command
             ->orderBy('updated_at')
             ->get();
         foreach ($projects as $project) {
-            $this->autoPopulateService->populate($project);
+            try {
+                $this->autoPopulateService->populate($project);
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
+            }
         }
         \Log::info('Projects auto populated');
     }

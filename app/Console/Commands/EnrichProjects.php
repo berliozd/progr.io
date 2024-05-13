@@ -56,13 +56,17 @@ class EnrichProjects extends Command
             ->get();
 
         foreach ($projectsWithoutCompetitors as $project) {
-            if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
-                continue;
+            try {
+                if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
+                    continue;
+                }
+                \Log::info('Populate competitors for project ' . $project->id);
+                $this->autoPopulateService->addCompetitors($project, true);
+                $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
+                \Log::info('Competitors for project ' . $project->id . ' populated.');
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
             }
-            \Log::info('Populate competitors for project ' . $project->id);
-            $this->autoPopulateService->addCompetitors($project, true);
-            $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
-            \Log::info('Competitors for project ' . $project->id . ' populated.');
         }
         \Log::info('Projects competitors auto populated');
     }
@@ -76,13 +80,17 @@ class EnrichProjects extends Command
             return;
         }
         foreach ($projectsToAddCategory as $project) {
-            if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
-                continue;
+            try {
+                if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
+                    continue;
+                }
+                \Log::info('Add category for project ' . $project->id);
+                $this->autoPopulateService->addCategory($project);
+                $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
+                \Log::info('Category for project ' . $project->id . ' added.');
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
             }
-            \Log::info('Add category for project ' . $project->id);
-            $this->autoPopulateService->addCategory($project);
-            $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
-            \Log::info('Category for project ' . $project->id . ' added.');
         }
         \Log::info('Projects category auto populated');
     }
