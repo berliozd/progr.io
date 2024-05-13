@@ -36,6 +36,11 @@ class AutoPopulateProjects extends Command
             ->limit(2)
             ->orderBy('updated_at')
             ->get();
+
+        if (($projects->count() ?? 0) === 0) {
+            \Log::info('No projects to auto-populate');
+            return;
+        }
         foreach ($projects as $project) {
             try {
                 $this->autoPopulateService->populate($project);

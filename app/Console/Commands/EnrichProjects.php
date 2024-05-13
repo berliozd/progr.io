@@ -55,6 +55,11 @@ class EnrichProjects extends Command
             ->orderBy('updated_at')
             ->get();
 
+        if (($projectsWithoutCompetitors->count() ?? 0) === 0) {
+            \Log::info('No projects to enrich with competitors');
+            return;
+        }
+
         foreach ($projectsWithoutCompetitors as $project) {
             try {
                 if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
