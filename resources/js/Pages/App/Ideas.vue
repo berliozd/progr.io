@@ -83,6 +83,7 @@ const getQuestion = () => {
         'Title and description must be separated by |.' +
         'Do not add bullets or numbers before each ideas.' +
         'Do not and introduction text before listing teh ideas.' +
+        'Do not prefix your answers with numbers.' +
         'Content should be in ' + getLanguage();
 }
 
