@@ -23,4 +23,5 @@ return [
     'log_out' => 'Log Out',
     'register' => 'Register',
     'login' => 'Login',
+    'create_account' => 'Create your account now!'
 ];

@@ -2,6 +2,9 @@
 
 import {capitalize} from "vue";
 import NoteLogo from "@/Pages/App/Partials/NoteLogo.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import {router, usePage} from "@inertiajs/vue3";
+import {trans} from "laravel-vue-i18n";
 
 const props = defineProps({'project': Object})
 </script>
@@ -13,6 +16,20 @@ const props = defineProps({'project': Object})
 
     <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-xl">
         <div>{{ project.description }}</div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row rounded-lg border p-4 shadow-2xl bg-primary/30 text-xl"
+         v-if="!usePage().props.auth?.user">
+        <div class="">
+            <div class="text-2xl">Would you like to give it a try?</div>
+            <div class="">
+                How about creating your own project and experiencing the benefits of our
+                AI-assisted tools for defining and refining your project ideas?
+            </div>
+        </div>
+        <div class="p-2 flex justify-center">
+            <PrimaryButton @click="router.visit(route('register'))">{{ trans('auth.create_account') }}</PrimaryButton>
+        </div>
     </div>
 
     <template v-for="note in project.notes" class="" :key="note.id">

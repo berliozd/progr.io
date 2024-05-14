@@ -23,4 +23,6 @@ return [
     'log_out' => 'Se deconnecter',
     'register' => 'S\'inscrire',
     'login' => 'Se connecter',
+    'create_account' => 'Créez votre compte!'
+
 ];
