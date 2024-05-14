@@ -34,14 +34,11 @@ getProject();
 <template>
     <Head v-bind:title="$t('Project')"/>
     <PresentationLayout>
-        <Box class="space-y-2 bg-primary/80 relative" v-if="projectFound">
-
+        <Box class="space-y-2 relative" v-if="projectFound">
             <div class="flex flex-row justify-center">
                 <ApplicationLogo/>
             </div>
-
             <ProjectPresentation :project="project"/>
-
         </Box>
         <Box class="space-y-2 bg-primary/80 relative" v-else>
             {{ $t('app.no_projects_found') }}

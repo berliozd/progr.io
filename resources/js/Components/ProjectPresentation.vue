@@ -18,9 +18,9 @@ const props = defineProps({'project': Object})
         <div>{{ project.description }}</div>
     </div>
 
-    <div class="flex flex-col sm:flex-row rounded-lg border p-4 shadow-2xl bg-primary/30 text-xl"
+    <div class="flex flex-col sm:flex-row rounded-lg border p-4 shadow-2xl bg-primary/30 text-xl w-full justify-between"
          v-if="!usePage().props.auth?.user">
-        <div class="">
+        <div class="flex flex-col">
             <div class="text-2xl">Would you like to give it a try?</div>
             <div class="">
                 How about creating your own project and experiencing the benefits of our
