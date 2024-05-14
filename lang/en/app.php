@@ -115,6 +115,7 @@ return [
                 'growth' => 'Growth',
                 'pets' => 'Pets',
                 'sustainability' => 'Sustainability',
+                'jobs' => 'Jobs',
             ],
         ]
     ],
