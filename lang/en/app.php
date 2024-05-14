@@ -62,6 +62,7 @@ return [
         'categories' => [
             'title' => 'Categories',
             'no_projects' => 'No projects for this category',
+            'nb_projects' => ':nb project(s)',
             'category_projects' => 'Projects for category :category',
             'all_categories' => 'All categories',
         ],

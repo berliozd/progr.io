@@ -70,13 +70,14 @@ getCategories();
                     : 'All categories projects'
             }}
         </h1>
+        <div v-if="projects?.length" class="text-info">{{ trans('app.project.categories.nb_projects', {'nb': projects?.length})}}</div>
         <div v-if="projects?.length === 0">
             {{ $t('app.project.categories.no_projects') }}
         </div>
         <template v-else>
             <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
                 <div v-for="project in projects" class="">
-                    <div class="border h-20 align-middle flex items-center justify-around text-center">
+                    <div class="border h-20 align-middle flex items-center justify-around text-center px-2">
                         <SimpleLink
                             :href="route('app.projects.idea', {id:project.id, title:_.toLower(_.kebabCase(project.title)), category:project.category?.code??''})">
                             {{ project.title }}
