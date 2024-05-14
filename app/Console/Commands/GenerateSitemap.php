@@ -31,8 +31,7 @@ class GenerateSitemap extends Command
         // modify this to your own needs
         \Log::info('Generating sitemap');
 
-        SitemapGenerator::create(config('app.url'))
-            ->writeToFile(public_path('sitemap.xml'));
+        SitemapGenerator::create(config('app.url'))->getSitemap()->writeToFile(public_path('sitemap.xml'));
 
         \Log::info('Sitemap Generated');
     }
