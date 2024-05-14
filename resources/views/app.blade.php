@@ -34,6 +34,8 @@
 
         gtag('config', '{{config('app.google-analytics-id')}}');
     </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0882802698917065"
+            crossorigin="anonymous"></script>
 
     <!-- Scripts -->
     @routes
