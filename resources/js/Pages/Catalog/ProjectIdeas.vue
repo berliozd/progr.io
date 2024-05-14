@@ -44,15 +44,15 @@ getCategories();
             <PageHeader :title="title"/>
         </template>
         <Collapsable :title="$t('app.ideas.catalog.categories.title')">
-            <div class="grid sm:grid-cols-5 grid-cols-4 text-xs sm:text-base grid-flow-row gap-4">
+            <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
                 <div v-for="category in categories">
-                    <div class="border h-10 align-middle flex items-center justify-around text-center">
+                    <div class="border h-8 align-middle flex items-center justify-around text-center px-2">
                         <SimpleLink :href="route('app.ideas.catalog.category', { category:category.code})">
                             {{ $t('app.ideas.catalog.category.' + category.code) }}
                         </SimpleLink>
                     </div>
                 </div>
-                <div class="border h-10 align-middle flex items-center justify-around text-center">
+                <div class="border h-8 align-middle flex items-center justify-around text-center">
                     <SimpleLink :href="route('app.ideas.catalog')">
                         {{ $t('app.ideas.catalog.categories.all_categories') }}
                     </SimpleLink>
