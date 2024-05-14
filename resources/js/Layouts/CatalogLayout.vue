@@ -5,6 +5,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Footer from "@/Components/Footer.vue";
+import Loader from "@/Components/Loader.vue";
 
 import {usePage} from '@inertiajs/vue3'
 import {ref} from 'vue';
@@ -153,6 +154,7 @@ const showingNavigationDropdown = ref(false);
         <!-- Page Content -->
         <main>
             <div class="py-12">
+                <Loader/>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-base-100 overflow-hidden shadow-sm sm:rounded-lg ">
                         <div class="p-6 space-y-5 layout">

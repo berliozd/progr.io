@@ -8,6 +8,7 @@ import {Head} from '@inertiajs/vue3';
 import axios from "axios";
 import {_} from 'lodash';
 import Collapsable from "@/Components/Collapsable.vue";
+import {useStore} from "@/Composables/store.js";
 
 const projects = ref(null)
 const categories = ref(null)
@@ -16,24 +17,29 @@ const props = defineProps({'categoryCode': null})
 
 const getProjects = async () => {
     try {
+        useStore().setIsLoading(true)
         const response = await axios.get(
             '/api/projects/public/list', {
                 params: {'category_code': props.categoryCode}
             }
         );
         projects.value = response.data
+        useStore().setIsLoading(false)
     } catch (error) {
         console.log(error)
     }
 }
 const getCategories = async () => {
     try {
+        useStore().setIsLoading(true)
         const response = await axios.get('/api/categories');
         categories.value = response.data
+        useStore().setIsLoading(false)
     } catch (error) {
         console.log(error)
     }
 }
+
 getProjects();
 getCategories();
 </script>
