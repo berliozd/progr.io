@@ -26,10 +26,10 @@ Route::get('/', function () {
 Route::inertia('/terms', 'Home/Terms')->name('terms');
 Route::inertia('/privacy-policy', 'Home/Privacy')->name('privacy-policy');
 Route::get('/project-presentation/{id}', ProjectPresentationController::class)->name('app.projects.presentation');
-Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::class, 'show'])->name('app.projects.idea');
-Route::get('/project-ideas', [ProjectIdeaController::class, 'index'])->name('app.projects.ideas');
+Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::class, 'show'])->name('app.ideas.catalog.idea');
+Route::get('/project-ideas', [ProjectIdeaController::class, 'index'])->name('app.ideas.catalog');
 Route::get('/project-ideas/{category}', [ProjectIdeaController::class, 'category'])
-    ->name('app.projects.ideas.category');
+    ->name('app.ideas.catalog.category');
 
 
 require __DIR__ . '/auth.php';

@@ -19,7 +19,6 @@ class ProjectIdeaController extends Controller
         $visibility = ProjectsVisibility::whereId($project->visibility)->first();
 
         if ($visibility->code === 'public') {
-            \App::setLocale('en');
             return Inertia::render('Catalog/ProjectIdea', ['id' => $project->id]);
         } else {
             return redirect()->route('home');

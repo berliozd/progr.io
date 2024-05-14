@@ -18,7 +18,7 @@ const getProject = async () => {
         const response = await axios.get('/api/projects/' + props.id)
         Object.assign(project, response.data);
         sortProjectChildren(project)
-        title.value = trans('Project Idea') + ' - ' + trans('app.project.category.' + project?.category?.code) + ' - ' + project?.title
+        title.value = trans('Project Idea') + ' - ' + trans('app.ideas.catalog.category.' + project?.category?.code) + ' - ' + project?.title
     } catch
         (error) {
         console.log(error)
