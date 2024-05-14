@@ -3,17 +3,22 @@ import CatalogLayout from '@/Layouts/CatalogLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import SimpleLink from "@/Components/SimpleLink.vue";
 
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {Head} from '@inertiajs/vue3';
 import axios from "axios";
 import {_} from 'lodash';
 import Collapsable from "@/Components/Collapsable.vue";
 import {useStore} from "@/Composables/store.js";
+import {trans} from "laravel-vue-i18n";
 
 const projects = ref(null)
 const categories = ref(null)
-const title = ref(null)
 const props = defineProps({'categoryCode': null})
+const title = computed(() => {
+    return trans('app.ideas.catalog.ideas_catalog') + ' - '
+        + (props.categoryCode ? trans('app.ideas.catalog.category.' + props.categoryCode)
+            : trans('app.ideas.catalog.categories.all_categories'))
+})
 
 const getProjects = async () => {
     try {
