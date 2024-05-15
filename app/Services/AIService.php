@@ -8,16 +8,21 @@ use OpenAI\Client;
 
 class AIService
 {
-    const string GPT_ENGINE_VERSION = 'gpt-4o';
+    const string GPT_ENGINE_VERSION_4o = 'gpt-4o';
+    const string GPT_ENGINE_VERSION_35_TURBO = 'gpt-3.5-turbo';
+
     private const int NB_COMPETITORS = 3;
 
-    public function getInsight(string $context, string $question): string
-    {
+    public function getInsight(
+        string $context,
+        string $question,
+        string $engine = self::GPT_ENGINE_VERSION_35_TURBO
+    ): string {
         \Log::info($context);
         \Log::info($question);
         $client = $this->getClient();
         $response = $client->chat()->create([
-            'model' => self::GPT_ENGINE_VERSION,
+            'model' => $engine,
             'messages' => [
                 ['role' => 'user', 'content' => $context],
                 ['role' => 'user', 'content' => $question]
@@ -60,7 +65,8 @@ class AIService
     {
         return $this->getInsight(
             $this->getIdeasContext($context),
-            $this->getIdeasQuestion($lang)
+            $this->getIdeasQuestion($lang),
+            self::GPT_ENGINE_VERSION_4o
         );
     }
 
