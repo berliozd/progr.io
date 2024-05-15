@@ -11,8 +11,8 @@ onMounted(() => {
     adElement.appendChild(script1);
 
     const ins = document.createElement('ins');
-    ins.class = 'adsbygoogle';
     ins.style.display = 'block';
+    ins.setAttribute('class', 'adsbygoogle');
     ins.setAttribute('data-ad-client', 'ca-pub-0882802698917065');
     ins.setAttribute('data-ad-slot', '3474737115');
     ins.setAttribute('data-ad-format', 'auto');

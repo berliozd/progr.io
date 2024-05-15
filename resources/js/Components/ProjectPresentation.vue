@@ -9,13 +9,13 @@ const props = defineProps({'project': Object})
 </script>
 
 <template>
+    <Ad/>
     <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
         <h2>{{ project.title }}</h2>
     </div>
     <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-xl">
         <div>{{ project.description }}</div>
     </div>
-    <Ad/>
     <CreateAccountBlock/>
     <template v-for="note in project.notes" class="" :key="note.id">
         <div class="flex flex-col rounded-lg border shadow-2xl bg-neutral/70">

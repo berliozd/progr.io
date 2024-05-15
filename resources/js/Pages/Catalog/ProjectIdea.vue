@@ -8,6 +8,7 @@ import axios from "axios";
 import {sortProjectChildren} from "@/Composables/App/useProject.js";
 import ProjectPresentation from "@/Components/ProjectPresentation.vue";
 import {trans} from "laravel-vue-i18n";
+import Breadcrumb from "@/Pages/Catalog/Partials/Breadcrumb.vue";
 
 const project = reactive({title: '', description: '', status: ''})
 const props = defineProps({'id': null})
@@ -32,6 +33,7 @@ getProject();
         <template #header>
             <PageHeader :title="title"/>
         </template>
+        <Breadcrumb :category="project?.category"></Breadcrumb>
         <ProjectPresentation :project="project"/>
     </CatalogLayout>
 </template>
