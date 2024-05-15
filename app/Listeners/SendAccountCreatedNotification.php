@@ -87,9 +87,7 @@ We are thrilled to have you on board!
 <br/>
 Welcome to :app_name, a unique SaaS solution designed specifically for people like you to track, define, and refine your project ideas.
 <br/>
-<br/>
 Our mission is to help you transform your ideas into reality, and we're excited to be a part of your creative journey.
-<br/>
 <br/>
 <br/>
 As a free account user, you have access to the following features:
@@ -97,7 +95,6 @@ As a free account user, you have access to the following features:
 <br/>
 <strong>1: Track Up to 3 Projects:</strong><br>
 <p>You can now easily manage and monitor the progress of up to three projects simultaneously. 
-Our platform allows you to keep all your ideas organized in one place, making it easier for you to focus on what matters most - bringing your projects to life.
 </p>
 <strong>2: Define Your Projects with AI Assistance:</strong><br>
 
@@ -109,7 +106,7 @@ Each credit allows you to gain valuable insights such as potential users, potent
 
 <p>Our AI-powered auto-population feature allows you to quickly and easily define and execute your ideas.
 This feature allows you to focus on the details of your project, while our AI technology takes care of the rest.
-Automatically, we'll populate your project with ideas that are relevant to your needs and goals.
+Automatically, we'll populate your project with ideas that are relevant to your needs and goals. You need 10 AI credits tu run 1 project idea auto-population.
 </p>
 <br/>
 <strong>Here's how it works: </strong><br/>
