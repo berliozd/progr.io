@@ -80,8 +80,7 @@ class AIService
         return 'Give me a list of project that are potential competitors for my project idea. ' .
             'Your answer must be separated by break line, without politeness phrase, no bulleted list, no numbering. ' .
             'I want the name, a brief description, and the complete website url with https://, for each competitor separated by |. ' .
-            'Example of output: ' .
-            'Name|Description|Url' .
+            'Example of output:Name|Description|Url' .
             'Do not add number or bullet in front of each item.' .
             'I want only competitors with accessible website.' .
             'I want ' . self::NB_COMPETITORS . ' competitors.';
@@ -155,13 +154,15 @@ class AIService
             'pricing' => $competitor ? 'tell me what are their current pricing plans' : 'give me possible pricing plans and features associated',
             'features' => $competitor ? 'tell me what are their current features' : 'give me possible features',
             'targets' => $competitor ? 'tell me who use their tool' : 'tell me who could be interested by my tool',
-            'domains' => 'give me possible short and cool domains names',
+            'domains' => 'give me possible short and cool domains names that are not already taken',
             'competitors' => 'tell me who are the competitors for a project like this and their website if it exists',
             default => ''
         };
         $question .= ', in your answer use bullets points';
         $question .= ', use carriage return';
         $question .= ', reply in ' . $this->getLanguageFromContext($context);
+        $question .= ', do not start your answer with a introduction sentence like "Certainly! ..." or "Sure! ..."';
+        $question .= ', just give your answer without introducing it.';
         return $question;
     }
 
