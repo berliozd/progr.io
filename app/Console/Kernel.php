@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('sitemap:generate')->twiceDaily();
+        $schedule->command('sitemap:generate')->everyFourHours();
         $schedule->command('project:auto_populate_projects')->everyFiveMinutes();
         $schedule->command('project:enrich_projects')->everyFiveMinutes();
     }
@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
