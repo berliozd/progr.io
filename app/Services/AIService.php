@@ -141,7 +141,7 @@ class AIService
 
     private function getCategoryQuestion(): string
     {
-        $existingCategories = Category::all()->toArray();
+        $existingCategories = Category::all()->pluck('code', 'id')->toArray();
         return 'Give me the category of this project. ' .
             'Among these : ' . json_encode($existingCategories) .
             'I want only one category.' .
