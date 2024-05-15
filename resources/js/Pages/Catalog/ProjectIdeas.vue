@@ -2,12 +2,12 @@
 import CatalogLayout from '@/Layouts/CatalogLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import SimpleLink from "@/Components/SimpleLink.vue";
+import Collapsable from "@/Components/Collapsable.vue";
 
 import {computed, ref} from "vue";
 import {Head} from '@inertiajs/vue3';
 import axios from "axios";
 import {_} from 'lodash';
-import Collapsable from "@/Components/Collapsable.vue";
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
 
@@ -63,8 +63,8 @@ getCategories();
                         </SimpleLink>
                     </div>
                 </div>
-                <div class="border h-8 align-middle flex items-center justify-around text-center">
-                    <SimpleLink :href="route('app.ideas.catalog')">
+                <div class="h-8">
+                    <SimpleLink :href="route('app.ideas.catalog')" :class="'underline'">
                         {{ $t('app.ideas.catalog.categories.all_categories') }}
                     </SimpleLink>
                 </div>
