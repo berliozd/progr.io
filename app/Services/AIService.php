@@ -149,12 +149,12 @@ class AIService
     private function getNoteQuestion(string $typeCode, string $context, bool $competitor): string
     {
         $question = match ($typeCode) {
-            'benefits' => $competitor ? 'tell me their what are the current users benefits' : 'tell me what could be benefits for future users',
-            'monetization' => $competitor ? 'tell me how they currently monetize it' : 'tell me how I could monetize it',
-            'pricing' => $competitor ? 'tell me what are their current pricing plans' : 'give me possible pricing plans and features associated',
-            'features' => $competitor ? 'tell me what are their current features' : 'give me possible features',
-            'targets' => $competitor ? 'tell me who use their tool' : 'tell me who could be interested by my tool',
-            'domains' => 'give me possible short and cool domains names that are not already taken',
+            'benefits' => $competitor ? 'tell me their what are the current users benefits (maximum 5 benefits)' : 'tell me what could be benefits for future users (maximum 5 benefits)',
+            'monetization' => $competitor ? 'tell me how they currently monetize it (maximum 5 ways)' : 'tell me how I could monetize it (maximum 5 ways)',
+            'pricing' => $competitor ? 'tell me what are their current pricing plans' : 'give me possible pricing plans and features associated (maximum 3 plans)',
+            'features' => $competitor ? 'tell me what are their current features (maximum 7 features)' : 'give me possible features (maximum 7 features)',
+            'targets' => $competitor ? 'tell me who use their tool (maximum 7 types)' : 'tell me who could be interested by my tool (maximum 7 types of users)',
+            'domains' => 'give me possible short and cool domains names (maximum 7) that are not already taken',
             'competitors' => 'tell me who are the competitors for a project like this and their website if it exists',
             default => ''
         };
