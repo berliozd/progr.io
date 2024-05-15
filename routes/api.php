@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // AI
     Route::post('/ai', [AiAssistantController::class, 'ask']);
+    Route::post('/ai/ideas', [AiAssistantController::class, 'askIdeas']);
     Route::post('/ai/note', [AiAssistantController::class, 'askNote']);
     Route::post('/ai/competitors', [AiAssistantController::class, 'askCompetitors']);
 

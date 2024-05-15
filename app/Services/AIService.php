@@ -8,18 +8,12 @@ use OpenAI\Client;
 
 class AIService
 {
-    const string GPT_ENGINE_VERSION = 'gpt-3.5-turbo';
+    const string GPT_ENGINE_VERSION = 'gpt-4o';
     private const int NB_COMPETITORS = 3;
-
-
-    private function getClient(): Client
-    {
-        $yourApiKey = config('services.openai.api_key');
-        return OpenAI::client($yourApiKey);
-    }
 
     public function getInsight(string $context, string $question): string
     {
+        \Log::info($context);
         \Log::info($question);
         $client = $this->getClient();
         $response = $client->chat()->create([
@@ -41,7 +35,7 @@ class AIService
         bool $competitor = false
     ): string {
         $context = $this->getContext($projectTitle, $projectDescription);
-        $question = $this->wrapNoteQuestion($noteTypeCode, $context, $competitor);
+        $question = $this->getNoteQuestion($noteTypeCode, $context, $competitor);
         return $this->getInsight($context, $question);
     }
 
@@ -62,42 +56,23 @@ class AIService
         return $competitors;
     }
 
-    private function wrapNoteQuestion(string $typeCode, string $context, bool $competitor): string
-    {
-        $question = $this->getNoteQuestion($typeCode, $competitor);
-        $question .= ', in your answer use bullets points';
-        $question .= ', use carriage return';
-        $question .= ', reply in ' . $this->getLanguage($context);
-        return $question;
-    }
-
-    private function getContext(string $title, string $description): string
-    {
-        return $title . ' - ' . $description;
-    }
-
-    private function getNoteQuestion(string $typeCode, bool $competitor = false): string
-    {
-        return match ($typeCode) {
-            'benefits' => $competitor ? 'tell me their what are the current users benefits' : 'tell me what could be benefits for future users',
-            'monetization' => $competitor ? 'tell me how they currently monetize it' : 'tell me how I could monetize it',
-            'pricing' => $competitor ? 'tell me what are their current pricing plans' : 'give me possible pricing plans and features associated',
-            'features' => $competitor ? 'tell me what are their current features' : 'give me possible features',
-            'targets' => $competitor ? 'tell me who use their tool' : 'tell me who could be interested by my tool',
-            'domains' => 'give me possible short and cool domains names',
-            'competitors' => 'tell me who are the competitors for a project like this and their website if it exists',
-            default => ''
-        };
-    }
-
-    private function getLanguage(string $context): string
+    public function getIdeas(string $context, string $lang): string
     {
         return $this->getInsight(
-            $context,
-            'Give me the human locale language of this project. ' .
-            'Your answer should only be the human locale language like for example french, english, spanish. '.
-            'Your answer should be a single word in lower case.'
+            $this->getIdeasContext($context),
+            $this->getIdeasQuestion($lang)
         );
+    }
+
+    public function getCategoryId($title, $description): int
+    {
+        return (int)$this->getInsight($this->getContext($title, $description), $this->getCategoryQuestion());
+    }
+
+    private function getClient(): Client
+    {
+        $yourApiKey = config('services.openai.api_key');
+        return OpenAI::client($yourApiKey);
     }
 
     private function getCompetitorQuestion(): string
@@ -134,9 +109,28 @@ class AIService
         }
     }
 
-    public function getCategoryId($title, $description): int
+    private function getIdeasContext(string $context): string
     {
-        return (int)$this->getInsight($this->getContext($title, $description), $this->getCategoryQuestion());
+        return 'You are a indie hacker, or a startuper looking for saas online project ideas that could be profitable. ' .
+            'I would like you to brainstorm and give project ideas. ' .
+            'The ideas should be related to ' . $context;
+    }
+
+    private function getIdeasQuestion(string $lang = 'en'): string
+    {
+        $lang = match ($lang) {
+            'en' => 'english',
+            'fr' => 'french',
+            default => 'unknown',
+        };
+        return 'Give me 5 ideas.' .
+            'Each idea must be separated by a break line.' .
+            'Each idea must have a title and a description.' .
+            'Title and description must be separated by |.' .
+            'Do not add bullets or numbers before each ideas.' .
+            'Do not and introduction text before listing teh ideas.' .
+            'Do not prefix your answers with numbers.' .
+            'Content should be in ' . $lang;
     }
 
     private function getCategoryQuestion(): string
@@ -146,5 +140,38 @@ class AIService
             'Among these : ' . json_encode($existingCategories) .
             'I want only one category.' .
             'Your answer should only be the id that could be cast to int with no other text.';
+    }
+
+    private function getContext(string $title, string $description): string
+    {
+        return $title . ' - ' . $description;
+    }
+
+    private function getNoteQuestion(string $typeCode, string $context, bool $competitor): string
+    {
+        $question = match ($typeCode) {
+            'benefits' => $competitor ? 'tell me their what are the current users benefits' : 'tell me what could be benefits for future users',
+            'monetization' => $competitor ? 'tell me how they currently monetize it' : 'tell me how I could monetize it',
+            'pricing' => $competitor ? 'tell me what are their current pricing plans' : 'give me possible pricing plans and features associated',
+            'features' => $competitor ? 'tell me what are their current features' : 'give me possible features',
+            'targets' => $competitor ? 'tell me who use their tool' : 'tell me who could be interested by my tool',
+            'domains' => 'give me possible short and cool domains names',
+            'competitors' => 'tell me who are the competitors for a project like this and their website if it exists',
+            default => ''
+        };
+        $question .= ', in your answer use bullets points';
+        $question .= ', use carriage return';
+        $question .= ', reply in ' . $this->getLanguageFromContext($context);
+        return $question;
+    }
+
+    private function getLanguageFromContext(string $context): string
+    {
+        return $this->getInsight(
+            $context,
+            'Give me the human locale language of this project. ' .
+            'Your answer should only be the human locale language like for example french, english, spanish. ' .
+            'Your answer should be a single word in lower case.'
+        );
     }
 }

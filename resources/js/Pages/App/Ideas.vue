@@ -8,10 +8,10 @@ import TextInput from "@/Components/TextInput.vue";
 import {Head, router} from '@inertiajs/vue3';
 import {inject, nextTick, ref} from "vue";
 import axios from "axios";
-import {getActiveLanguage, trans} from "laravel-vue-i18n";
+import {trans} from "laravel-vue-i18n";
 import {useStore} from "@/Composables/store.js";
 import aiAvailable from "@/Composables/App/aiAvailable.js";
-import reallyAskAi from "@/Composables/App/reallyAskAi.js";
+import {askIdeas} from "@/Composables/App/reallyAskAi.js";
 import {idByCode} from "@/Composables/autoPopulations.js";
 
 const ideas = ref([]);
@@ -48,7 +48,7 @@ const askAI = async () => {
             ai.value = true
             useStore().setIsLoading(true)
             loading.value = true
-            reallyAskAi(getContext(), getQuestion()).then((response) => {
+            askIdeas(context.value).then((response) => {
                 const results = response.split(/\n/g);
                 ideas.value = []
                 for (let i = 0; i < results.length; i++) {
@@ -67,28 +67,6 @@ const askAI = async () => {
             )
         }
     })
-}
-
-const getLanguage = () => {
-    if (getActiveLanguage() === 'en')
-        return 'english';
-    if (getActiveLanguage() === 'fr')
-        return 'french';
-}
-
-const getQuestion = () => {
-    return 'Can you give me 5 ideas.' +
-        'Each idea must be separated by a break line.' +
-        'Each idea must have a title and a description.' +
-        'Title and description must be separated by |.' +
-        'Do not add bullets or numbers before each ideas.' +
-        'Do not and introduction text before listing teh ideas.' +
-        'Do not prefix your answers with numbers.' +
-        'Content should be in ' + getLanguage();
-}
-
-const getContext = () => {
-    return 'As a indie hacker I would like you to give project ideas. The ideas should be related to ' + context.value;
 }
 
 idByCode('on').then(
@@ -200,9 +178,8 @@ const gotTo = (url) => {
                         <span class="underline font-bold">{{ $t('app.project.title') }}</span> : {{ idea.title }}
                     </div>
                     <div class="mb-2">
-                        <span class="underline font-bold">{{ $t('app.project.description') }}</span> : {{
-                            idea.description
-                        }}
+                        <span class="underline font-bold">{{ $t('app.project.description') }}</span> :
+                        {{ idea.description }}
                     </div>
                     <div>
                         <PrimaryButton @click="addProject(idea.title, idea.description)">

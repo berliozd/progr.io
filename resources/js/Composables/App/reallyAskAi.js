@@ -38,3 +38,12 @@ export async function askCompetitor(title, description) {
         }
     )
 }
+
+export async function askIdeas(context) {
+    return await axios.post('/api/ai/ideas/', {'context': context}).then(
+        (response) => {
+            userUsedCredits()
+            return response.data.response
+        }
+    )
+}

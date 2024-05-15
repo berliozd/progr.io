@@ -19,6 +19,15 @@ class AiAssistantController extends Controller
         return ['response' => $this->aiService->getInsight($context, $question)];
     }
 
+    public function askIdeas(Request $request): array
+    {
+        $userSettings = json_decode(auth()->user()->settings, true);
+        $lang = $userSettings['lang'] ?? \App::getLocale();
+        return [
+            'response' => $this->aiService->getIdeas($request->get('context'), $lang)
+        ];
+    }
+
     public function askNote(Request $request): array
     {
         $projectTitle = $request->get('title');
