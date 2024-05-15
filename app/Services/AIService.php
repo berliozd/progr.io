@@ -20,6 +20,7 @@ class AIService
     ): string {
         \Log::info($context);
         \Log::info($question);
+        \Log::info($engine);
         $client = $this->getClient();
         $response = $client->chat()->create([
             'model' => $engine,
