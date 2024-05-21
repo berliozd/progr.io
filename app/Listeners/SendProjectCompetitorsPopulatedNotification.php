@@ -16,7 +16,7 @@ readonly class SendProjectCompetitorsPopulatedNotification
     {
         \Log::info('Project competitors populated ' . $event->project->id);
         $subject = __(
-            ':app_name - Competitors of your Project :project_title Have Been Populated!',
+            ':app_name - Competitors of your Project ":project_title" Have Been Populated!',
             ['app_name' => config('app.name'), 'project_title' => $event->project->title]
         );
         $this->sendMailService->sendEmail($this->getContent($event), $subject, $event->project->owner, false);

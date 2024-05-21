@@ -16,7 +16,7 @@ readonly class SendProjectPopulatedNotification
     {
         \Log::info('Project populated ' . $event->project->id);
         $subject = __(
-            ':app_name - Your Project :project_title Has Been Populated!',
+            ':app_name - Your Project ":project_title" Has Been Populated!',
             ['app_name' => config('app.name'), 'project_title' => $event->project->title]
         );
         $this->sendMailService->sendEmail($this->getContent($event), $subject, $event->project->owner, false);
