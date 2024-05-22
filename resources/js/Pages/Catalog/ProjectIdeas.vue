@@ -3,6 +3,7 @@ import CatalogLayout from '@/Layouts/CatalogLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import SimpleLink from "@/Components/SimpleLink.vue";
 import Collapsable from "@/Components/Collapsable.vue";
+import Ad from "@/Pages/Catalog/Partials/Ad.vue";
 
 import {computed, ref} from "vue";
 import {Head} from '@inertiajs/vue3';
@@ -110,6 +111,7 @@ getCategories();
                     : $t('app.ideas.catalog.categories.all_categories_projects')
             }}
         </h1>
+        <Ad/>
         <div v-if="projects?.length" class="text-info">{{
                 $t(
                     'app.ideas.catalog.categories.nb_projects',
