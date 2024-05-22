@@ -45,6 +45,8 @@ class ProjectController extends Controller
         $project = Project::with(['competitors.notes.type'])
             ->with('notes.type')
             ->with('category')
+            ->with('metaDescription')
+            ->with('metaKeywords')
             ->find($id);
 
         // Add available note types

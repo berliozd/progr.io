@@ -28,7 +28,11 @@ const getProject = async () => {
 getProject();
 </script>
 <template>
-    <Head :title="title"/>
+    <Head>
+        <title>{{title}}</title>
+        <meta name="description" :content="project?.meta_description?.value ?? ''">
+        <meta name="keywords" :content="project?.meta_keywords?.value ?? ''">
+    </Head>
     <CatalogLayout>
         <template #header>
             <PageHeader :title="title"/>

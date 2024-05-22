@@ -182,4 +182,19 @@ class AIService
             'Your answer should be a single word in lower case.'
         );
     }
+
+    public function getMeta($title, $description, string $type): string
+    {
+        $question = match ($type) {
+            'description' => sprintf(
+                'give meta description for %s, it must be a simple text block, do not start your answer with a introduction sentence like "Certainly! ..." or "Sure! ...", or "Description : "',
+                $this->getContext($title, $description)
+            ),
+            'keywords' => sprintf(
+                'give meta keywords for %s, it must be a list of words separated by ",", do not start your answer with a introduction sentence like "Certainly! ..." or "Sure! ...", or "Keywords : "',
+                $this->getContext($title, $description)
+            )
+        };
+        return $this->getInsight($this->getContext($title, $description), $question);
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Project extends Model
 {
@@ -46,5 +47,21 @@ class Project extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function metaDescription(): HasOne
+    {
+        return $this->hasOne(ProjectMeta::class, 'project_id')->where(
+            'type',
+            MetaType::where('name', 'description')->first()->id
+        );
+    }
+
+    public function metaKeywords(): HasOne
+    {
+        return $this->hasOne(ProjectMeta::class, 'project_id')->where(
+            'type',
+            MetaType::where('name', 'keywords')->first()->id
+        );
     }
 }

@@ -6,6 +6,7 @@ use App\Events\ProjectCompetitorsPopulated;
 use App\Events\ProjectPopulated;
 use App\Models\Competitor;
 use App\Models\CompetitorsNote;
+use App\Models\MetaType;
 use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
@@ -128,5 +129,19 @@ class AutoPopulateService
         $categoryId = $this->aiService->getCategoryId($project->title, $project->description);
         $project->category_id = $categoryId;
         $project->save();
+    }
+
+    public function addMetas($project): void
+    {
+        $keywords = $this->aiService->getMeta($project->title, $project->description, 'keywords');
+        $project->metaKeywords()->updateOrCreate(
+            ['type' => MetaType::where('name', 'keywords')->first()->id],
+            ['value' => $keywords]
+        );
+        $description = $this->aiService->getMeta($project->title, $project->description, 'description');
+        $project->metaDescription()->updateOrCreate(
+            ['type' => MetaType::where('name', 'description')->first()->id],
+            ['value' => $description]
+        );
     }
 }
