@@ -28,10 +28,6 @@ import {idByCode} from "@/Composables/autoPopulations.js";
 
 const project = reactive({title: '', description: '', status: ''})
 const refreshAfterSave = ref(false);
-const competitors = ref([]);
-const ai = ref(true);
-const loading = ref(false)
-const errors = ref([]);
 const autoPopulationProcessing = ref(null);
 
 const projectId = window.location.href.split('/').pop();
@@ -115,13 +111,11 @@ getProject();
         </Box>
 
         <template v-if="project.auto_population === autoPopulationProcessing">
-            <div class="alert alert-info">{{
-                    $t('app.project.auto_populations.in_progress')
-                }}
+            <div class="alert alert-info">
+                {{$t('app.project.auto_populations.in_progress') }}
             </div>
-            <div class="alert alert-info">{{
-                    $t('app.project.auto_populations.in_progress_description')
-                }}
+            <div class="alert alert-info">
+                {{ $t('app.project.auto_populations.in_progress_description') }}
             </div>
         </template>
 

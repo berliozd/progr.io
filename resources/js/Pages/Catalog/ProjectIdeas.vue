@@ -10,13 +10,15 @@ import axios from "axios";
 import {_} from 'lodash';
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
+import {genericDescription, genericKeywords} from "@/Composables/seo.js";
 
 const projects = ref(null)
 const categories = ref(null)
 const props = defineProps({'categoryCode': null})
 const title = computed(() => {
     return trans('app.ideas.catalog.ideas_catalog') + ' - '
-        + (props.categoryCode ? trans('app.ideas.catalog.category.' + props.categoryCode)
+        + (props.categoryCode ?
+            trans('app.ideas.catalog.category.' + props.categoryCode)
             : trans('app.ideas.catalog.categories.all_categories'))
 })
 
@@ -45,11 +47,39 @@ const getCategories = async () => {
     }
 }
 
+const metaDescription = computed(() => {
+    let description = genericDescription()
+    if (props.categoryCode !== undefined) {
+        description += ' Project ideas for category : ' + trans('app.ideas.catalog.category.' + props.categoryCode)
+        return description
+    }
+    if (categories.value !== null) {
+        const concatenatedCats = categories.value.map((category) => {
+            return category.code
+        }).join(', ')
+        description += ' Project ideas for all the following categories : ' + concatenatedCats
+        return description
+    }
+    return description
+})
+
+const metaKeywords = computed(() => {
+    let keywords = genericKeywords()
+    if (props.categoryCode !== undefined) {
+        keywords += ', ' + trans('app.ideas.catalog.category.' + props.categoryCode)
+    }
+    return keywords;
+})
+
 getProjects();
 getCategories();
 </script>
 <template>
-    <Head :title="title"/>
+    <Head>
+        <title>{{title}}</title>
+        <meta name="description" :content="metaDescription">
+        <meta name="keywords" :content="metaKeywords">
+    </Head>
     <CatalogLayout>
         <template #header>
             <PageHeader :title="title"/>
