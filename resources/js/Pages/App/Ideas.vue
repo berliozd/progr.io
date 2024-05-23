@@ -49,15 +49,13 @@ const askAI = async () => {
             useStore().setIsLoading(true)
             loading.value = true
             askIdeas(context.value).then((response) => {
-                const results = response.split(/\n/g);
+                const results = Object.values(response);
                 ideas.value = []
                 for (let i = 0; i < results.length; i++) {
-                    let result = results[i];
-                    if (result !== '') {
-                        let [title, description] = result.split('|');
-                        if (title && description) {
-                            ideas.value.push({title, description});
-                        }
+                    const title = results[i][0];
+                    const description = results[i][1];
+                    if (title && description) {
+                        ideas.value.push({title, description});
                     }
                 }
             }).finally(() => {

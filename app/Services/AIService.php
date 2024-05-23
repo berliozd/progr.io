@@ -62,12 +62,31 @@ class AIService
         return $competitors;
     }
 
-    public function getIdeas(string $context, string $lang): string
+    public function getIdeas(string $context, string $lang = 'en'): array
     {
-        return $this->getInsight(
-            $this->getIdeasContext($context),
-            $this->getIdeasQuestion($lang),
-            self::GPT_ENGINE_VERSION_4o
+        $ideas = explode(
+            "\n",
+            $this->getInsight(
+                $this->getIdeasContext($context),
+                $this->getIdeasQuestion($lang),
+                self::GPT_ENGINE_VERSION_4o
+            )
+        );
+        $cleanedIdeas = [];
+        foreach ($ideas as $item) {
+            if (strlen($item) <= 0) {
+                continue;
+            }
+            $cleanedIdeas[] = trim($item);
+        }
+        return array_map(
+            function ($item) {
+                $explodedItem = explode('|', trim($item));
+                return array_map(function ($value) {
+                    return trim($value);
+                }, $explodedItem);
+            },
+            $cleanedIdeas
         );
     }
 
