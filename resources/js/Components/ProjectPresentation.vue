@@ -9,7 +9,7 @@ const props = defineProps({'project': Object})
 </script>
 
 <template>
-    <Ad/>
+    <Ad :el="'top'"/>
     <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
         <h2>{{ project.title }}</h2>
     </div>
@@ -50,5 +50,6 @@ const props = defineProps({'project': Object})
             </div>
         </template>
     </div>
+    <Ad :el="'bottom'"/>
     <CreateAccountBlock/>
 </template>

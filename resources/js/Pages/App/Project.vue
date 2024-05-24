@@ -25,6 +25,7 @@ import {useStore} from "@/Composables/store.js";
 import statuses from "@/Composables/statuses.js";
 import {sortProjectChildren} from "@/Composables/App/useProject.js";
 import {idByCode} from "@/Composables/autoPopulations.js";
+import Ad from "@/Pages/Catalog/Partials/Ad.vue";
 
 const project = reactive({title: '', description: '', status: ''})
 const refreshAfterSave = ref(false);
@@ -95,6 +96,8 @@ getProject();
             <PageHeader v-bind:title="$t('Project')"/>
         </template>
 
+        <Ad :el="'top'"/>
+
         <ProjectActions :project="project"/>
 
         <Box class="space-y-2 bg-primary/80 relative" v-if="project">
@@ -112,7 +115,7 @@ getProject();
 
         <template v-if="project.auto_population === autoPopulationProcessing">
             <div class="alert alert-info">
-                {{$t('app.project.auto_populations.in_progress') }}
+                {{ $t('app.project.auto_populations.in_progress') }}
             </div>
             <div class="alert alert-info">
                 {{ $t('app.project.auto_populations.in_progress_description') }}
@@ -177,7 +180,9 @@ getProject();
                     <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>
                 </div>
             </div>
+
         </template>
+        <Ad :el="'bottom'"/>
 
     </AuthenticatedLayout>
 </template>

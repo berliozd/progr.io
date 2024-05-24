@@ -10,25 +10,27 @@ import SectionSix from "@/Pages/Home/Partials/SectionSix.vue";
 
 import {Head} from '@inertiajs/vue3';
 import {trans} from "laravel-vue-i18n";
+import Ad from "@/Pages/Catalog/Partials/Ad.vue";
 
 defineProps({
-  canLogin: {
-    type: Boolean,
-  },
-  canRegister: {
-    type: Boolean,
-  }
+    canLogin: {
+        type: Boolean,
+    },
+    canRegister: {
+        type: Boolean,
+    }
 });
 </script>
 
 <template>
-  <Head v-bind:title="trans('Welcome')"/>
-  <Nav v-bind:can-login="canLogin" v-bind:can-register="canRegister"/>
-  <SectionOne/>
-  <SectionTwo/>
-  <SectionThree/>
-  <SectionFour/>
-  <SectionFive/>
-  <SectionSix/>
-  <Footer/>
+    <Head v-bind:title="trans('Welcome')"/>
+    <Nav v-bind:can-login="canLogin" v-bind:can-register="canRegister"/>
+    <SectionOne/>
+    <SectionTwo/>
+    <SectionThree/>
+    <SectionFour/>
+    <SectionFive/>
+    <SectionSix/>
+    <Ad/>
+    <Footer/>
 </template>

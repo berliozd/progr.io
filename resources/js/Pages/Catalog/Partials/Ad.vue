@@ -1,8 +1,16 @@
 <script setup>
 import {onMounted} from "vue";
+import {usePage} from "@inertiajs/vue3";
+
+const props = defineProps({
+    'el': {type: String, default: 'default'}
+});
 
 onMounted(() => {
-    const adElement = document.getElementById('ad-element');
+    if (!usePage().props.auth?.subscription) {
+        return;
+    }
+    const adElement = document.getElementById('ad-element-' + props.el);
 
     const script1 = document.createElement('script');
     script1.async = true;
@@ -24,6 +32,8 @@ onMounted(() => {
     adElement.appendChild(script2);
 })
 </script>
-<template>
-    <div id="ad-element"><!-- progr.io --></div>
+<template v-if="!usePage().props.auth?.subscription">
+    <div class="max-w-7xl mx-auto">
+        <div :id="'ad-element-' + props.el"><!-- progr.io --></div>
+    </div>
 </template>

@@ -18,6 +18,7 @@ import {useStore} from "@/Composables/store.js";
 import statuses from "@/Composables/statuses.js";
 import visibilities from "@/Composables/visibilities.js";
 import autoPopulations from "@/Composables/autoPopulations.js";
+import Ad from "@/Pages/Catalog/Partials/Ad.vue";
 
 const allStatuses = ref(null)
 statuses().then((response) => {
@@ -78,6 +79,7 @@ const validate = () => {
         <template #header>
             <PageHeader v-bind:title="$t('New Project')"/>
         </template>
+        <Ad :el="'top'"/>
         <Box class="space-y-4 relative bg-primary/70">
             <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
             <label for="title">{{ $t('app.project.title') }}:</label>
@@ -97,5 +99,6 @@ const validate = () => {
             <autoPopulations :project="project" :all-auto-populations="allAutoPopulations"/>
         </Box>
         <SaveProjectButton v-bind:on-click="save"></SaveProjectButton>
+        <Ad :el="'bottom'"/>
     </AuthenticatedLayout>
 </template>
