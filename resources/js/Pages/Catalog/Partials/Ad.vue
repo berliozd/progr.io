@@ -7,7 +7,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-    if (!usePage().props.auth?.subscription) {
+    if (usePage().props.auth?.subscription) {
         return;
     }
     const adElement = document.getElementById('ad-element-' + props.el);
