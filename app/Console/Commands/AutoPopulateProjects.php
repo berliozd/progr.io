@@ -31,6 +31,8 @@ class AutoPopulateProjects extends Command
     public function handle()
     {
         \Log::info('Auto populating projects');
+        $this->autoPopulateService->cleanProjectsToBeAutoPopulated();
+
         $projects = Project
             ::where('auto_population', AutoPopulations::where('code', 'on')->pluck('id')->first())
             ->limit(2)

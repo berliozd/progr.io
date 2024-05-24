@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\ProjectCompetitorsPopulated;
 use App\Events\ProjectPopulated;
+use App\Models\AutoPopulations;
 use App\Models\Competitor;
 use App\Models\CompetitorsNote;
 use App\Models\MetaType;
@@ -21,20 +22,7 @@ class AutoPopulateService
     public function populate(Project $project): void
     {
         \Log::info('Populate project ' . $project->id);
-        $projectOwner = User::where('id', $project->owner->id)->first();
-        if (!$this->canAutoPopulate($projectOwner)) {
-            \Log::info(
-                sprintf(
-                    'Projects %s cannot be auto populated because user %s is either not subscribed or does not have enough credits',
-                    $project->id,
-                    $projectOwner->id
-                )
-            );
-            return;
-        }
-
         $this->addProjectNotes($project);
-        $this->addCompetitors($project);
         $project->owner->update(
             ['used_ai_credits' => $project->owner->used_ai_credits + config('app.auto-population-credits')]
         );
@@ -42,13 +30,33 @@ class AutoPopulateService
         \Log::info(sprintf('Project %s auto populated', $project->id));
     }
 
-    public function canAutoPopulate(User $user, int $nbCreditsNeeded = null): bool
+    private function canAutoPopulate(User $user): bool
     {
         if ($user->subscription() && $user->subscription()->valid()) {
             return true;
         }
         $nbCreditsLeft = config('app.free-ai-credits') - $user->used_ai_credits;
-        return $nbCreditsLeft >= ($nbCreditsNeeded ?? config('app.auto-population-credits'));
+        return $nbCreditsLeft >= config('app.auto-population-credits');
+    }
+
+    public function cleanProjectsToBeAutoPopulated(): void
+    {
+        $projects = Project::where('auto_population', AutoPopulations::where('code', 'on')->pluck('id')->first())
+            ->orderBy('updated_at')
+            ->get();
+
+        foreach ($projects as $project) {
+            if (!$this->canAutoPopulate($project->owner)) {
+                $project->update(['auto_population' => AutoPopulations::where('code', 'off')->pluck('id')->first()]);
+                \Log::info(
+                    sprintf(
+                        'Projects %s cannot be auto populated because user %s is either not subscribed or does not have enough credits',
+                        $project->id,
+                        $project->owner->id
+                    )
+                );
+            }
+        }
     }
 
     private function addProjectNotes(Project $project): void

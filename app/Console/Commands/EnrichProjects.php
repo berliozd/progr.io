@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\AutoPopulations;
 use App\Models\Project;
 use App\Services\AutoPopulateService;
 use Illuminate\Console\Command;
@@ -43,14 +42,6 @@ class EnrichProjects extends Command
 
         // Get all projects not set to be auto-populated, or being populated, and without competitors
         $projectsWithoutCompetitors = Project::doesntHave('competitors')
-            ->whereNot(
-                'auto_population',
-                AutoPopulations::where('code', 'on')->pluck('id')->first()
-            )
-            ->whereNot(
-                'auto_population',
-                AutoPopulations::where('code', 'processing')->pluck('id')->first()
-            )
             ->limit(2)
             ->orderBy('updated_at')
             ->get();
@@ -62,9 +53,6 @@ class EnrichProjects extends Command
 
         foreach ($projectsWithoutCompetitors as $project) {
             try {
-                if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
-                    continue;
-                }
                 \Log::info('Populate competitors for project ' . $project->id);
                 $this->autoPopulateService->addCompetitors($project, true);
                 $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
@@ -86,9 +74,6 @@ class EnrichProjects extends Command
         }
         foreach ($projectsToAddCategory as $project) {
             try {
-                if (!$this->autoPopulateService->canAutoPopulate($project->owner, 1)) {
-                    continue;
-                }
                 \Log::info('Add category for project ' . $project->id);
                 $this->autoPopulateService->addCategory($project);
                 $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
