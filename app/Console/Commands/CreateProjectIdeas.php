@@ -26,7 +26,7 @@ class CreateProjectIdeas extends Command
     {
         \Log::info('Create project ideas');
         $categories = Category::all()->pluck('code')->toArray();
-        $ideas = $this->aiService->getIdeas($categories[rand(0, count($categories))]);
+        $ideas = $this->aiService->getIdeas($categories[rand(0, count($categories) - 1)]);
         $userId = $this->getUserId();
         $statusId = (int)ProjectsStatus::where('label', 'New')->first()->id;
         $visibilityId = (int)ProjectsVisibility::where('code', 'public')->first()->id;
