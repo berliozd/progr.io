@@ -43,7 +43,6 @@ useStore().setIsLoading(true)
         <template #header>
             <PageHeader v-bind:title="$t('Projects')"/>
         </template>
-        <Ad :el="'top'"/>
         <Box v-if="!useStore().loading" class="relative">
             <div v-if="!hasProject" class="my-4">{{ $t('app.no_projects') }}</div>
             <div v-else class="my-4">{{ $t('app.nb_projects', {'nb': projects.length}) }}</div>

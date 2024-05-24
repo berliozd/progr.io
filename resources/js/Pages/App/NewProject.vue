@@ -79,7 +79,6 @@ const validate = () => {
         <template #header>
             <PageHeader v-bind:title="$t('New Project')"/>
         </template>
-        <Ad :el="'top'"/>
         <Box class="space-y-4 relative bg-primary/70">
             <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
             <label for="title">{{ $t('app.project.title') }}:</label>

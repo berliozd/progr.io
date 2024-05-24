@@ -96,8 +96,6 @@ getProject();
             <PageHeader v-bind:title="$t('Project')"/>
         </template>
 
-        <Ad :el="'top'"/>
-
         <ProjectActions :project="project"/>
 
         <Box class="space-y-2 bg-primary/80 relative" v-if="project">
