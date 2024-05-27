@@ -29,22 +29,5 @@ class ProjectPdfController extends Controller
             ->landscape()
             ->format(Format::A4)
             ->margins(20, 20, 20, 20, Unit::Pixel);
-
-//        $pdf = Browsershot::url(route('app.projects.presentation', $id))
-//            ->setPaper('a4')
-//            ->setOptions([
-//                'margin-top' => '10mm',
-//                'margin-bottom' => '10mm',
-//                'margin-left' => '10mm',
-//                'margin-right' => '10mm',
-//            ])
-//            ->waitUntil('#presentation')
-//            ->pdf();
-//
-//        return response($pdf, 200, [
-//            'Content-Type' => 'application/pdf',
-//            'Content-Disposition' => 'inline; filename="example.pdf"',
-//        ]);
-
     }
 }
