@@ -39,9 +39,10 @@ const showingNavigationDropdown = ref(false);
                             <NavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
                                 {{ $t('app.ideas.ideas_generator') }}
                             </NavLink>
-                            <NavLink :href="route('app.ideas.catalog')" :active="route().current('app.ideas.catalog')">
+                            <a :href="route('app.ideas.catalog')"
+                               class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 hover:text-neutral-content/70 transition duration-150 ease-in-out">
                                 {{ $t('app.ideas.catalog.ideas_catalog') }}
-                            </NavLink>
+                            </a>
                             <a :href="route('subscribe.checkout')" v-if="!subscription"
                                :class="'inline-flex items-center px-1 pt-1 text-sm hover:text-neutral-content/70'">
                                 {{ $t('layout.subscription') }}
@@ -133,9 +134,11 @@ const showingNavigationDropdown = ref(false);
                     <ResponsiveNavLink :href="route('app.ideas')" :active="route().current('app.ideas')">
                         {{ $t('app.ideas.ideas_generator') }}
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('app.ideas.catalog')" :active="route().current('app.ideas.catalog')">
+                    <a :href="route('app.ideas.catalog')" class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start
+                                       font-medium focus:outline-none focus:text-gray-200 focus:bg-gray-700
+                                       focus:border-gray-600 transition duration-150 ease-in-out">
                         {{ $t('app.ideas.catalog.ideas_catalog') }}
-                    </ResponsiveNavLink>
+                    </a>
                     <a :href="route('subscribe.checkout')" v-if="!subscription"
                        :class="'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start'">
                         {{ $t('layout.subscription') }}

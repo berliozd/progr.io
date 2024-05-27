@@ -126,10 +126,9 @@ getCategories();
             <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
                 <div v-for="project in projects" class="">
                     <div class="border h-20 align-middle flex items-center justify-around text-center px-2">
-                        <SimpleLink
-                            :href="route('app.ideas.catalog.idea', {id:project.id, title:_.toLower(_.kebabCase(project.title)), category:project.category?.code??''})">
+                        <a :href="route('app.ideas.catalog.idea', {id:project.id, title:_.toLower(_.kebabCase(project.title)), category:project.category?.code??''})">
                             {{ project.title }}
-                        </SimpleLink>
+                        </a>
                     </div>
                 </div>
             </div>
