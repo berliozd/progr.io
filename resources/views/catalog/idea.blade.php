@@ -35,7 +35,7 @@
                     <div class="">
                         <div class="m-4">{{ $competitor->description }}</div>
                         <div class="m-4">
-                            <a :href="competitor.url" target="_blank" class="underline">{{ $competitor->url }}</a>
+                            <a href="{{ $competitor->url }}" target="_blank" class="underline">{{ $competitor->url }}</a>
                         </div>
                         @foreach ($competitor->notes as $competitorNote)
                             <div class="flex flex-col m-2 rounded-lg border shadow-2xl bg-neutral/70">
