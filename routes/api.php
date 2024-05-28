@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ProjectNoteController;
 use App\Http\Controllers\Api\ProjectStatusController;
 use App\Http\Controllers\Api\ProjectVisibilityController;
 use App\Http\Controllers\Api\SendMailController;
+use App\Http\Controllers\Api\SeoController;
 use App\Http\Controllers\Api\UserController;
 use App\Models\CompetitorProject;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/projects/public/list', [ProjectController::class, 'list']);
+Route::get('/seo/meta', [SeoController::class, 'meta']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // projects

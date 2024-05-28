@@ -30,7 +30,9 @@ Route::get('/project-presentation/{id}', ProjectPresentationController::class)->
 Route::get('/project-ideas', [ProjectIdeaController::class, 'index'])->name('app.ideas.catalog');
 Route::get('/project-ideas/{category}', [ProjectIdeaController::class, 'category'])
     ->name('app.ideas.catalog.category');
-Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::class, 'show'])->name('app.ideas.catalog.idea');
+Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::class, 'show'])->name(
+    'app.ideas.catalog.idea'
+);
 
 
 require __DIR__ . '/auth.php';

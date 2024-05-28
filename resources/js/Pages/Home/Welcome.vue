@@ -7,10 +7,10 @@ import SectionFour from "@/Pages/Home/Partials/SectionFour.vue";
 import Footer from "@/Pages/Home/Partials/Footer.vue";
 import SectionFive from "@/Pages/Home/Partials/SectionFive.vue";
 import SectionSix from "@/Pages/Home/Partials/SectionSix.vue";
+import Ad from "@/Pages/Catalog/Partials/Ad.vue";
 
 import {Head} from '@inertiajs/vue3';
-import {trans} from "laravel-vue-i18n";
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import {ref} from "vue";
 
 defineProps({
     canLogin: {
@@ -20,10 +20,27 @@ defineProps({
         type: Boolean,
     }
 });
+
+const keywords = ref(null)
+const description = ref(null)
+
+async function getMeta() {
+    await axios.get('/api/seo/meta').then(response => {
+        console.log(response.data);
+        keywords.value = response.data.keywords
+        description.value = response.data.description
+    })
+}
+getMeta()
 </script>
 
 <template>
-    <Head v-bind:title="trans('Welcome')"/>
+    <Head>
+        <title>{{$t('Welcome')}}</title>
+        <meta name="description" :content="description">
+        <meta name="keywords" :content="keywords">
+        <link rel="canonical" :href="route('home')">
+    </Head>
     <Nav v-bind:can-login="canLogin" v-bind:can-register="canRegister"/>
     <SectionOne/>
     <SectionTwo/>
