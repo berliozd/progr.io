@@ -8,6 +8,9 @@
     <x-slot:metaKeywords>
         {{ $project?->metaKeywords->value ?? '' }}
     </x-slot:metaKeywords>
+    <x-slot:canonical>
+        {{route('app.ideas.catalog.idea', ['id' => $project->id, 'title' => str_replace(' ', '-', strtolower($project->title)), 'category' => $project->category->code])}}
+    </x-slot:canonical>
     @include('components.partials.breadcrumbs')
     @include('components.partials.ad')
     <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
@@ -35,7 +38,8 @@
                     <div class="">
                         <div class="m-4">{{ $competitor->description }}</div>
                         <div class="m-4">
-                            <a href="{{ $competitor->url }}" target="_blank" class="underline">{{ $competitor->url }}</a>
+                            <a href="{{ $competitor->url }}" target="_blank"
+                               class="underline">{{ $competitor->url }}</a>
                         </div>
                         @foreach ($competitor->notes as $competitorNote)
                             <div class="flex flex-col m-2 rounded-lg border shadow-2xl bg-neutral/70">

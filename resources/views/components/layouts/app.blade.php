@@ -13,6 +13,7 @@
     @include('components.partials.gtag')
     <meta name="description" content="{{$metaDescription??''}}">
     <meta name="keywords" content="{{ $metaKeywords??''}}">
+    <link rel="canonical" href="{{ $canonical}}">
 </head>
 <body class="font-sans antialiased">
 @include('components.partials.promokit')

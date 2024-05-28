@@ -10,6 +10,9 @@
     <x-slot:metaKeywords>
         {{ $keywords ?? '' }}
     </x-slot:metaKeywords>
+    <x-slot:canonical>
+        {{ !empty($categoryCode) ? route('app.ideas.catalog.category', ['category' => $categoryCode]) : route('app.ideas.catalog')}}
+    </x-slot:canonical>
     <x-partials.collapsable title="{{ trans('app.ideas.catalog.ideas_catalog') }}">
         <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
             @foreach($categories as $category)
