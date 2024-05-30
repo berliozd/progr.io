@@ -117,6 +117,7 @@ return [
                 'sustainability' => 'Sustainability',
                 'jobs' => 'Jobs',
                 'news' => 'News',
+                'health-well-being' => 'Health and well-being',
             ],
         ]
     ],
