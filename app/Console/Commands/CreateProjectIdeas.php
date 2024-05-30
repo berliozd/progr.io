@@ -58,7 +58,8 @@ class CreateProjectIdeas extends Command
 
     private function getUserId(): int
     {
-        $userIds = User::where('email', 'like', '%fakedata%')->pluck('id')->toArray();
+        $userIds = User::where('email', 'like', '%fakedata%')
+            ->whereNotNull('stripe_id')->pluck('id')->toArray();
         $userId = $userIds[array_rand($userIds)];
         \Log::info('for user ' . $userId);
         return (int)$userId;
