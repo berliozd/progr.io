@@ -18,15 +18,14 @@ class CreateProjectIdeas extends Command
         Parent::__construct();
     }
 
-    protected $signature = 'project:create_project_ideas';
+    protected $signature = 'project:create_project_ideas {keywords?}';
 
     protected $description = 'Create project ideas.';
 
     public function handle(): void
     {
         \Log::info('Create project ideas');
-        $categories = Category::all()->pluck('code')->toArray();
-        $ideas = $this->aiService->getIdeas($categories[rand(0, count($categories) - 1)]);
+        $ideas = $this->aiService->getIdeas($this->getContext());
         $userId = $this->getUserId();
         $statusId = (int)ProjectsStatus::where('label', 'New')->first()->id;
         $visibilityId = (int)ProjectsVisibility::where('code', 'public')->first()->id;
@@ -72,5 +71,17 @@ class CreateProjectIdeas extends Command
         $idea = $ideas[$keys[$index]];
         unset($ideas[$keys[$index]]);
         return $idea;
+    }
+
+    public function getContext(): string
+    {
+        $keywords = $this->argument('keywords');
+        if (!empty($keywords)) {
+            $context = $keywords;
+        } else {
+            $categories = Category::all()->pluck('code')->toArray();
+            $context = $categories[rand(0, count($categories) - 1)];
+        }
+        return $context;
     }
 }
