@@ -12,34 +12,30 @@ class AiAssistantController extends Controller
     {
     }
 
-    public function ask(Request $request): array
+    public function askSharingEmailContent(Request $request): array
     {
-        $context = $request->get('context');
-        $question = $request->get('question');
-        return ['response' => $this->aiService->getInsight($context, $question)];
+        $id = (int)$request->get('id');
+        $title = $request->get('title');
+        $description = $request->get('description');
+        return ['response' => $this->aiService->getSharingEmailContent($id, $title, $description)];
     }
+
 
     public function askIdeas(Request $request): array
     {
-        $userSettings = json_decode(auth()->user()->settings, true);
-        $lang = $userSettings['lang'] ?? \App::getLocale();
         return [
-            'response' => $this->aiService->getIdeas($request->get('context'), $lang)
+            'response' => $this->aiService->getIdeas($request->get('context'))
         ];
     }
 
     public function askNote(Request $request): array
     {
-        $projectTitle = $request->get('title');
-        $projectDescription = $request->get('description');
-        $noteTypeCode = $request->get('noteTypeCode');
-        $isCompetitor = $request->get('competitor') == 1;
         return [
             'response' => $this->aiService->getNote(
-                $projectTitle,
-                $projectDescription,
-                $noteTypeCode,
-                $isCompetitor
+                $request->get('title'),
+                $request->get('description'),
+                $request->get('noteTypeCode'),
+                $request->get('competitor') == 1
             )
         ];
     }

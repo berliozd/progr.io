@@ -62,37 +62,28 @@ class AIService
         return $competitors;
     }
 
-    public function getIdeas(string $context, string $lang = 'en'): array
+    public function getIdeas(string $context): array
     {
-        $ideas = explode(
-            "\n",
+        return $this->getFormatedIdeas(
             $this->getInsight(
                 $this->getIdeasContext($context),
-                $this->getIdeasQuestion($lang),
+                $this->getIdeasQuestion(),
                 self::GPT_ENGINE_VERSION_4o
             )
-        );
-        $cleanedIdeas = [];
-        foreach ($ideas as $item) {
-            if (strlen($item) <= 0) {
-                continue;
-            }
-            $cleanedIdeas[] = trim($item);
-        }
-        return array_map(
-            function ($item) {
-                $explodedItem = explode('|', trim($item));
-                return array_map(function ($value) {
-                    return trim($value);
-                }, $explodedItem);
-            },
-            $cleanedIdeas
         );
     }
 
     public function getCategoryId($title, $description): int
     {
         return (int)$this->getInsight($this->getContext($title, $description), $this->getCategoryQuestion());
+    }
+
+    public function getSharingEmailContent(int $projectId, string $projectTitle, string $projectDescription): string
+    {
+        return $this->getInsight(
+            $this->getContext($projectTitle, $projectDescription),
+            $this->getShareEmailContentQuestion($projectId)
+        );
     }
 
     private function getClient(): Client
@@ -141,13 +132,9 @@ class AIService
             'The ideas should be related to ' . $context;
     }
 
-    private function getIdeasQuestion(string $lang = 'en'): string
+    private function getIdeasQuestion(): string
     {
-        $lang = match ($lang) {
-            'en' => 'english',
-            'fr' => 'french',
-            default => 'unknown',
-        };
+        $lang = $this->getLanguage();
         return 'Give me 5 ideas.' .
             'Each idea must be separated by a break line.' .
             'Each idea must have a title and a description.' .
@@ -215,5 +202,49 @@ class AIService
             )
         };
         return $this->getInsight($this->getContext($title, $description), $question);
+    }
+
+    private function getFormatedIdeas(string $insight): array
+    {
+        $ideas = explode(
+            "\n",
+            $insight
+        );
+        $cleanedIdeas = [];
+        foreach ($ideas as $item) {
+            if (strlen($item) <= 0) {
+                continue;
+            }
+            $cleanedIdeas[] = trim($item);
+        }
+        return array_map(
+            function ($item) {
+                $explodedItem = explode('|', trim($item));
+                return array_map(function ($value) {
+                    return trim($value);
+                }, $explodedItem);
+            },
+            $cleanedIdeas
+        );
+    }
+
+    public function getLanguage(): string
+    {
+        $userSettings = json_decode(auth()->user()->settings, true);
+        $lang = $userSettings['lang'] ?? \App::getLocale();
+        return match ($lang) {
+            'en' => 'english',
+            'fr' => 'french',
+            default => 'unknown',
+        };
+    }
+
+    private function getShareEmailContentQuestion(int $projectId): string
+    {
+        return 'Write a email telling that I am sharing this idea and would like feedback from the recipient.'
+            . ', write in ' . $this->getLanguage()
+            . ',do not add the subject'
+            . ', integrate this link in your answer using a A tag : '
+            . route('app.projects.presentation', ['id' => $projectId]);
     }
 }

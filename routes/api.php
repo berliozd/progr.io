@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/competitor_project/{id}', [CompetitorProject::class, 'destroy']);
 
     // AI
-    Route::post('/ai', [AiAssistantController::class, 'ask']);
+    Route::post('/ai/sharing_email', [AiAssistantController::class, 'askSharingEmailContent']);
     Route::post('/ai/ideas', [AiAssistantController::class, 'askIdeas']);
     Route::post('/ai/note', [AiAssistantController::class, 'askNote']);
     Route::post('/ai/competitors', [AiAssistantController::class, 'askCompetitors']);
