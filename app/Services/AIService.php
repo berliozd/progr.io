@@ -230,7 +230,7 @@ class AIService
 
     public function getLanguage(): string
     {
-        $userSettings = json_decode(auth()->user()->settings, true);
+        $userSettings = json_decode(auth()->user()?->settings, true);
         $lang = $userSettings['lang'] ?? \App::getLocale();
         return match ($lang) {
             'en' => 'english',
