@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('project:enrich_projects')->everyFiveMinutes();
         $schedule->command('project:set_metas')->everyFiveMinutes();
         $schedule->command('project:create_project_ideas')->daily();
+        $schedule->command('ideas:send')->twiceDaily();
     }
 
     /**
