@@ -6,15 +6,12 @@ These ideas are designed to inspire and motivate you to build something amazing.
 <br>
 <ul>
     @foreach ($ideas as $idea)
-        <li>[
+        <li>
             <a href="{{ route('app.ideas.catalog.idea', [
                         'id' => $idea->id,
                         'title' => str_replace(' ', '-', strtolower($idea->title)),
-                        'category' => $idea->category->code]) }}">
-                {{ $idea['title'] }}
+                        'category' => $idea->category->code]) }}">{{ $idea['title'] }}
             </a>
-            ]
-            - {{ $idea['description'] }}
         </li>
     @endforeach
 </ul>
