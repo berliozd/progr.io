@@ -7,7 +7,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 const receiveWeeklyEmailInput = ref(null);
 const user = usePage().props.auth.user;
 const form = useForm({
-    receive_weekly_email: JSON.parse(user.settings).receive_weekly_email ?? false,
+    receive_weekly_email: JSON.parse(user.settings)?.receive_weekly_email ?? true,
 });
 
 const updateSettings = () => {

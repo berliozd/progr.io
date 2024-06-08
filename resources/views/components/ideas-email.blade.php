@@ -23,6 +23,9 @@ To view the full details of each idea, including suggested features, benefits fo
 We hope you find these ideas to be valuable and inspiring. If you have any questions or feedback, please don't hesitate to contact us.
 <br>
 <br>
+<span style="font-size: xx-small">If you don't want to receive this email anymore, you can always unsubscribe by going to your settings in the "profile" section.</span>
+<br>
+<br>
 Thank you for choosing <a href="{{config('app.url')}}">{{config('app.name')}}</a>, and happy building!
 <br>
 <br>

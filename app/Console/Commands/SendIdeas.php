@@ -19,7 +19,7 @@ class SendIdeas extends Command
         Parent::__construct();
     }
 
-    protected $signature = 'ideas:send';
+    protected $signature = 'project:send_ideas';
 
     protected $description = 'Send Ideas by email.';
 
@@ -35,6 +35,9 @@ class SendIdeas extends Command
             ->with('category');
         $users = User::all();
         foreach ($users as $user) {
+            if (!$this->canSendEmailToUser($user)) {
+                continue;
+            }
             $this->mailService->sendEmail(
                 Blade::renderComponent(new IdeasEmail($projects->get(), $user)),
                 sprintf('Your Weekly Dose of Inspiration - %s New Ideas from %s!', self::NB_IDEAS, config('app.name')),
@@ -43,5 +46,11 @@ class SendIdeas extends Command
         }
 
         \Log::info('End sending ideas by email');
+    }
+
+    private function canSendEmailToUser(User $user): bool
+    {
+        $settings = json_decode($user->settings, true);
+        return $settings['receive_weekly_email'] ?? false;
     }
 }

@@ -49,6 +49,8 @@ class SendMailService
             ];
         }
         $body = ['Messages' => $messages];
+        \Log::info('sending mail to ' . $user->email);
         $mj->post(Resources::$Email, ['body' => $body]);
+        \Log::info('After sending mail to ' . $user->email);
     }
 }
