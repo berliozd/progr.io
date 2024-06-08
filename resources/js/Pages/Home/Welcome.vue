@@ -26,7 +26,6 @@ const description = ref(null)
 
 async function getMeta() {
     await axios.get('/api/seo/meta').then(response => {
-        console.log(response.data);
         keywords.value = response.data.keywords
         description.value = response.data.description
     })

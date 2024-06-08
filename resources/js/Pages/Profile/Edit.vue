@@ -11,6 +11,7 @@ import {Head, usePage} from '@inertiajs/vue3';
 import {trans} from "laravel-vue-i18n";
 import {computed} from "vue"
 import date from "@/Composables/date.js";
+import SettingsForm from "@/Pages/Profile/Partials/SettingsForm.vue";
 
 const subscription = computed(() => usePage().props.auth.subscription)
 
@@ -42,6 +43,10 @@ defineProps({
 
         <Box>
             <UpdatePasswordForm class="max-w-xl"/>
+        </Box>
+
+        <Box>
+            <SettingsForm class="max-w-xl"/>
         </Box>
 
         <Box>
