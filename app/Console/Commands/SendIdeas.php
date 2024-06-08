@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Blade;
 
 class SendIdeas extends Command
 {
+    private const int NB_IDEAS = 5;
+
     public function __construct(private readonly SendMailService $mailService,)
     {
         Parent::__construct();
@@ -28,14 +30,14 @@ class SendIdeas extends Command
         $projects = Project::Where('auto_populated_at', '!=', null)
             ->where('visibility', ProjectsVisibility::where('code', 'public')->pluck('id')->first())
             ->has('category')
-            ->limit(5)
+            ->limit(self::NB_IDEAS)
             ->orderBy('updated_at', 'desc')
             ->with('category');
-        $users = User::where('email', 'like', '%berliozd@gmail.com%')->get();
+        $users = User::all();
         foreach ($users as $user) {
             $this->mailService->sendEmail(
                 Blade::renderComponent(new IdeasEmail($projects->get(), $user)),
-                'Your Weekly Dose of Inspiration - 5 New Ideas from ' . config('app.name') . '!',
+                sprintf('Your Weekly Dose of Inspiration - %s New Ideas from %s!', self::NB_IDEAS, config('app.name')),
                 $user
             );
         }
