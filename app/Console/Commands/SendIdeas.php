@@ -54,6 +54,6 @@ class SendIdeas extends Command
     private function canSendEmailToUser(User $user): bool
     {
         $settings = json_decode($user->settings, true);
-        return $settings['receive_weekly_email'] ?? false;
+        return $settings['receive_weekly_email'] ?? true;
     }
 }
