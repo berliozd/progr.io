@@ -42,7 +42,7 @@
         <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
             @foreach($projects as $project)
                 <div class="">
-                    <div class="border h-20 align-middle flex items-center justify-around text-center px-2">
+                    <div class="border h-20 align-middle flex items-center justify-around text-center sm:px-2 px-1">
                         <a href="{{route('app.ideas.catalog.idea', ['id' => $project->id, 'title' => str_replace(' ', '-', strtolower($project->title)), 'category' => $project->category->code])}}">
                             {{implode(' ',explode(' ', $project->title)) }}
                         </a>
