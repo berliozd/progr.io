@@ -44,7 +44,7 @@
                 <div class="">
                     <div class="border h-20 align-middle flex items-center justify-around text-center px-2">
                         <a href="{{route('app.ideas.catalog.idea', ['id' => $project->id, 'title' => str_replace(' ', '-', strtolower($project->title)), 'category' => $project->category->code])}}">
-                            {{ $project->title }}
+                            {{implode(' ',explode(' ', $project->title)) }}
                         </a>
                     </div>
                 </div>

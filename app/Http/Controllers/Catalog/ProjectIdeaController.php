@@ -32,13 +32,23 @@ class ProjectIdeaController extends Controller
         }
     }
 
-    public function index(Request $request)
+    public function index()
     {
+        $projects = [];
+        foreach ($this->getProjects() as $project) {
+            $titleParts = explode(' ', $project->title);
+            $titleParts = array_map(function ($part) {
+                return strlen($part) > 8 ? mb_substr($part, 0, 8) . '...' : $part;
+            }, $titleParts);
+            $project->title = implode(' ', $titleParts);
+            $projects[] = $project;
+        }
+
         return View(
             'catalog.ideas',
             [
                 'categories' => Category::orderBy('code')->get(),
-                'projects' => $this->getProjects(),
+                'projects' => $projects,
                 'keywords' => $this->seoService->getKeywords(),
                 'description' => $this->seoService->getDescription(),
             ]
