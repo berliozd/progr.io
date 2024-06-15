@@ -34,21 +34,11 @@ class ProjectIdeaController extends Controller
 
     public function index()
     {
-        $projects = [];
-        foreach ($this->getProjects() as $project) {
-            $titleParts = explode(' ', $project->title);
-            $titleParts = array_map(function ($part) {
-                return strlen($part) > 8 ? mb_substr($part, 0, 8) . '...' : $part;
-            }, $titleParts);
-            $project->title = implode(' ', $titleParts);
-            $projects[] = $project;
-        }
-
         return View(
             'catalog.ideas',
             [
                 'categories' => Category::orderBy('code')->get(),
-                'projects' => $projects,
+                'projects' => $this->formatProject(),
                 'keywords' => $this->seoService->getKeywords(),
                 'description' => $this->seoService->getDescription(),
             ]
@@ -61,7 +51,7 @@ class ProjectIdeaController extends Controller
             'catalog.ideas',
             [
                 'categories' => Category::orderBy('code')->get(),
-                'projects' => $this->getProjects($categoryCode),
+                'projects' => $this->formatProject($categoryCode),
                 'categoryCode' => $categoryCode,
                 'keywords' => $this->seoService->getKeywords($categoryCode),
                 'description' => $this->seoService->getDescription($categoryCode),
@@ -82,5 +72,19 @@ class ProjectIdeaController extends Controller
         }
 
         return $projects->get();
+    }
+
+    public function formatProject(string $categoryCode = null): array
+    {
+        $projects = [];
+        foreach ($this->getProjects($categoryCode) as $project) {
+            $titleParts = explode(' ', $project->title);
+            $titleParts = array_map(function ($part) {
+                return strlen($part) > 8 ? mb_substr($part, 0, 8) . '...' : $part;
+            }, $titleParts);
+            $project->title = implode(' ', $titleParts);
+            $projects[] = $project;
+        }
+        return $projects;
     }
 }
