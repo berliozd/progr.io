@@ -8,9 +8,8 @@ use OpenAI\Client;
 
 class AIService
 {
-    const string GPT_ENGINE_VERSION_4o = 'gpt-4o';
-    const string GPT_ENGINE_VERSION_35_TURBO = 'gpt-3.5-turbo';
-
+    private const string GPT_ENGINE_VERSION_4o = 'gpt-4o';
+    private const string GPT_ENGINE_VERSION_35_TURBO = 'gpt-3.5-turbo';
     private const int NB_COMPETITORS = 3;
 
     public function getInsight(

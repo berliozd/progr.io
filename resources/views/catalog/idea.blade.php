@@ -9,7 +9,7 @@
         {{ $project?->metaKeywords->value ?? '' }}
     </x-slot:metaKeywords>
     <x-slot:canonical>
-        {{route('app.ideas.catalog.idea', ['id' => $project->id, 'title' => str_replace(' ', '-', strtolower($project->title)), 'category' => $project->category->code])}}
+        {{route('app.ideas.catalog.idea', ['id' => $project->id, 'title' => Str::of($project->title)->slug(), 'category' => $project->category->code])}}
     </x-slot:canonical>
     @include('components.partials.breadcrumbs')
     @include('components.partials.ad')
