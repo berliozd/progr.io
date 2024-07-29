@@ -25,7 +25,7 @@ class CreateProjectIdeas extends Command
     public function handle(): void
     {
         \Log::info('Create project ideas');
-        $ideas = $this->aiService->getIdeas($this->getContext());
+        $ideas = $this->aiService->getIdeas($this->getContext(), 1);
         $userId = $this->getUserId();
         $statusId = (int)ProjectsStatus::where('label', 'New')->first()->id;
         $visibilityId = (int)ProjectsVisibility::where('code', 'public')->first()->id;

@@ -61,12 +61,12 @@ class AIService
         return $competitors;
     }
 
-    public function getIdeas(string $context): array
+    public function getIdeas(string $context, int $nbIdeas = 5): array
     {
         return $this->getFormatedIdeas(
             $this->getInsight(
                 $this->getIdeasContext($context),
-                $this->getIdeasQuestion(),
+                $this->getIdeasQuestion($nbIdeas),
                 self::GPT_ENGINE_VERSION_4o
             )
         );
@@ -131,10 +131,10 @@ class AIService
             'The ideas should be related to ' . $context;
     }
 
-    private function getIdeasQuestion(): string
+    private function getIdeasQuestion(int $nbIdeas = 5): string
     {
         $lang = $this->getLanguage();
-        return 'Give me 5 ideas.' .
+        return 'Give me ' . $nbIdeas . ' idea.' .
             'Each idea must be separated by a break line.' .
             'Each idea must have a title and a description.' .
             'Title and description must be separated by |.' .
