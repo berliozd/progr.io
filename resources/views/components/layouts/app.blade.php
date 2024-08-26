@@ -11,6 +11,7 @@
     @vite('resources/css/app.css')
     @include('components.partials.crisp')
     @include('components.partials.gtag')
+    @include('components.partials.ad-site')
     <meta name="description" content="{{$metaDescription??''}}">
     <meta name="keywords" content="{{ $metaKeywords??''}}">
     <link rel="canonical" href="{{ $canonical}}">
