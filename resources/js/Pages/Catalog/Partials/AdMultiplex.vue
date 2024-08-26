@@ -7,6 +7,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
+    return;
     if (usePage().props.auth?.subscription) {
         return;
     }
