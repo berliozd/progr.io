@@ -55,6 +55,6 @@
             @endforeach
         </div>
     @endif
-    @include('components.partials.ad')
+    @include('components.partials.ad-multiplex')
     @include('components.partials.create-account')
 </x-layouts.app>

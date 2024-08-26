@@ -36,7 +36,7 @@
                 ? trans('app.ideas.catalog.categories.category_projects',['category'=> trans('app.ideas.catalog.category.' . $categoryCode)])
                 : trans('app.ideas.catalog.categories.all_categories_projects')}}
     </h1>
-    @include('components.partials.ad')
+    @include('components.partials.ad-multiplex')
     @if(count($projects) > 0)
         <div class="text-info">{{trans('app.ideas.catalog.categories.nb_projects',['nb'=> count($projects)])}}</div>
         <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
