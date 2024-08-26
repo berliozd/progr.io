@@ -12,7 +12,7 @@
         {{route('app.ideas.catalog.idea', ['id' => $project->id, 'title' => Str::of($project->title)->slug(), 'category' => $project->category->code])}}
     </x-slot:canonical>
     @include('components.partials.breadcrumbs')
-    @include('components.partials.ad')
+    @include('components.partials.ad-multiplex')
     <div class="flex flex-col rounded-lg border p-4 shadow-2xl bg-neutral/70 text-2xl">
         <h2>{{ $project->title }}</h2>
     </div>
