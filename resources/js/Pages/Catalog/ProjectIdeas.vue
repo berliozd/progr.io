@@ -3,7 +3,7 @@ import CatalogLayout from '@/Layouts/CatalogLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import SimpleLink from "@/Components/SimpleLink.vue";
 import Collapsable from "@/Components/Collapsable.vue";
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 
 import {computed, ref} from "vue";
 import {Head} from '@inertiajs/vue3';

@@ -25,7 +25,7 @@ import {useStore} from "@/Composables/store.js";
 import statuses from "@/Composables/statuses.js";
 import {sortProjectChildren} from "@/Composables/App/useProject.js";
 import {idByCode} from "@/Composables/autoPopulations.js";
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 
 const project = reactive({title: '', description: '', status: ''})
 const refreshAfterSave = ref(false);

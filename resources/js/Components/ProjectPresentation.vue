@@ -1,7 +1,7 @@
 <script setup>
 import {capitalize} from "vue";
 
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 import NoteLogo from "@/Pages/App/Partials/NoteLogo.vue";
 import CreateAccountBlock from "@/Pages/Partials/CreateAccountBlock.vue";
 

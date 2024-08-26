@@ -13,7 +13,7 @@ import {computed, ref} from "vue";
 import {truncate} from 'lodash';
 import {useStore} from "@/Composables/store.js";
 import AILogo from "@/Components/AILogo.vue";
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 
 const getData = async () => {
     try {

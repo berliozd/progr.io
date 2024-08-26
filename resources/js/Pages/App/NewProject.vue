@@ -18,7 +18,7 @@ import {useStore} from "@/Composables/store.js";
 import statuses from "@/Composables/statuses.js";
 import visibilities from "@/Composables/visibilities.js";
 import autoPopulations from "@/Composables/autoPopulations.js";
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 
 const allStatuses = ref(null)
 statuses().then((response) => {

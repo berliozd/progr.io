@@ -7,7 +7,7 @@ import SectionFour from "@/Pages/Home/Partials/SectionFour.vue";
 import Footer from "@/Pages/Home/Partials/Footer.vue";
 import SectionFive from "@/Pages/Home/Partials/SectionFive.vue";
 import SectionSix from "@/Pages/Home/Partials/SectionSix.vue";
-import Ad from "@/Pages/Catalog/Partials/Ad.vue";
+import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 
 import {Head} from '@inertiajs/vue3';
 import {ref} from "vue";
