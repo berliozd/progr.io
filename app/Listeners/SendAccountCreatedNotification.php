@@ -82,40 +82,30 @@ readonly class SendAccountCreatedNotification
 Dear :user_name,
 <br/>
 <br/>
-We are thrilled to have you on board!
-<br/>
-<br/>
-Welcome to :app_name, a unique SaaS solution designed specifically for people like you to track, define, and refine your project ideas.
-<br/>
-Our mission is to help you transform your ideas into reality, and we're excited to be a part of your creative journey.
+We're thrilled to have you on board! Welcome to :app_name, a unique SaaS solution designed to help you track, define, and refine your project ideas.
 <br/>
 <br/>
 As a free account user, you have access to the following features:
 <br/>
 <br/>
 <strong>1: Track Up to 3 Projects:</strong><br>
-<p>You can now easily manage and monitor the progress of up to three projects simultaneously. 
+<p>Manage and monitor the progress of up to three projects simultaneously. 
 </p>
 <strong>2: Define Your Projects with AI Assistance:</strong><br>
-
-<p>We understand that defining a project can sometimes be challenging. That's why
-we've integrated AI technology into our platform. With your free account, you'll receive :nb_fee_credits AI credits. 
-Each credit allows you to gain valuable insights such as potential users, potential features, benefits, and monetization strategies for your project.
+<p>Receive AI credits to gain insights on potential users, features, benefits, and monetization strategies.
 </p>
 <strong>3: Use our NEW AUTO-POPULATION feature:</strong><br>
 
-<p>Our AI-powered auto-population feature allows you to quickly and easily define and execute your ideas.
-This feature allows you to focus on the details of your project, while our AI technology takes care of the rest.
-Automatically, we'll populate your project with ideas that are relevant to your needs and goals. You need 10 AI credits tu run 1 project idea auto-population.
+<p>Our AI-powered feature helps you quickly define and execute your ideas. Use 10 AI credits to run one project idea auto-population.
 </p>
 <br/>
 <strong>Here's how it works: </strong><br/>
-<p>One AI credit is used each time you request insights for a specific aspect of your project (like potential users or features). 
-This means you can get a comprehensive understanding of how your project will impact users. Use these credits wisely to shape your projects into successful ventures!
+<p>One AI credit is used each time you request insights for a specific aspect of your project. Use these credits wisely to shape your projects into successful ventures!
+
 </p>
 <br/>
 <p>
-Remember, the key to success is not just having great ideas, but also knowing how to execute them. We believe that :app_name will be a valuable tool for you.
+Remember, success comes from both great ideas and knowing how to execute them. We believe  will be a valuable tool for you.
 </p>
 Create your first project today:
 <a href=":app_url"><strong>:app_url</strong></a>
