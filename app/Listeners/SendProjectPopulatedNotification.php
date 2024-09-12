@@ -19,7 +19,7 @@ readonly class SendProjectPopulatedNotification
             ':app_name - Your Project ":project_title" Has Been Populated!',
             ['app_name' => config('app.name'), 'project_title' => $event->project->title]
         );
-        $this->sendMailService->sendEmail($this->getContent($event), $subject, $event->project->owner, false);
+        $this->sendMailService->sendEmail($this->getContent($event), $subject, $event->project->owner);
 
     }
 

@@ -8,8 +8,13 @@ use Mailjet\Resources;
 
 class SendMailService
 {
-    public function sendEmail(string $content, string $subject, User $user, bool $sendToSupport = true): void
-    {
+    public function sendEmail(
+        string $content,
+        string $subject,
+        User $user,
+        bool $sendToSupport = false,
+        string $htmlPart = ''
+    ): void {
         $mj = new Client(
             config('services.mailjet.client_id'),
             config('services.mailjet.client_secret'),
@@ -45,7 +50,7 @@ class SendMailService
                     ]
                 ],
                 'Subject' => $subject,
-                'HTMLPart' => $content
+                'HTMLPart' => $htmlPart
             ];
         }
         $body = ['Messages' => $messages];

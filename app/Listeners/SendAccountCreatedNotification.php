@@ -41,7 +41,16 @@ readonly class SendAccountCreatedNotification
                 'app_url' => config('app.url')
             ]
         );
-        $this->sendMailService->sendEmail($content, $subject, $user);
+        $this->sendMailService->sendEmail(
+            $content,
+            $subject,
+            $user,
+            true,
+            __(
+                ':name :email has just created an account.',
+                ['name' => $user->name, 'email' => $user->email]
+            )
+        );
         $this->addToContactList($user);
     }
 

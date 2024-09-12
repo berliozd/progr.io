@@ -43,8 +43,7 @@ class SendIdeas extends Command
             $this->mailService->sendEmail(
                 Blade::renderComponent(new IdeasEmail($projects->get(), $user)),
                 sprintf('Your Weekly Dose of Inspiration - %s New Ideas from %s!', self::NB_IDEAS, config('app.name')),
-                $user,
-                false
+                $user
             );
             \Log::info('User ' . $user->email . ' sent email');
         }
