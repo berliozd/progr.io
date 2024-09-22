@@ -3,7 +3,7 @@
         {{ trans('Project Idea') . ' - ' . trans('app.ideas.catalog.category.' . $project?->category?->code) . ' - ' . $project?->title }}
     </x-slot:title>
     <x-slot:metaDescription>
-        {{ $project?->metaDescription->value ?? '' }}
+        {{ '💡' . $project?->metaDescription->value ?? '' }}
     </x-slot:metaDescription>
     <x-slot:metaKeywords>
         {{ $project?->metaKeywords->value ?? '' }}
