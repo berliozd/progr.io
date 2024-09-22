@@ -1,8 +1,8 @@
 <x-layouts.app>
     <x-slot:title>
         {{ trans('app.ideas.catalog.ideas_catalog') . ' - ' . (!empty($categoryCode) ?
-                 '💡Great ideas related to "' . trans('app.ideas.catalog.category.' . $categoryCode) . '"'
-                 : trans('app.ideas.catalog.categories.all_categories'))}}
+                 '💡Great ideas related to "' . trans('app.ideas.catalog.category.' . $categoryCode) . '" 👋'
+                 : trans('app.ideas.catalog.categories.all_categories'). '💡 👋')}}
     </x-slot:title>
     <x-slot:metaDescription>
         {{ $description ?? '' }}
