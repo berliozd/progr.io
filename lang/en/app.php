@@ -84,7 +84,7 @@ return [
                 'no_projects' => 'No projects for this category',
                 'nb_projects' => ':nb project(s)',
                 'category_projects' => 'Projects for category :category',
-                'all_categories' => 'All categories',
+                'all_categories' => 'All the best ideas',
                 'all_categories_projects' => 'All categories projects'
             ],
             'category' => [
