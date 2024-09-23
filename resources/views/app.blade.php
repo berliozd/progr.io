@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title inertia>{{ config('app.name', 'Saas boilerplate') }}</title>
     <link rel="icon" sizes="64x64" href="{{ asset('img/icon.png') }}" type="image/x-icon">
-    @include('components.partials.crisp')
     @include('components.partials.gtag')
     @include('components.partials.ad-site')
     @routes
