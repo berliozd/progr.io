@@ -32,7 +32,7 @@ const goTo = (url) => {
                     <ListTick>Get help from AI</ListTick>
                 </li>
             </ul>
-            <PrimaryButton @click="goTo(route('checkout_onetime_full'))">
+            <PrimaryButton @click="goTo(route('dashboard'))">
                 <Arrow>Get progr.io</Arrow>
             </PrimaryButton>
             <div style="position: relative; padding-bottom: calc(48.645833333333336% + 41px); height: 0; width: 100%;">
