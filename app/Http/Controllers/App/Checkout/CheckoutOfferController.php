@@ -20,6 +20,7 @@ class CheckoutOfferController extends Controller
                     'quantity' => 1,
                 ],
             ],
+            'allow_promotion_codes' => true,
             'mode' => 'payment',
             'success_url' => route('checkout_offer_success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout_offer_cancel'),
