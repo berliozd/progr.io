@@ -12,10 +12,15 @@ use App\Models\NotesType;
 use App\Models\Project;
 use App\Models\ProjectsNote;
 use App\Models\User;
+use App\View\Components\AutoPopulationFailureEmail;
+use Illuminate\Support\Facades\Blade;
 
 class AutoPopulateService
 {
-    public function __construct(private readonly AIService $aiService)
+    const int NB_CREDITS_REQUIRED_AUTO_POPULATION = 7;
+    public const int NB_CREDITS_REQUIRED_COMPETITORS = 15;
+
+    public function __construct(private readonly AIService $aiService, private readonly SendMailService $mailService)
     {
     }
 
@@ -23,8 +28,10 @@ class AutoPopulateService
     {
         \Log::info('Populate project ' . $project->id);
         $this->addProjectNotes($project);
-        $project->owner->update(
-            ['used_ai_credits' => $project->owner->used_ai_credits + config('app.auto-population-credits')]
+        $project->owner->update([
+                'used_credits' => $project->owner->used_credits + AutoPopulateService::NB_CREDITS_REQUIRED_COMPETITORS,
+                'nb_credits' => $project->owner->nb_credits - AutoPopulateService::NB_CREDITS_REQUIRED_COMPETITORS
+            ]
         );
         ProjectPopulated::dispatch($project);
         \Log::info(sprintf('Project %s auto populated', $project->id));
@@ -32,11 +39,12 @@ class AutoPopulateService
 
     private function canAutoPopulate(User $user): bool
     {
-        if ($user->subscription() && $user->subscription()->valid()) {
-            return true;
-        }
-        $nbCreditsLeft = config('app.free-ai-credits') - $user->used_ai_credits;
-        return $nbCreditsLeft >= config('app.auto-population-credits');
+        return $user->nb_credits - self::NB_CREDITS_REQUIRED_AUTO_POPULATION >= 0;
+    }
+
+    public function canAddCompetitors(User $user): bool
+    {
+        return $user->nb_credits - self::NB_CREDITS_REQUIRED_COMPETITORS >= 0;
     }
 
     public function cleanProjectsToBeAutoPopulated(): void
@@ -47,6 +55,17 @@ class AutoPopulateService
 
         foreach ($projects as $project) {
             if (!$this->canAutoPopulate($project->owner)) {
+                $this->mailService->sendEmail(
+                    Blade::renderComponent(
+                        new AutoPopulationFailureEmail(
+                            AutoPopulateService::NB_CREDITS_REQUIRED_AUTO_POPULATION,
+                            $project->owner
+                        )
+                    ),
+                    config('app.name') . ' - Auto-population could not have been run',
+                    $project->owner,
+                    true
+                );
                 $project->update(['auto_population' => AutoPopulations::where('code', 'off')->pluck('id')->first()]);
                 \Log::info(
                     sprintf(

@@ -123,7 +123,14 @@ return [
     'logger' => env('CASHIER_LOGGER'),
     'basic_price' => env('STRIPE_BASIC_PRICE'),
     'premium_price' => env('STRIPE_PREMIUM_PRICE'),
-    'one_time_price' => env('STRIPE_ONE_TIME_PRICE'),
+    'offer_0_price' => env('STRIPE_OFFER_0_PRICE'),
+    'offer_0_nb_credits' => env('STRIPE_OFFER_0_NB_CREDITS'),
+    'offer_1_price' => env('STRIPE_OFFER_1_PRICE'),
+    'offer_1_coupon' => env('STRIPE_OFFER_1_COUPON'),
+    'offer_1_nb_credits' => env('STRIPE_OFFER_1_NB_CREDITS'),
+    'offer_2_price' => env('STRIPE_OFFER_2_PRICE'),
+    'offer_2_coupon' => env('STRIPE_OFFER_2_COUPON'),
+    'offer_2_nb_credits' => env('STRIPE_OFFER_2_NB_CREDITS'),
     'trial_period' => env('STRIPE_TRIAL_PERIOD'),
 
 ];

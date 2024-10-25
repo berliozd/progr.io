@@ -9,8 +9,15 @@ import SectionFive from "@/Pages/Home/Partials/SectionFive.vue";
 import SectionSix from "@/Pages/Home/Partials/SectionSix.vue";
 import Ad from "@/Pages/Catalog/Partials/AdMultiplex.vue";
 
-import {Head} from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import {ref} from "vue";
+import Toast from "@/Components/Toast.vue";
+import {useStore} from "@/Composables/store.js";
+import {trans} from "laravel-vue-i18n";
+
+if (usePage().props.errors.msg) {
+    useStore().setToast(trans(usePage().props.errors.msg), true);
+}
 
 defineProps({
     canLogin: {
@@ -34,6 +41,7 @@ getMeta()
 </script>
 
 <template>
+    <Toast/>
     <Head>
         <title>{{$t('Welcome')}}</title>
         <meta name="description" :content="description">

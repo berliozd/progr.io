@@ -24,7 +24,9 @@ class User extends \Illuminate\Foundation\Auth\User
         'google_id',
         'updated_at',
         'settings',
-        'used_ai_credits'
+        'used_credits',
+        'nb_credits',
+        'stripe_id',
     ];
 
     /**

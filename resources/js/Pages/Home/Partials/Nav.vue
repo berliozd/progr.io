@@ -1,7 +1,7 @@
 <script setup>
 import SimpleLink from "@/Components/SimpleLink.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {router} from "@inertiajs/vue3";
+import {Link, router} from "@inertiajs/vue3";
 import {ref} from "vue";
 
 const props = defineProps({

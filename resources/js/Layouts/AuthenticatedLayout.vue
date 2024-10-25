@@ -43,18 +43,16 @@ const showingNavigationDropdown = ref(false);
                                class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 hover:text-neutral-content/70 transition duration-150 ease-in-out">
                                 {{ $t('app.ideas.catalog.ideas_catalog') }}
                             </a>
-                            <a :href="route('subscribe.checkout')" v-if="!subscription"
-                               :class="'inline-flex items-center px-1 pt-1 text-sm hover:text-neutral-content/70'">
-                                {{ $t('layout.subscription') }}
-                            </a>
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                 {{ $t('layout.dashboard') }}
                             </NavLink>
                         </div>
                     </div>
-
                     <div class="flex flex-row">
-                        <LocaleChanger/>
+<!--                        <div class="hidden sm:flex sm:items-center sm:ms-6">-->
+<!--                            {{ $page.props.auth.user.nb_credits }} credits(s)-->
+<!--                        </div>-->
+                        <NavLink :href="route('dashboard')">{{ $page.props.auth.user.nb_credits }} credits(s)</NavLink>
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
@@ -138,10 +136,6 @@ const showingNavigationDropdown = ref(false);
                                        font-medium focus:outline-none focus:text-gray-200 focus:bg-gray-700
                                        focus:border-gray-600 transition duration-150 ease-in-out">
                         {{ $t('app.ideas.catalog.ideas_catalog') }}
-                    </a>
-                    <a :href="route('subscribe.checkout')" v-if="!subscription"
-                       :class="'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start'">
-                        {{ $t('layout.subscription') }}
                     </a>
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                         {{ $t('layout.dashboard') }}

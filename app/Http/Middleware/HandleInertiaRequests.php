@@ -43,17 +43,6 @@ class HandleInertiaRequests extends Middleware
                 'just_logged' => (bool)$request->session()->get('just_logged')
             ],
         ];
-        if (!empty($request->user())) {
-            if (!empty($subscription = auth()->user()?->subscription())) {
-                /** @var Carbon $subscriptionEndDate */
-                $subscription->product = Product::where('stripe_product_id', $subscription->stripe_price)->first();
-                $subscription->is_premium = auth()->user()?->subscribedToPrice(config('cashier.premium_price'));
-                $subscription->on_grace_period = $subscription->onGracePeriod();
-                $subscription->end_date = $subscription->ends_at ? $subscription->ends_at->timestamp : 0;
-                $subscription->is_valid = $subscription->valid();
-            }
-            $res['auth']['subscription'] = $subscription;
-        }
         return $res;
     }
 

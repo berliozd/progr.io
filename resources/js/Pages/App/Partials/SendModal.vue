@@ -30,7 +30,7 @@ const errors = ref([])
 
 const askAI = async () => {
     useStore().setIsLoading(true);
-    aiAvailable().then((aiAvailable) => {
+    aiAvailable(1).then((aiAvailable) => {
         useStore().setIsLoading(false);
         if (aiAvailable) {
             ai.value = true

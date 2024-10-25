@@ -12,8 +12,7 @@ class SendMailService
         string $content,
         string $subject,
         User $user,
-        bool $sendToSupport = false,
-        string $htmlPart = ''
+        bool $sendToSupport = false
     ): void {
         $mj = new Client(
             config('services.mailjet.client_id'),
@@ -50,7 +49,7 @@ class SendMailService
                     ]
                 ],
                 'Subject' => $subject,
-                'HTMLPart' => $htmlPart
+                'HTMLPart' => $content
             ];
         }
         $body = ['Messages' => $messages];

@@ -12,7 +12,7 @@ export async function askNote(title, description, noteTypeCode, isCompetitor) {
         }
     ).then(
         (response) => {
-            userUsedCredits()
+            userUsedCredits(1)
             return response.data.response
         }
     )
@@ -21,7 +21,7 @@ export async function askNote(title, description, noteTypeCode, isCompetitor) {
 export async function askIdeas(context) {
     return await axios.post('/api/ai/ideas/', {'context': context}).then(
         (response) => {
-            userUsedCredits()
+            userUsedCredits(8)
             return response.data.response
         }
     )
@@ -33,7 +33,7 @@ export async function askSharingEmailContent(id, title, description) {
         {'id': id, 'title': title, 'description': description}
     ).then(
         (response) => {
-            userUsedCredits()
+            userUsedCredits(1)
             return response.data.response
         }
     )

@@ -3,10 +3,6 @@
 use App\Http\Controllers\App\DashboardController;
 use App\Http\Controllers\App\ProjectCsvController;
 use App\Http\Controllers\App\ProjectPdfController;
-use App\Http\Controllers\App\Subscribe\CheckoutController;
-use App\Http\Controllers\App\Subscribe\CreateController;
-use App\Http\Controllers\App\Subscribe\DestroyController;
-use App\Http\Controllers\App\Subscribe\StoreController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -19,8 +15,6 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\SettingsController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\RedirectIfNotSubscribed;
-use App\Http\Middleware\RedirectIfSubscribed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -86,15 +80,6 @@ Route::middleware(['auth', 'verified'])
             return auth()->user()->downloadInvoice($invoiceId);
         })->name('invoices');
 
-        Route::prefix('subscribe')->as('subscribe.')->middleware(RedirectIfSubscribed::class)
-            ->group(function () {
-                Route::get('create', CreateController::class)->name('create');
-                Route::post('store', StoreController::class)->name('store');
-                Route::delete('destroy', DestroyController::class)->name('destroy')
-                    ->withoutMiddleware(RedirectIfSubscribed::class);
-                Route::get('checkout', CheckoutController::class)->name('checkout');
-            });
-
         Route::get('/billing', function (Request $request) {
             return $request->user()->redirectToBillingPortal(route('dashboard'));
         })->name('billing');
@@ -103,9 +88,7 @@ Route::middleware(['auth', 'verified'])
         Route::inertia('/project/{id}', 'App/Project')->name('app.projects.detail');
         Route::get('/project-pdf/{id}', ProjectPdfController::class)->name('app.projects.pdf');
         Route::get('/project-csv/{id}', ProjectCsvController::class)->name('app.projects.csv');
-        Route::inertia('/project-create', 'App/NewProject')->name('app.projects.new')->middleware(
-            RedirectIfNotSubscribed::class
-        );
+        Route::inertia('/project-create', 'App/NewProject')->name('app.projects.new');
         Route::inertia('/ideas', 'App/Ideas')->name('app.ideas');
 
 

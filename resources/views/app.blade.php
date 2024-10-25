@@ -13,7 +13,6 @@
     @inertiaHead
 </head>
 <body class="font-sans antialiased">
-@include('components.partials.promokit')
 @inertia
 </body>
 </html>

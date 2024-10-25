@@ -3,6 +3,10 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Arrow from "@/Components/Arrow.vue";
 
 import {router} from "@inertiajs/vue3";
+
+const goTo = (url) => {
+    window.location.href = url
+}
 </script>
 <template>
   <section class="text-center md:p-12 p-6 bg-neutral">
@@ -13,8 +17,8 @@ import {router} from "@inertiajs/vue3";
           Don't let your ideas escape you: follow them, get help from AI to define them and transform them into
           successful projects.
         </p>
-        <PrimaryButton @click="router.visit('register')">
-          <Arrow>Try Progr.io</Arrow>
+        <PrimaryButton @click="goTo(route('checkout_onetime_full'))">
+          <Arrow>Get Progr.io</Arrow>
         </PrimaryButton>
       </div>
     </div>

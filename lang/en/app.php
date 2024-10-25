@@ -63,8 +63,8 @@ return [
     'cancel' => 'Cancel',
     'no_projects' => 'You don\'t have any projects so far.',
     'nb_projects' => 'You have :nb project(s) so far!',
-    'ai_not_available' => 'AI is not available. You certainly have used all your credits. You can register if you want to continue using AI.',
-    'nb_free_projects_reached' => 'You have reached the limit of projects for your plan. You can register if you want to add more projects.',
+    'ai_not_available' => 'AI is not available. You certainly have used all your credits. You need to buy more credits if you want to continue using AI.',
+    'nb_free_projects_reached' => 'You have reached the limit of projects for your plan. You can buy the access to full version if you want to add more projects.',
     'project_saved' => 'Project saved!',
     'ideas' => [
         'ideas_generator' => 'Ideas generator',

@@ -21,6 +21,7 @@ class Project extends Model
         'visibility',
         'auto_population',
         'auto_populated_at',
+        'add_competitors_failure'
     ];
 
     public function owner()

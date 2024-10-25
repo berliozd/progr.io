@@ -27,7 +27,7 @@ const loading = ref(false)
 const ai = ref(true);
 
 const askAI = async () => {
-    aiAvailable().then((aiAvailable) => {
+    aiAvailable(1).then((aiAvailable) => {
         if (aiAvailable) {
             ai.value = true
             loading.value = true
@@ -113,8 +113,8 @@ const gotTo = (url) => {
         <div class="flex flex-col space-y-2 p-4" v-else>
             <div class="flex flex-row justify-between alert alert-error">
                 {{ $t('app.ai_not_available') }}
-                <PrimaryButton @click="gotTo(route('subscribe.checkout'))">
-                    {{ $t('app.subscribe') }}
+                <PrimaryButton @click="gotTo(route('dashboard'))">
+                    Buy more credits
                 </PrimaryButton>
             </div>
             <SecondaryButton @click="hideModal" class="w-fit">{{ $t('app.cancel') }}</SecondaryButton>

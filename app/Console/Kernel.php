@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sitemap:generate')->everyFourHours();
         $schedule->command('project:auto_populate_projects')->everyFiveMinutes();
-        $schedule->command('project:enrich_projects')->everyFiveMinutes();
+        $schedule->command('project:enrich_projects')->twiceDaily();
         $schedule->command('project:set_metas')->everyFiveMinutes();
         $schedule->command('project:create_project_ideas')->daily();
         $schedule->command('project:send_ideas')->weekly();

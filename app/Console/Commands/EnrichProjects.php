@@ -4,12 +4,17 @@ namespace App\Console\Commands;
 
 use App\Models\Project;
 use App\Services\AutoPopulateService;
+use App\Services\SendMailService;
+use App\View\Components\CompetitorsFailureEmail;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Blade;
 
 class EnrichProjects extends Command
 {
-    public function __construct(private readonly AutoPopulateService $autoPopulateService,)
-    {
+    public function __construct(
+        private readonly AutoPopulateService $autoPopulateService,
+        private readonly SendMailService $mailService
+    ) {
         Parent::__construct();
     }
 
@@ -52,10 +57,32 @@ class EnrichProjects extends Command
         }
 
         foreach ($projectsWithoutCompetitors as $project) {
+            if (!$this->autoPopulateService->canAddCompetitors($project->owner)) {
+                if ($project->add_competitors_failure < 3) {
+                    $project->update(['add_competitors_failure' => ++$project->add_competitors_failure]);
+                    $this->mailService->sendEmail(
+                        Blade::renderComponent(
+                            new CompetitorsFailureEmail(
+                                AutoPopulateService::NB_CREDITS_REQUIRED_COMPETITORS,
+                                $project->owner
+                            )
+                        ),
+                        config('app.name') . ' - Competitors could not have been added',
+                        $project->owner,
+                        true
+                    );
+                }
+                continue;
+            }
             try {
                 \Log::info('Populate competitors for project ' . $project->id);
                 $this->autoPopulateService->addCompetitors($project, true);
-                $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
+                $project->owner->update(
+                    [
+                        'used_credits' => $project->owner->used_credits + AutoPopulateService::NB_CREDITS_REQUIRED_COMPETITORS,
+                        'nb_credits' => $project->owner->nb_credits - AutoPopulateService::NB_CREDITS_REQUIRED_COMPETITORS
+                    ]
+                );
                 \Log::info('Competitors for project ' . $project->id . ' populated.');
             } catch (\Exception $e) {
                 \Log::error($e->getMessage());
@@ -76,7 +103,6 @@ class EnrichProjects extends Command
             try {
                 \Log::info('Add category for project ' . $project->id);
                 $this->autoPopulateService->addCategory($project);
-                $project->owner->update(['used_ai_credits' => $project->owner->used_ai_credits + 1]);
                 \Log::info('Category for project ' . $project->id . ' added.');
             } catch (\Exception $e) {
                 \Log::error($e->getMessage());

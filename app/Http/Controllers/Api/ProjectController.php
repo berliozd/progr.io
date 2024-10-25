@@ -26,15 +26,6 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        if (!auth()->user()->subscribed()
-            && Project::where('user_id', auth()->user()->id)->count() >= config('app.free-nb-projects')) {
-            \Log::debug('User cannot add anymore projects');
-            return response()->json([
-                'message' => 'Vous avez atteint la limite de projets pour votre plan actuel.',
-                'code' => 'LIMIT_EXCEEDED',
-            ], 403);
-        }
-
         $data = $request->toArray();
         $data['user_id'] = auth()->user()->id;
         return Project::create($data);

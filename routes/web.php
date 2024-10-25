@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\App\Checkout\CheckoutOfferController;
+use App\Http\Controllers\App\Checkout\OfferSuccessController;
 use App\Http\Controllers\App\ProjectPresentationController;
 use App\Http\Controllers\Catalog\ProjectIdeaController;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +36,10 @@ Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::cla
     'app.ideas.catalog.idea'
 );
 
+Route::get('/checkout_offer/{id}', CheckoutOfferController::class)->name('checkout_offer');
+Route::get('/checkout_offer_success', OfferSuccessController::class)->name('checkout_offer_success');
+Route::get('/checkout_offer_cancel', function () {
+    return redirect(route('home'));
+})->name('checkout_offer_cancel');
 
 require __DIR__ . '/auth.php';

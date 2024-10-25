@@ -42,7 +42,7 @@ const askAI = async () => {
         return
     }
 
-    aiAvailable().then((aiAvailable) => {
+    aiAvailable(8).then((aiAvailable) => {
         ai.value = false
         if (aiAvailable) {
             ai.value = true
@@ -135,7 +135,7 @@ const gotTo = (url) => {
                     <template v-else>
                         <div>{{ $t('app.ai_not_available') }}</div>
                     </template>
-                    <PrimaryButton @click="gotTo(route('subscribe.checkout'))">{{ $t('app.subscribe') }}</PrimaryButton>
+                    <PrimaryButton @click="gotTo(route('dashboard'))">Buy more credits</PrimaryButton>
                 </div>
             </div>
         </Box>

@@ -3,7 +3,9 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ListTick from "@/Components/ListTick.vue";
 import Arrow from "@/Components/Arrow.vue";
 
-import {router} from "@inertiajs/vue3";
+const goTo = (url) => {
+    window.location.href = url
+}
 </script>
 
 <template>
@@ -24,17 +26,14 @@ import {router} from "@inertiajs/vue3";
             </div>
             <ul class="space-y-1.5">
                 <li class="flex items-center justify-start gap-2">
-                    <ListTick>Start for free</ListTick>
-                </li>
-                <li class="flex items-center justify-start gap-2">
                     <ListTick>Track your projects</ListTick>
                 </li>
                 <li class="flex items-center justify-start gap-2">
                     <ListTick>Get help from AI</ListTick>
                 </li>
             </ul>
-            <PrimaryButton @click="router.visit('register')">
-                <Arrow>Get started</Arrow>
+            <PrimaryButton @click="goTo(route('checkout_onetime_full'))">
+                <Arrow>Get progr.io</Arrow>
             </PrimaryButton>
             <div style="position: relative; padding-bottom: calc(48.645833333333336% + 41px); height: 0; width: 100%;">
                 <iframe src="https://demo.arcade.software/OVSUrx4v4hU8hUaygetH?embed&show_copy_link=true"
