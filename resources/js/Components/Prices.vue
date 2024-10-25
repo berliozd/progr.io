@@ -109,7 +109,7 @@
                         <ListTick>10 fully defined projects</ListTick>
                     </li>
                     <li class="flex items-center gap-2">
-                        <ListTick>10 "ideas generator" search</ListTick>
+                        <ListTick>10 "ideas generator" searches</ListTick>
                     </li>
                 </ul>
                 <div class="space-y-2">
