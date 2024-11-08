@@ -7,7 +7,7 @@ The reason is that you don't have enough credits for that.
 <br>
 You need at least {{$nbCreditsRequired}} credits to run one project auto-population.
 <br>
-you might consider buying more credits from your <a href="">{{route('dashboard')}} dashboard</a>.
+you might consider buying more credits from your <a href="{{route('dashboard')}}">dashboard</a>.
 <br>
 <br>
 <br>
