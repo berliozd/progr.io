@@ -18,24 +18,22 @@ use Inertia\Inertia;
 |
 */
 
+// Inertia Routes
 Route::get('/', function () {
-    return Inertia::render(
-        'Home/Welcome',
-        ['canLogin' => Route::has('login'), 'canRegister' => Route::has('register')]
+    return Inertia::render('Home/Welcome', ['canLogin' => Route::has('login'), 'canRegister' => Route::has('register')]
     );
 })->name('home');
-
 Route::inertia('/terms', 'Home/Terms')->name('terms');
 Route::inertia('/privacy-policy', 'Home/Privacy')->name('privacy-policy');
-Route::get('/project-presentation/{id}', ProjectPresentationController::class)->name('app.projects.presentation');
 
+
+// Laravel Routes
+Route::get('/project-presentation/{id}', ProjectPresentationController::class)->name('app.projects.presentation');
 Route::get('/project-ideas', [ProjectIdeaController::class, 'index'])->name('app.ideas.catalog');
-Route::get('/project-ideas/{category}', [ProjectIdeaController::class, 'category'])
-    ->name('app.ideas.catalog.category');
+Route::get('/project-ideas/{category}', [ProjectIdeaController::class, 'category'])->name('app.ideas.catalog.category');
 Route::get('/project-ideas/{category}/{title}/{id}', [ProjectIdeaController::class, 'show'])->name(
     'app.ideas.catalog.idea'
 );
-
 Route::get('/checkout_offer/{id}', CheckoutOfferController::class)->name('checkout_offer');
 Route::get('/checkout_offer_success', OfferSuccessController::class)->name('checkout_offer_success');
 Route::get('/checkout_offer_cancel', function () {

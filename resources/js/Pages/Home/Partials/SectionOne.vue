@@ -35,13 +35,6 @@ const goTo = (url) => {
             <PrimaryButton @click="goTo(route('dashboard'))">
                 <Arrow>Get progr.io</Arrow>
             </PrimaryButton>
-            <div style="position: relative; padding-bottom: calc(48.645833333333336% + 41px); height: 0; width: 100%;">
-                <iframe src="https://demo.arcade.software/OVSUrx4v4hU8hUaygetH?embed&show_copy_link=true"
-                        title="Projects - Progr.io" frameborder="0" loading="lazy" webkitallowfullscreen
-                        mozallowfullscreen allowfullscreen allow="clipboard-write"
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;color-scheme: light;"></iframe>
-            </div>
-
             <h3 class="font-extrabold md:text-2xl text-xl">
                 You can also use the idea generator if you are out of ideas.
             </h3>
