@@ -41,6 +41,8 @@ class GenerateSitemap extends Command
 
     public function addProjectIdea(Sitemap $sitemap, Category $category, mixed $projectIdea): void
     {
+        \Log::debug($projectIdea->title);
+        \Log::debug($this->formatTitle($projectIdea->title));
         $sitemap->add(
             route(
                 'app.ideas.catalog.idea',
