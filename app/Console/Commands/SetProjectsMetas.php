@@ -19,20 +19,21 @@ class SetProjectsMetas extends Command
 
     public function handle()
     {
-        \Log::info('Set meta data for projects');
+        \Log::debug('Set meta data for projects');
         $projects = Project::doesntHave('metaDescription')->orDoesntHave('metaKeywords')
             ->limit(5)
             ->orderBy('updated_at')
             ->get();
 
         if (($projects->count() ?? 0) === 0) {
-            \Log::info('No projects to set meta data');
+            \Log::debug('No projects to set meta data');
             return;
         }
 
         foreach ($projects as $project) {
+            \Log::debug('Set meta data for project ' . $project->id);
             $this->autoPopulateService->addMetas($project);
         }
-        \Log::info('Projects meta data set');
+        \Log::debug('Projects meta data set');
     }
 }

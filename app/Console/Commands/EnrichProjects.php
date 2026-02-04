@@ -43,7 +43,7 @@ class EnrichProjects extends Command
      */
     public function addCompetitors(): void
     {
-        \Log::info('Auto populating projects competitors');
+        \Log::debug('Auto populating projects competitors');
 
         // Get all projects not set to be auto-populated, or being populated, and without competitors
         $projectsWithoutCompetitors = Project::doesntHave('competitors')
@@ -52,7 +52,7 @@ class EnrichProjects extends Command
             ->get();
 
         if (($projectsWithoutCompetitors->count() ?? 0) === 0) {
-            \Log::info('No projects to enrich with competitors');
+            \Log::debug('No projects to enrich with competitors');
             return;
         }
 
@@ -75,7 +75,7 @@ class EnrichProjects extends Command
                 continue;
             }
             try {
-                \Log::info('Populate competitors for project ' . $project->id);
+                \Log::debug('Populate competitors for project ' . $project->id);
                 $this->autoPopulateService->addCompetitors($project, true);
                 $project->owner->update(
                     [
@@ -83,31 +83,31 @@ class EnrichProjects extends Command
                         'nb_credits' => $project->owner->nb_credits - AutoPopulateService::NB_CREDITS_REQUIRED_COMPETITORS
                     ]
                 );
-                \Log::info('Competitors for project ' . $project->id . ' populated.');
+                \Log::debug('Competitors for project ' . $project->id . ' populated.');
             } catch (\Exception $e) {
                 \Log::error($e->getMessage());
             }
         }
-        \Log::info('Projects competitors auto populated');
+        \Log::debug('Projects competitors auto populated');
     }
 
     private function addCategories(): void
     {
-        \Log::info('Auto populating projects category');
+        \Log::debug('Auto populating projects category');
         $projectsToAddCategory = Project::doesntHave('category')->limit(5)->get();
         if (($projectsToAddCategory->count() ?? 0) === 0) {
-            \Log::info('No projects to add category');
+            \Log::debug('No projects to add category');
             return;
         }
         foreach ($projectsToAddCategory as $project) {
             try {
-                \Log::info('Add category for project ' . $project->id);
+                \Log::debug('Add category for project ' . $project->id);
                 $this->autoPopulateService->addCategory($project);
-                \Log::info('Category for project ' . $project->id . ' added.');
+                \Log::debug('Category for project ' . $project->id . ' added.');
             } catch (\Exception $e) {
                 \Log::error($e->getMessage());
             }
         }
-        \Log::info('Projects category auto populated');
+        \Log::debug('Projects category auto populated');
     }
 }
