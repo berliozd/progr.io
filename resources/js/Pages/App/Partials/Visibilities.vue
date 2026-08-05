@@ -9,7 +9,7 @@ const selectVisibility = (badge) => {
 </script>
 
 <template>
-    <label class="block mb-2">{{ $t('app.project.visibility') }}:</label>
+    <label class="block mb-2 text-sm font-medium text-base-content/80">{{ $t('app.project.visibility') }}:</label>
     <Badges :badges="allVisibilities" :badge="project.visibility"
             @click="selectVisibility($event)"/>
 </template>

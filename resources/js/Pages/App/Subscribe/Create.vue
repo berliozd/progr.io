@@ -74,8 +74,8 @@ const submit = () => {
 
             <Box>
                 <fieldset>
-                    <legend>{{ $t('Plan : ') }}</legend>
-                    <div class="">
+                    <legend class="font-semibold mb-2">{{ $t('Plan : ') }}</legend>
+                    <div class="space-y-2">
                         <div v-for="product in products" class="relative flex items-start">
                             <div class="flex h-6 items-center">
                                 <input v-bind:id="product.id"
@@ -85,12 +85,12 @@ const submit = () => {
                                        type="radio"
                                        v-model="form.plan"
                                        checked
-                                       class="h-4 w-4 text-primary focus:ring-secondary"
+                                       class="radio radio-primary radio-sm"
                                 >
                             </div>
                             <div class="ml-3 text-sm leading-6">
                                 <label v-bind:for=" product.id " class="font-medium">{{ product.name }}</label>
-                                <p id="small-description">{{ product.price }} €</p>
+                                <p id="small-description" class="text-base-content/60">{{ product.price }} €</p>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ const submit = () => {
 
             <Box>
                 <InputLabel for="card-element" value="Card :"/>
-                <div id="card-element" class="shadow-lg p-5 rounded bg-white"></div>
+                <div id="card-element" class="shadow-soft p-4 rounded-btn bg-base-100 border border-base-300"></div>
             </Box>
 
             <div class="flex items-center justify-end mt-4">

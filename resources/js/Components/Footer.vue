@@ -9,19 +9,22 @@ const isActive = (route) => {
 const appHomeRoute = route(usePage().props.app.home_route);
 </script>
 <template>
-  <div class="btm-nav">
+  <div class="btm-nav border-t border-base-300 bg-base-100">
     <ApplicationLogo v-bind:simple="true"></ApplicationLogo>
     <a v-bind:href="appHomeRoute"
-       v-bind:class="isActive(appHomeRoute)?'active':''">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+       class="text-base-content/60 hover:text-primary transition-colors duration-150"
+       v-bind:class="isActive(appHomeRoute)?'active !bg-primary/10 !text-primary':''">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
            class="lucide lucide-briefcase">
         <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
       </svg>
     </a>
-    <button @click="router.visit(route('dashboard'))" v-bind:class="isActive(route('dashboard'))?'active':''">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    <button @click="router.visit(route('dashboard'))"
+            class="text-base-content/60 hover:text-primary transition-colors duration-150"
+            v-bind:class="isActive(route('dashboard'))?'active !bg-primary/10 !text-primary':''">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
            class="lucide lucide-layout-dashboard">
         <rect width="7" height="9" x="3" y="3" rx="1"/>
@@ -30,8 +33,10 @@ const appHomeRoute = route(usePage().props.app.home_route);
         <rect width="7" height="5" x="3" y="16" rx="1"/>
       </svg>
     </button>
-    <button @click="router.visit(route('profile.edit'))" v-bind:class="isActive(route('profile.edit'))?'active':''">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    <button @click="router.visit(route('profile.edit'))"
+            class="text-base-content/60 hover:text-primary transition-colors duration-150"
+            v-bind:class="isActive(route('profile.edit'))?'active !bg-primary/10 !text-primary':''">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
            class="lucide lucide-circle-user-round">
         <path d="M18 20a6 6 0 0 0-12 0"/>

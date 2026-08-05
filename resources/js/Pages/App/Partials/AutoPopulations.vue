@@ -10,12 +10,12 @@ const selectAutoPopulation = (badge) => {
 </script>
 
 <template>
-    <label class="mb-2 flex  justify-start space-x-1 items-center">
+    <label class="mb-2 flex justify-start space-x-1 items-center text-sm font-medium text-base-content/80">
         {{ $t('app.project.auto_populations.title') }} :
     </label>
     <Badges :badges="allAutoPopulations" :badge="project.auto_population"
             @click="selectAutoPopulation($event)"/>
-    <div class="alert alert-warning">
+    <div class="alert alert-warning rounded-box mt-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
              class="lucide lucide-info">

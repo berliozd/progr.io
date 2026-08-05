@@ -14,18 +14,14 @@ const props = defineProps({
 
 const classes = computed(() =>
     props.active
-        ? 'block w-full ps-3 pe-4 py-2 border-l-4 font-medium ' +
-        'border-primary text-secondary ' +
-        'bg-primary/20 ' +
-        'focus:outline-none focus:text-indigo-200 ' +
-        'focus:bg-indigo-900 ' +
-        'focus:border-indigo-300 ' +
-        'transition duration-150 ease-in-out'
-        : 'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start font-medium ' +
+        ? 'block w-full ps-3 pe-4 py-2 border-l-4 font-semibold ' +
+        'border-primary text-primary ' +
+        'bg-primary/10 ' +
         'focus:outline-none ' +
-        'focus:text-gray-200 ' +
-        'focus:bg-gray-700 ' +
-        'focus:border-gray-600 ' +
+        'transition duration-150 ease-in-out'
+        : 'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start font-medium text-base-content/70 ' +
+        'hover:text-base-content hover:bg-base-200 hover:border-base-300 ' +
+        'focus:outline-none ' +
         'transition duration-150 ease-in-out'
 );
 </script>

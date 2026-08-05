@@ -1,16 +1,16 @@
 <template>
     <div class="flex flex-col lg:flex-row justify-center lg:items-stretch gap-8">
 
-        <div class=" w-full max-w-lg border rounded-xl">
-            <div class=" flex flex-col h-full gap-3 lg:gap-6 z-10 bg-base-300 p-8 rounded-box">
+        <div class="w-full max-w-lg card-surface">
+            <div class="flex flex-col h-full gap-3 lg:gap-6 p-8">
                 <p class="text-lg lg:text-xl font-bold">Starter</p>
                 <div class="flex gap-2">
                     <p class="text-5xl font-extrabold">$9</p>
                     <div class="flex flex-col justify-end">
-                        <p class="text-xs  uppercase font-semibold">USD</p>
+                        <p class="text-xs  uppercase font-semibold text-base-content/60">USD</p>
                     </div>
                 </div>
-                <div class="bg-accent/20 rounded border text-center">30 credits</div>
+                <div class="bg-primary/10 text-primary font-medium rounded-btn text-center py-1.5">30 credits</div>
                 <ul class="space-y-2.5 leading-relaxed text-base flex-1">
                     <li class="flex items-center gap-2">
                         <ListTick>$0.30 per credit</ListTick>
@@ -23,10 +23,10 @@
                     </li>
                 </ul>
                 <div class="space-y-2">
-                    <PrimaryButton v-if="buy" @click="goTo(route('checkout_offer', {id:0}))">
+                    <PrimaryButton v-if="buy" @click="goTo(route('checkout_offer', {id:0}))" class="w-full">
                         <Arrow>Buy credits</Arrow>
                     </PrimaryButton>
-                    <PrimaryButton v-else @click="router.visit('register')">
+                    <PrimaryButton v-else @click="router.visit('register')" class="w-full">
                         <Arrow>Get Progr.io</Arrow>
                     </PrimaryButton>
                 </div>
@@ -35,11 +35,11 @@
 
         <div class="relative w-full max-w-lg">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                <span class="badge text-xs text-primary-content font-semibold border-0 bg-success">POPULAR</span>
+                <span class="badge text-xs text-primary-content font-semibold border-0 bg-primary px-4 py-3">POPULAR</span>
             </div>
 
             <div
-                class="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-300 p-8 rounded-box border border-success">
+                class="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-100 p-8 rounded-box border-2 border-primary shadow-elevated">
                 <p class="text-lg lg:text-xl font-bold">Basic</p>
                 <div class="flex gap-2">
                     <div class="flex flex-col justify-end mb-[4px] text-lg ">
@@ -50,12 +50,12 @@
                     </div>
                     <p class="text-5xl font-extrabold">$19</p>
                     <div class="flex flex-col justify-end mb-[4px]">
-                        <p class="text-xs uppercase font-semibold">
+                        <p class="text-xs uppercase font-semibold text-base-content/60">
                             USD <span class="text-base-content/50 lowercase"></span>
                         </p>
                     </div>
                 </div>
-                <div class="bg-accent/20 rounded border text-center">90 credits</div>
+                <div class="bg-primary/10 text-primary font-medium rounded-btn text-center py-1.5">90 credits</div>
                 <ul class="space-y-2.5 leading-relaxed text-base flex-1">
                     <li class="flex items-center gap-2">
                         <ListTick>$0.21 per credit</ListTick>
@@ -72,18 +72,18 @@
                 </ul>
 
                 <div class="space-y-2">
-                    <PrimaryButton v-if="buy" @click="goTo(route('checkout_offer', {id:1}))">
+                    <PrimaryButton v-if="buy" @click="goTo(route('checkout_offer', {id:1}))" class="w-full">
                         <Arrow>Buy credits</Arrow>
                     </PrimaryButton>
-                    <PrimaryButton v-else @click="router.visit('register')">
+                    <PrimaryButton v-else @click="router.visit('register')" class="w-full">
                         <Arrow>Get Progr.io</Arrow>
                     </PrimaryButton>
                 </div>
             </div>
         </div>
 
-        <div class=" w-full max-w-lg border rounded-xl">
-            <div class=" flex flex-col h-full gap-3 lg:gap-6 z-10 bg-base-300 p-8 rounded-box">
+        <div class="w-full max-w-lg card-surface">
+            <div class="flex flex-col h-full gap-3 lg:gap-6 p-8">
                 <p class="text-lg lg:text-xl font-bold">Advanced</p>
                 <div class="flex gap-2">
                     <div class="flex flex-col justify-end mb-[4px] text-lg ">
@@ -94,10 +94,10 @@
                     </div>
                     <p class="text-5xl font-extrabold">$59</p>
                     <div class="flex flex-col justify-end">
-                        <p class="text-xs  uppercase font-semibold">USD</p>
+                        <p class="text-xs  uppercase font-semibold text-base-content/60">USD</p>
                     </div>
                 </div>
-                <div class="bg-accent/20 rounded border text-center">300 credits</div>
+                <div class="bg-primary/10 text-primary font-medium rounded-btn text-center py-1.5">300 credits</div>
                 <ul class="space-y-2.5 leading-relaxed text-base flex-1">
                     <li class="flex items-center gap-2">
                         <ListTick>$0.19 per credit</ListTick>
@@ -113,10 +113,10 @@
                     </li>
                 </ul>
                 <div class="space-y-2">
-                    <PrimaryButton v-if="buy" @click="goTo(route('checkout_offer', {id:2}))">
+                    <PrimaryButton v-if="buy" @click="goTo(route('checkout_offer', {id:2}))" class="w-full">
                         <Arrow>Buy credits</Arrow>
                     </PrimaryButton>
-                    <PrimaryButton v-else @click="router.visit('register')">
+                    <PrimaryButton v-else @click="router.visit('register')" class="w-full">
                         <Arrow>Get Progr.io</Arrow>
                     </PrimaryButton>
                 </div>

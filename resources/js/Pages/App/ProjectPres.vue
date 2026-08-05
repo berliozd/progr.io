@@ -40,7 +40,7 @@ getProject();
             </div>
             <ProjectPresentation :project="project"/>
         </Box>
-        <Box class="space-y-2 bg-primary/80 relative" v-else>
+        <Box class="space-y-2 relative text-center" v-else>
             {{ $t('app.no_projects_found') }}
         </Box>
         <div id='presentation' v-if="loaded"></div>

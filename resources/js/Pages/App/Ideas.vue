@@ -115,10 +115,10 @@ const gotTo = (url) => {
 
         <Box>
             <details class="collapse collapse-arrow" open>
-                <summary class="collapse-title text-xl font-medium">
+                <summary class="collapse-title text-xl font-semibold">
                     {{ $t('app.ideas.generator_introduction') }}
                 </summary>
-                <div class="collapse-content space-y-4">
+                <div class="collapse-content space-y-4 text-base-content/70">
                     <div>{{ $t('app.ideas.generator_line1') }}</div>
                     <div>{{ $t('app.ideas.generator_line2') }}</div>
                     <div>{{ $t('app.ideas.generator_line3') }}</div>
@@ -127,8 +127,8 @@ const gotTo = (url) => {
         </Box>
 
         <Box v-if="!ai || limitExceeded">
-            <div class="flex flex-col space-y-2 p-4" ref="errorElement">
-                <div class="flex flex-row justify-between alert alert-error">
+            <div class="flex flex-col space-y-2" ref="errorElement">
+                <div class="flex flex-row justify-between items-center alert alert-error rounded-box">
                     <template v-if="limitExceeded">
                         <div>{{ $t('app.nb_free_projects_reached') }}</div>
                     </template>
@@ -141,8 +141,8 @@ const gotTo = (url) => {
         </Box>
 
         <Box class="relative">
-            <label for="context" class=" inline-block">{{ $t('app.ideas.give_context') }}</label>
-            <p class="mb-2 text-sm text-neutral-content/50">{{ $t('app.ideas.give_context_details') }}</p>
+            <InputLabel for="context" :value="$t('app.ideas.give_context')"/>
+            <p class="mb-2 text-sm text-base-content/50">{{ $t('app.ideas.give_context_details') }}</p>
             <div class="flex flex-row justify-between space-x-4">
                 <TextInput name="context" v-model="context" rows="8" class="w-2/3 sm:w-5/6"
                            max-length="100"></TextInput>
@@ -153,30 +153,30 @@ const gotTo = (url) => {
             </div>
 
             <template v-if="ideas.length > 0">
-                <div class="flex flex-row justify-start space-x-1">
-                    <label class="label cursor-pointer flex space-x-1">
-                        <span class="label-text text-xs">Redirect after add</span>
-                        <input type="checkbox" class="toggle" :checked="redirectAfterAdd"
+                <div class="flex flex-row flex-wrap gap-4 mt-4">
+                    <label class="label cursor-pointer flex gap-2 items-center">
+                        <span class="label-text text-xs text-base-content/70">Redirect after add</span>
+                        <input type="checkbox" class="toggle toggle-primary toggle-sm" :checked="redirectAfterAdd"
                                @click="redirectAfterAdd = !redirectAfterAdd"/>
                     </label>
-                    <label class="label cursor-pointer flex space-x-2">
-                        <span class="label-text text-xs">Add with auto-population</span>
-                        <input type="checkbox" class="toggle focus-bg-black" :checked="addWithAutoPopulation"
+                    <label class="label cursor-pointer flex gap-2 items-center">
+                        <span class="label-text text-xs text-base-content/70">Add with auto-population</span>
+                        <input type="checkbox" class="toggle toggle-primary toggle-sm" :checked="addWithAutoPopulation"
                                @click="addWithAutoPopulation = !addWithAutoPopulation"/>
                     </label>
-                    <label class="label cursor-pointer flex space-x-2">
-                        <span class="label-text text-xs">Add public</span>
-                        <input type="checkbox" class="toggle focus-bg-black" :checked="addPublic"
+                    <label class="label cursor-pointer flex gap-2 items-center">
+                        <span class="label-text text-xs text-base-content/70">Add public</span>
+                        <input type="checkbox" class="toggle toggle-primary toggle-sm" :checked="addPublic"
                                @click="addPublic = !addPublic"/>
                     </label>
                 </div>
 
-                <div v-for="idea in ideas" class="rounded border p-2 my-4 flex flex-col border-spacing-y-1">
-                    <div class="mb-2">
-                        <span class="underline font-bold">{{ $t('app.project.title') }}</span> : {{ idea.title }}
+                <div v-for="idea in ideas" class="card-surface p-4 my-4 flex flex-col gap-2">
+                    <div>
+                        <span class="font-semibold text-base-content">{{ $t('app.project.title') }}</span> : {{ idea.title }}
                     </div>
-                    <div class="mb-2">
-                        <span class="underline font-bold">{{ $t('app.project.description') }}</span> :
+                    <div>
+                        <span class="font-semibold text-base-content">{{ $t('app.project.description') }}</span> :
                         {{ idea.description }}
                     </div>
                     <div>

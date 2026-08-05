@@ -69,7 +69,7 @@ const gotTo = (url) => {
 
 <template>
 
-    <div class="flex flex-row sm:ml-10 space-x-2 text-xs items-center hover:cursor-pointer" @click="showModal">
+    <div class="flex flex-row sm:ml-10 space-x-2 text-xs items-center hover:cursor-pointer text-primary" @click="showModal">
         <span class="underline hidden sm:block">{{ $t('app.project.ask_ai_help') }}</span>
         <AILogo/>
     </div>
@@ -77,12 +77,12 @@ const gotTo = (url) => {
     <Modal :show="isShowModal">
 
         <div class="p-4 w-full space-y-4 flex flex-col" v-if="ai">
-            <div class="flex flex-row w-full justify-between">
-                <div>
+            <div class="flex flex-row w-full justify-between items-center">
+                <div class="font-medium">
                     {{ $t('app.project.note', {'label': capitalize(note.type.label)}) }}
                 </div>
-                <div class="space-x-2 items-center">
-                    <span class="loading loading-spinner loading-s" v-show="loading"></span>
+                <div class="space-x-2 items-center flex">
+                    <span class="loading loading-spinner loading-sm text-primary" v-show="loading"></span>
                     <PrimaryButton @click="askAI" v-bind:disabled="loading">
                         {{ $t('app.project.ask_ai') }}
                     </PrimaryButton>
@@ -91,7 +91,7 @@ const gotTo = (url) => {
             <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
             <div class="flex flex-row justify-between">
                 <SecondaryButton @click="hideModal">{{ $t('app.cancel') }}</SecondaryButton>
-                <div class="flex flex-row justify-between space-x-5">
+                <div class="flex flex-row justify-between space-x-3">
                     <SecondaryButton v-if="aiResponse" @click="copy" :title="$t('app.project.copy')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -111,7 +111,7 @@ const gotTo = (url) => {
         </div>
 
         <div class="flex flex-col space-y-2 p-4" v-else>
-            <div class="flex flex-row justify-between alert alert-error">
+            <div class="flex flex-row justify-between items-center alert alert-error rounded-box">
                 {{ $t('app.ai_not_available') }}
                 <PrimaryButton @click="gotTo(route('dashboard'))">
                     Buy more credits

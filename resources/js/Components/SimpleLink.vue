@@ -6,7 +6,7 @@ const props = defineProps({
     class: String
 })
 const cssClass = (props.class ?? '') + ' font-semibold ' +
-    ' hover:text-neutral text-neutral-content ';
+    ' text-base-content hover:text-primary transition-colors duration-150 ';
 </script>
 <template>
     <Link v-bind:href="href" v-bind:class="cssClass">

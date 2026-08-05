@@ -1,12 +1,14 @@
 <template>
     <button
-        class="inline-flex items-center px-4 py-2
-        bg-red-600 border
-        border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest
-        hover:bg-red-500
-        active:bg-red-700
-        focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
-        transition ease-in-out duration-150"
+        class="inline-flex items-center justify-center gap-2 rounded-btn px-4 py-2
+        text-sm font-semibold text-white
+        bg-error
+        shadow-soft
+        transition-all duration-150
+        hover:bg-error/90 hover:shadow-elevated
+        active:scale-[0.98]
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100
+        disabled:opacity-50 disabled:pointer-events-none"
     >
         <slot />
     </button>

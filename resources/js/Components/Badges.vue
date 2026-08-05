@@ -8,11 +8,11 @@ const props = defineProps({
 const emits = defineEmits(['click'])
 
 const badgeCss = (badge) => {
-  const baseCss = 'badge badge-outline badge-lg mr-2 mb-2 ';
+  const baseCss = 'badge badge-lg mr-2 mb-2 transition-colors duration-150';
   if (props.badge === badge.id) {
-    return baseCss + ' badge-accent';
+    return baseCss + ' badge-primary border-primary';
   }
-  return baseCss + ' hover:cursor-pointer hover:text-neutral hover:bg-neutral-content';
+  return baseCss + ' badge-outline border-base-300 hover:cursor-pointer hover:border-primary hover:text-primary';
 }
 </script>
 <template>

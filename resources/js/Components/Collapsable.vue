@@ -6,8 +6,8 @@ defineProps({
 </script>
 
 <template>
-  <details class="collapse collapse-arrow bg-neutral/70 border rounded-lg shadow-secondary-content/50 shadow-lg text-white/70 mt-2" :open="open">
-    <summary class="collapse-title text-xl mb-2 font-medium">{{ title }}</summary>
+  <details class="collapse collapse-arrow bg-base-200 border border-base-300 rounded-box shadow-soft text-base-content mt-2" :open="open">
+    <summary class="collapse-title text-lg mb-2 font-semibold">{{ title }}</summary>
     <div class="collapse-content">
       <slot/>
     </div>

@@ -7,9 +7,9 @@ const goBack = () => {
 }
 </script>
 <template>
-  <div class="hover:cursor-pointer" @click="goBack();" v-if="useStore().history.length !== 0">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+  <div class="hover:cursor-pointer text-base-content/60 hover:text-primary transition-colors duration-150" @click="goBack();" v-if="useStore().history.length !== 0">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
          class="lucide lucide-undo-2">
       <path d="M9 14 4 9l5-5"/>
       <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/>

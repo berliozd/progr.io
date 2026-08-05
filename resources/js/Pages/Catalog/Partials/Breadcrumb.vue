@@ -7,15 +7,15 @@ const props = defineProps({
 })
 </script>
 <template>
-    <div class="text-sm breadcrumbs">
+    <div class="text-sm breadcrumbs text-base-content/70">
         <ul>
             <li>
-                <Link :href="route('app.ideas.catalog')">
+                <Link :href="route('app.ideas.catalog')" class="hover:text-primary">
                     {{ trans('app.ideas.catalog.ideas_catalog') }}
                 </Link>
             </li>
             <li>
-                <Link :href="route('app.ideas.catalog.category', {category:props?.category?.code??''})">
+                <Link :href="route('app.ideas.catalog.category', {category:props?.category?.code??''})" class="hover:text-primary">
                     {{ trans('app.ideas.catalog.category.' + props.category?.code) }}
                 </Link>
             </li>

@@ -6,11 +6,11 @@ const props = defineProps({
 })
 
 const badgeCss = (selected) => {
-  const baseCss = 'badge badge-outline badge-lg text-nowrap';
+  const baseCss = 'badge badge-lg text-nowrap transition-colors duration-150';
   if (selected) {
-    return baseCss + ' badge-accent';
+    return baseCss + ' badge-primary border-primary';
   }
-  return baseCss + ' hover:cursor-pointer';
+  return baseCss + ' badge-outline border-base-300 hover:border-primary hover:text-primary hover:cursor-pointer';
 }
 </script>
 <template>

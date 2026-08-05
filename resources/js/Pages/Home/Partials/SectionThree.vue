@@ -3,10 +3,10 @@
 <template>
 
     <section class="text-center md:p-12 p-6">
-        <h2 class="font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl">
+        <h2 class="font-extrabold mb-6 md:mb-8 md:text-5xl text-2xl tracking-tight">
             95% of your ideas never come to fruition
         </h2>
-        <p class="max-w-xl mx-auto text-lg opacity-80 leading-relaxed mb-12 md:mb-20">
+        <p class="max-w-xl mx-auto text-lg text-base-content/70 leading-relaxed mb-12 md:mb-20">
             According to a survey by the Idea Management Group, a company that helps organizations manage their ideas,
             only
             about 5% of ideas generated within a company are actually implemented. This suggests that a large majority
@@ -26,7 +26,7 @@
                 <span class="text-4xl">🤔</span>
                 <p class="font-bold">I forgot this idea</p>
             </div>
-            <svg class="shrink-0 w-12 fill-neutral-content opacity-70 max-md:-scale-x-100 md:-rotate-90"
+            <svg class="shrink-0 w-12 fill-base-content/40 max-md:-scale-x-100 md:-rotate-90"
                  viewBox="0 0 138 138" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -39,7 +39,7 @@
                 <span class="text-4xl">😤</span>
                 <p class="font-bold">Wow that annoys me</p>
             </div>
-            <svg class="shrink-0 w-12 fill-neutral-content opacity-70 md:-scale-x-100 md:-rotate-90"
+            <svg class="shrink-0 w-12 fill-base-content/40 md:-scale-x-100 md:-rotate-90"
                  viewBox="0 0 138 138"
                  fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g>

@@ -34,7 +34,7 @@ const closeModal = () => {
   <section class="space-y-6">
     <header>
       <h2 class="text-lg font-medium">Cancel your subscription</h2>
-      <p class="mt-1 text-sm text-neutral">
+      <p class="mt-1 text-sm text-base-content/60">
         Cancel your subscription...
       </p>
     </header>

@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    ::selection {
+        @apply bg-primary/30;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-base-200;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-base-300 rounded-full;
+    }
+}
+
+@layer components {
+    .card-surface {
+        @apply bg-base-100 border border-base-300 rounded-box shadow-soft;
+    }
+
+    .section-eyebrow {
+        @apply inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-accent uppercase;
+    }
+}

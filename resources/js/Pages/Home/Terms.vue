@@ -3,12 +3,12 @@ import Back from "@/Components/Back.vue";
 </script>
 
 <template>
-  <main class="max-w-3xl mx-auto">
-    <div class="p-5">
+  <main class="min-h-screen bg-base-300 py-10">
+    <div class="max-w-3xl mx-auto card-surface p-6 sm:p-8">
       <Back/>
-      <h1 class="text-3xl font-extrabold pb-6">Terms and Conditions for progr.io</h1>
+      <h1 class="text-3xl font-extrabold pb-6 tracking-tight">Terms and Conditions for progr.io</h1>
 
-      <pre class="leading-relaxed whitespace-pre-wrap">
+      <pre class="leading-relaxed whitespace-pre-wrap font-sans text-base-content/80">
   Last Updated: March 18, 2024
 
 1. Acceptance of Terms

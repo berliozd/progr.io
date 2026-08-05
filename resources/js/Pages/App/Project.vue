@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PageHeader from "@/Components/PageHeader.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
+import InputLabel from "@/Components/InputLabel.vue";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import Collapsable from "@/Components/Collapsable.vue";
 import Competitor from "@/Pages/App/Partials/Competitor.vue";
@@ -98,13 +99,13 @@ getProject();
 
         <ProjectActions :project="project"/>
 
-        <Box class="space-y-2 bg-primary/80 relative" v-if="project">
-            <label for="title">{{ $t('app.project.title') }} :</label>
+        <Box class="space-y-3 relative" v-if="project">
+            <InputLabel for="title" :value="$t('app.project.title') + ' :'"/>
             <div class="">
                 <TextInput v-model="project.title" name="title" class="w-full"
                            :disabled="project.auto_population === autoPopulationProcessing"></TextInput>
             </div>
-            <label for="description">{{ $t('app.project.description') }} :</label>
+            <InputLabel for="description" :value="$t('app.project.description') + ' :'"/>
             <div class="">
                 <TextArea v-model="project.description" rows="8" class="w-full"
                           :disabled="project.auto_population === autoPopulationProcessing"></TextArea>
@@ -112,16 +113,16 @@ getProject();
         </Box>
 
         <template v-if="project.auto_population === autoPopulationProcessing">
-            <div class="alert alert-info">
+            <div class="alert alert-info rounded-box shadow-soft">
                 {{ $t('app.project.auto_populations.in_progress') }}
             </div>
-            <div class="alert alert-info">
+            <div class="alert alert-info rounded-box shadow-soft">
                 {{ $t('app.project.auto_populations.in_progress_description') }}
             </div>
         </template>
 
         <template v-if="project && project.auto_population !== autoPopulationProcessing">
-            <Box class="space-y-4 relative bg-primary/80">
+            <Box class="space-y-4 relative">
                 <Collapsable :title="$t('app.project.notes')">
                     <Notes :all-notes-types="project.allNotesTypes" :available-notes-types="project.availableNotesTypes"
                            :notes="project.notes" :title="project.title" :description="project.description"
@@ -130,11 +131,11 @@ getProject();
                            @change="refreshAfterSave = true" @start-add-note="refreshAfterSave = false"/>
                 </Collapsable>
             </Box>
-            <Box class="space-y-4 relative bg-primary/80">
+            <Box class="space-y-4 relative">
                 <Collapsable :title="$t('app.project.competitors')">
-                    <span v-if="project?.competitors?.length === 0">{{ $t('app.project.no_competitors') }}</span>
+                    <span v-if="project?.competitors?.length === 0" class="text-base-content/60">{{ $t('app.project.no_competitors') }}</span>
                     <div v-for="competitor in project.competitors"
-                         class="my-4 border p-4 rounded-lg bg-neutral-content/40 shadow-lg shadow-secondary-content/40"
+                         class="my-4 card-surface p-4"
                          :key="competitor.id">
                         <div class="flex flex-col mb-2">
                             <div class="flex justify-end">
@@ -164,15 +165,15 @@ getProject();
                 </Collapsable>
             </Box>
 
-            <Box class="bg-primary/80">
+            <Box>
                 <Statuses :project="project" :all-statuses="project.allStatuses"/>
-                <hr>
+                <hr class="border-base-300">
                 <Visibilities :project="project" :all-visibilities="project.allVisibilities"/>
-                <hr>
+                <hr class="border-base-300">
                 <AutoPopulations :project="project" :all-auto-populations="project.allAutoPopulations"/>
             </Box>
 
-            <div class="flex flex-row justify-end">
+            <div class="flex flex-row justify-end items-center gap-3">
                 <SavedLabel/>
                 <div>
                     <SaveProjectButton v-bind:on-click="saveProjectAndRedirect"></SaveProjectButton>

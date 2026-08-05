@@ -94,9 +94,9 @@ const checkForm = () => {
 
     <div class="flex flex-row sm:ml-10 space-x-2 text-xs hover:cursor-pointer" @click="showModal">
         <div class="tooltip" data-tip="Share by email">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-send">
+                 class="lucide lucide-send hover:text-primary transition-colors duration-150">
                 <path d="m22 2-7 20-4-9-9-4Z"/>
                 <path d="M22 2 11 13"/>
             </svg>
@@ -106,7 +106,7 @@ const checkForm = () => {
     <Modal :show="isShowModal">
 
         <div class="p-4 w-full space-y-4 flex flex-col">
-            <div class="text-lg">{{ $t('app.project.send.title') }}</div>
+            <div class="text-lg font-semibold">{{ $t('app.project.send.title') }}</div>
             <InputLabel :value="$t('app.project.send.recipient')"/>
             <TextInput v-model="recipient"></TextInput>
             <InputLabel :value="$t('app.project.send.subject')"/>
@@ -114,14 +114,14 @@ const checkForm = () => {
             <InputLabel :value="$t('app.project.send.content')"/>
             <TextArea v-model="aiResponse" rows="8" class="w-full"></TextArea>
 
-            <div v-if="errors.length" class="alert alert-error mt-2 block">
+            <div v-if="errors.length" class="alert alert-error rounded-box mt-2 block">
                 <ul>
                     <li v-for="error in errors">{{ error }}</li>
                 </ul>
             </div>
 
             <div class="flex flex-col space-y-2" v-if="!ai">
-                <div class="flex flex-row justify-between alert alert-error">
+                <div class="flex flex-row justify-between items-center alert alert-error rounded-box">
                     {{ $t('app.ai_not_available') }}
                     <PrimaryButton @click="gotTo(route('subscribe.checkout'))">
                         {{ $t('app.subscribe') }}
@@ -130,7 +130,7 @@ const checkForm = () => {
             </div>
 
             <div class="flex flex-row justify-between">
-                <div class="alert alert-info">
+                <div class="alert alert-info rounded-box">
                     {{ $t('app.project.send.info') }}
                 </div>
             </div>
@@ -138,7 +138,7 @@ const checkForm = () => {
                 <SecondaryButton @click="hideModal">{{ $t('app.cancel') }}</SecondaryButton>
                 <div class="flex flex-row justify-between space-x-5">
                     <PrimaryButton @click="send" :title="$t('app.project.send')" :disabled="loading || sending">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="lucide lucide-send">
                             <path d="m22 2-7 20-4-9-9-4Z"/>

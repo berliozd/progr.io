@@ -14,18 +14,18 @@ const goTo = (url) => {
   <Head v-bind:title="$t('Project')"/>
   <PresentationLayout>
     <Box class="space-y-2 relative flex flex-row justify-center">
-      <div class="flex flex-col space-y-4">
+      <div class="flex flex-col space-y-4 items-center text-center">
         <div class="flex flex-row justify-center">
           <ApplicationLogo/>
         </div>
         <template v-if="code === 'only_members'">
-          <p>{{ $t('app.project.only_members_project') }}</p>
+          <p class="text-base-content/70">{{ $t('app.project.only_members_project') }}</p>
           <div class="flex flex-row justify-center">
             <PrimaryButton @click="goTo(route('register'))">{{ $t('auth.register') }}</PrimaryButton>
           </div>
         </template>
         <template v-if="code === 'private'">
-          <p>{{ $t('app.project.private_project') }}</p>
+          <p class="text-base-content/70">{{ $t('app.project.private_project') }}</p>
         </template>
       </div>
     </Box>

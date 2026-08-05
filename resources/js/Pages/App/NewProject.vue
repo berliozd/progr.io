@@ -4,6 +4,7 @@ import PageHeader from "@/Components/PageHeader.vue";
 import Box from "@/Components/Box.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
+import InputLabel from "@/Components/InputLabel.vue";
 import ErrorAlert from "@/Components/ErrorAlert.vue";
 import SaveProjectButton from "@/Pages/App/Partials/SaveProjectButton.vue";
 import Visibilities from "@/Pages/App/Partials/Visibilities.vue";
@@ -79,22 +80,22 @@ const validate = () => {
         <template #header>
             <PageHeader v-bind:title="$t('New Project')"/>
         </template>
-        <Box class="space-y-4 relative bg-primary/70">
+        <Box class="space-y-3 relative">
             <ErrorAlert v-bind:error="usePage().props.error" v-if="usePage().props.error"/>
-            <label for="title">{{ $t('app.project.title') }}:</label>
-            <div class="mt-2 flex flex-row">
+            <InputLabel for="title" :value="$t('app.project.title') + ':'"/>
+            <div class="flex flex-row">
                 <TextInput v-model="project.title" name="title" class="w-full"></TextInput>
             </div>
-            <label for="description">{{ $t('app.project.description') }}:</label>
-            <div class="mt-2 flex flex-row">
+            <InputLabel for="description" :value="$t('app.project.description') + ':'"/>
+            <div class="flex flex-row">
                 <TextArea v-model="project.description" rows="8" class="w-full"></TextArea>
             </div>
         </Box>
-        <Box class="bg-primary/80">
+        <Box>
             <Statuses :project="project" :all-statuses="allStatuses"/>
-            <hr>
+            <hr class="border-base-300">
             <Visibilities :project="project" :all-visibilities="allVisibilities"/>
-            <hr>
+            <hr class="border-base-300">
             <autoPopulations :project="project" :all-auto-populations="allAutoPopulations"/>
         </Box>
         <SaveProjectButton v-bind:on-click="save"></SaveProjectButton>

@@ -9,7 +9,7 @@ import Footer from "@/Components/Footer.vue";
 import LocaleChanger from "@/Components/LocaleChanger.vue";
 import Loader from "@/Components/Loader.vue";
 
-import {usePage} from '@inertiajs/vue3'
+import {Link, usePage} from '@inertiajs/vue3'
 import {computed, ref} from 'vue';
 import {useStore} from "@/Composables/store.js";
 import {trans} from "laravel-vue-i18n";
@@ -24,7 +24,7 @@ const showingNavigationDropdown = ref(false);
 <template>
     <Toast/>
     <div class="min-h-screen bg-base-300">
-        <nav class="border-b border-base-200 bg-base-100">
+        <nav class="sticky top-0 z-30 border-b border-base-300 bg-base-100/90 backdrop-blur">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -40,7 +40,7 @@ const showingNavigationDropdown = ref(false);
                                 {{ $t('app.ideas.ideas_generator') }}
                             </NavLink>
                             <a :href="route('app.ideas.catalog')"
-                               class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 hover:text-neutral-content/70 transition duration-150 ease-in-out">
+                               class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-base-content/60 hover:text-base-content hover:border-base-300 transition duration-150 ease-in-out">
                                 {{ $t('app.ideas.catalog.ideas_catalog') }}
                             </a>
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
@@ -48,20 +48,21 @@ const showingNavigationDropdown = ref(false);
                             </NavLink>
                         </div>
                     </div>
-                    <div class="flex flex-row">
-<!--                        <div class="hidden sm:flex sm:items-center sm:ms-6">-->
-<!--                            {{ $page.props.auth.user.nb_credits }} credits(s)-->
-<!--                        </div>-->
-                        <NavLink :href="route('dashboard')">{{ $page.props.auth.user.nb_credits }} credits(s)</NavLink>
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    <div class="flex flex-row items-center gap-1">
+                        <Link :href="route('dashboard')"
+                              class="hidden sm:inline-flex items-center rounded-btn bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 hover:bg-primary/20 transition-colors duration-150">
+                            {{ $page.props.auth.user.nb_credits }} credits
+                        </Link>
+                        <div class="hidden sm:flex sm:items-center sm:ms-4">
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
-                    <span class="inline-flex rounded-md">
+                    <span class="inline-flex rounded-btn">
                         <button type="button"
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md
-                                hover:text-neutral-content
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-btn
+                                text-base-content/80
+                                hover:text-base-content hover:bg-base-200
                                 focus:outline-none transition ease-in-out duration-150">
                             {{ $page.props.auth.user.name }}
                             <svg
@@ -93,10 +94,10 @@ const showingNavigationDropdown = ref(false);
                             <div class="-me-2 flex items-center ">
                                 <button
                                     @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                    class="inline-flex items-center justify-center p-2 rounded-md
+                                    class="inline-flex items-center justify-center p-2 rounded-btn
+                                            text-base-content/70
                                             focus:outline-none
-                                            focus:bg-base-300
-                                            focus:text-neutral-content/50
+                                            hover:bg-base-200
                                             transition duration-150 ease-in-out">
                                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                         <path
@@ -124,7 +125,7 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Responsive Navigation Menu -->
             <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
-                 class="sm:hidden smallscreen">
+                 class="sm:hidden smallscreen border-t border-base-300">
                 <div class="pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink :href="route('app.projects')" :active="route().current('app.projects')">
                         {{ $t('app.projects') }}
@@ -133,8 +134,8 @@ const showingNavigationDropdown = ref(false);
                         {{ $t('app.ideas.ideas_generator') }}
                     </ResponsiveNavLink>
                     <a :href="route('app.ideas.catalog')" class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start
-                                       font-medium focus:outline-none focus:text-gray-200 focus:bg-gray-700
-                                       focus:border-gray-600 transition duration-150 ease-in-out">
+                                       font-medium text-base-content/70 hover:text-base-content hover:bg-base-200 hover:border-base-300
+                                       transition duration-150 ease-in-out">
                         {{ $t('app.ideas.catalog.ideas_catalog') }}
                     </a>
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
@@ -144,10 +145,10 @@ const showingNavigationDropdown = ref(false);
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-base-300">
                     <div class="px-4">
-                        <div class="font-medium text-neutral-content">
+                        <div class="font-medium text-base-content">
                             {{ $page.props.auth.user.name }}
                         </div>
-                        <div class="font-medium text-sm text-neutral-content/50">{{ $page.props.auth.user.email }}</div>
+                        <div class="font-medium text-sm text-base-content/50">{{ $page.props.auth.user.email }}</div>
                     </div>
 
                     <div class="mt-3 space-y-1">
@@ -161,7 +162,7 @@ const showingNavigationDropdown = ref(false);
         </nav>
 
         <!-- Page Heading -->
-        <header class="bg-base-100 shadow" v-if="$slots.header">
+        <header class="bg-base-100 border-b border-base-300" v-if="$slots.header">
             <slot name="header"/>
         </header>
 
@@ -170,7 +171,7 @@ const showingNavigationDropdown = ref(false);
             <div class="py-12">
                 <Loader/>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-base-100 overflow-hidden shadow-sm sm:rounded-lg ">
+                    <div class="bg-base-100 border border-base-300 overflow-hidden shadow-soft sm:rounded-box">
                         <div class="p-6 space-y-5 layout">
                             <slot/>
                         </div>

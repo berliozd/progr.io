@@ -9,16 +9,17 @@ const goTo = (url) => {
 </script>
 
 <template>
-    <section class="md:p-12 p-6 mx-auto">
+    <section class="md:p-12 p-6 mx-auto relative overflow-hidden">
+        <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-transparent to-transparent"></div>
         <div class="px-8 pb-6 flex flex-col gap-10 lg:gap-14 items-center text-center">
-            <h1 class="md:text-7xl text-3xl my-6 font-extrabold leading-normal">
+            <h1 class="md:text-7xl text-3xl my-6 font-extrabold leading-tight tracking-tight">
                 Turn your
                 <span class="border-b-8 border-dashed border-primary/50 italic">ideas</span>
                 <br>
                 into
                 <span class="border-b-8 border-dashed border-primary/50 italic">successful projects</span>
             </h1>
-            <div class="text-lg max-w-xl mx-auto">
+            <div class="text-lg max-w-xl mx-auto text-base-content/70">
                 Our AI-powered tool not only helps you track progress and collaborate, but also provides valuable
                 insights and information on your project's potential, including competitor analysis.
                 <br>
@@ -35,10 +36,10 @@ const goTo = (url) => {
             <PrimaryButton @click="goTo(route('dashboard'))">
                 <Arrow>Get progr.io</Arrow>
             </PrimaryButton>
-            <h3 class="font-extrabold md:text-2xl text-xl">
+            <h3 class="font-bold md:text-2xl text-xl">
                 You can also use the idea generator if you are out of ideas.
             </h3>
-            <div class="aspect-video w-full sm:w-1/2">
+            <div class="aspect-video w-full sm:w-1/2 rounded-box overflow-hidden shadow-elevated border border-base-300">
                 <iframe class="w-full h-full" src="https://www.youtube.com/embed/r-fareAicFk?si=RA3DayV6TycK7ICT"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

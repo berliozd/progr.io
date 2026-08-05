@@ -34,7 +34,9 @@ const submit = () => {
   <GuestLayout>
     <Head title="Log in"/>
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+    <h1 class="text-2xl font-bold tracking-tight mb-4">Log in</h1>
+
+    <div v-if="status" class="mb-4 font-medium text-sm text-success">
       {{ status }}
     </div>
 

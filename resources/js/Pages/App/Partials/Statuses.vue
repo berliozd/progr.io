@@ -9,6 +9,6 @@ const selectStatus = (badge) => {
 </script>
 
 <template>
-  <label class="block mb-2">{{ $t('app.project.status') }}:</label>
+  <label class="block mb-2 text-sm font-medium text-base-content/80">{{ $t('app.project.status') }}:</label>
   <Badges :badges="allStatuses" :badge="project.status" @click="selectStatus($event)"/>
 </template>

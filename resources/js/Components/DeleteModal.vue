@@ -41,10 +41,10 @@ const deleteItem = async () => {
   <DeleteButton :on-click="confirmProjectDeletion"></DeleteButton>
   <Modal :show="confirmingDeletion" @close="closeModal">
     <div class="p-6">
-      <h2 class="text-lg font-medium">{{ question }}</h2>
-      <div class="mt-6 flex justify-end">
+      <h2 class="text-lg font-semibold text-base-content">{{ question }}</h2>
+      <div class="mt-6 flex justify-end gap-3">
         <SecondaryButton @click="closeModal">{{ $t('app.cancel') }}</SecondaryButton>
-        <DangerButton class="ms-3" @click="deleteItem">{{ confirmationButtonText }}</DangerButton>
+        <DangerButton @click="deleteItem">{{ confirmationButtonText }}</DangerButton>
       </div>
     </div>
   </Modal>

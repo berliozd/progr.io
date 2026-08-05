@@ -6,7 +6,7 @@ const css = () => {
     return useStore().toastVisible ? baseCss + ' opacity-100' : baseCss + ' opacity-0'
 };
 const alertCss = () => {
-    return useStore().toastError ? 'alert alert-error' : 'alert alert-info '
+    return useStore().toastError ? 'alert alert-error shadow-elevated rounded-box' : 'alert alert-info shadow-elevated rounded-box'
 }
 </script>
 <template>

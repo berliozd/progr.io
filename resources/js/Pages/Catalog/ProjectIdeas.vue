@@ -86,22 +86,22 @@ getCategories();
             <PageHeader :title="title"/>
         </template>
         <Collapsable :title="$t('app.ideas.catalog.categories.title')">
-            <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
+            <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-3">
                 <div v-for="category in categories">
-                    <div class="border h-8 align-middle flex items-center justify-around text-center px-2">
+                    <div class="rounded-btn border border-base-300 h-9 align-middle flex items-center justify-around text-center px-2 hover:border-primary hover:bg-base-100 transition-colors duration-150">
                         <SimpleLink :href="route('app.ideas.catalog.category', { category:category.code})">
                             {{ $t('app.ideas.catalog.category.' + category.code) }}
                         </SimpleLink>
                     </div>
                 </div>
-                <div class="h-8">
+                <div class="h-9 flex items-center">
                     <SimpleLink :href="route('app.ideas.catalog')" :class="'underline'">
                         {{ $t('app.ideas.catalog.categories.all_categories') }}
                     </SimpleLink>
                 </div>
             </div>
         </Collapsable>
-        <h1 class="text-3xl font-extrabold pb-6">
+        <h1 class="text-3xl font-extrabold pb-6 tracking-tight">
             {{
                 props.categoryCode
                     ? $t(
@@ -119,14 +119,15 @@ getCategories();
                 )
             }}
         </div>
-        <div v-if="projects?.length === 0">
+        <div v-if="projects?.length === 0" class="text-base-content/60">
             {{ $t('app.ideas.catalog.categories.no_projects') }}
         </div>
         <template v-else>
-            <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-4">
+            <div class="grid sm:grid-cols-4 grid-cols-3 text-xs sm:text-base grid-flow-row gap-3">
                 <div v-for="project in projects" class="">
-                    <div class="border h-20 align-middle flex items-center justify-around text-center px-2">
-                        <a :href="route('app.ideas.catalog.idea', {id:project.id, title:_.toLower(_.kebabCase(project.title)), category:project.category?.code??''})">
+                    <div class="rounded-btn border border-base-300 h-20 align-middle flex items-center justify-around text-center px-2 hover:border-primary hover:bg-base-100 transition-colors duration-150">
+                        <a :href="route('app.ideas.catalog.idea', {id:project.id, title:_.toLower(_.kebabCase(project.title)), category:project.category?.code??''})"
+                           class="hover:text-primary transition-colors duration-150">
                             {{ project.title }}
                         </a>
                     </div>

@@ -27,7 +27,7 @@ const form = useForm({
         <header>
             <h2 class="text-lg font-medium">Profile Information</h2>
 
-            <p class="mt-1 text-sm text-neutral">
+            <p class="mt-1 text-sm text-base-content/60">
                 Update your account's profile information and email address.
             </p>
         </header>
@@ -71,7 +71,7 @@ const form = useForm({
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                        class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     >
                         Click here to re-send the verification email.
                     </Link>
@@ -79,7 +79,7 @@ const form = useForm({
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 font-medium text-sm text-secondary"
+                    class="mt-2 font-medium text-sm text-success"
                 >
                     A new verification link has been sent to your email address.
                 </div>

@@ -87,13 +87,13 @@ const maxOrderNotes = (notes) => {
 <template>
 
     <div v-for="note in notes"
-         :class="'my-4 ' + (!readOnly?'hover:cursor-grab':'')" :key="note.id"
+         :class="'my-4 pb-4 border-b border-base-300 last:border-b-0 ' + (!readOnly?'hover:cursor-grab':'')" :key="note.id"
          :draggable="readOnly?'false':'true'"
          @dragend="endDrag($event, note, notes)" @dragover="dragOver($event, note)"
          @dragover.prevent>
         <div class="flex flex-row justify-between mb-2">
-            <div class="flex flex-row w-fit">
-                <label class="text-xs sm:text-base">{{ capitalize(note.type.label) }}:</label>
+            <div class="flex flex-row items-center w-fit">
+                <label class="text-xs sm:text-base font-medium">{{ capitalize(note.type.label) }}:</label>
                 <AskAiModal :title="title" :description="description" :note="note" @change="emit('change')"
                             :is-competitor="isCompetitor" v-if="!readOnly"/>
             </div>
@@ -105,17 +105,17 @@ const maxOrderNotes = (notes) => {
             </div>
         </div>
 
-        <div v-if="readOnly" class="text-xs">
-           <pre class="text-wrap">{{ note.content }}</pre>
+        <div v-if="readOnly" class="text-xs text-base-content/70">
+           <pre class="text-wrap font-sans">{{ note.content }}</pre>
         </div>
         <TextArea v-else v-model="note.content" rows="6" class="w-full" @input="emit('change')"></TextArea>
     </div>
-    <div class="flex flex-col" v-if="availableNotesTypes?.length > 0 && !readOnly">
-        <div>
+    <div class="flex flex-col gap-2" v-if="availableNotesTypes?.length > 0 && !readOnly">
+        <div class="text-sm text-base-content/70">
             {{ $t('app.project.select_note_type') }}
         </div>
         <div class="items-center">
-            <select class="select bg-white mr-2"
+            <select class="select select-bordered bg-base-100 border-base-300 mr-2"
                     @change="availableNotesTypes = addEmptyNote(noteTypeToAdd, availableNotesTypes)"
                     v-model="noteTypeToAdd">
                 <option v-for="notesType in availableNotesTypes" v-bind:value="notesType">

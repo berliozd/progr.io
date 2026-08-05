@@ -25,12 +25,14 @@ const submit = () => {
     <GuestLayout>
         <Head title="Forgot Password" />
 
-        <div class="mb-4 text-sm">
+        <h1 class="text-2xl font-bold tracking-tight mb-4">Forgot Password</h1>
+
+        <div class="mb-4 text-sm text-base-content/70">
             Forgot your password? No problem. Just let us know your email address and we will email you a password reset
             link that will allow you to choose a new one.
         </div>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+        <div v-if="status" class="mb-4 font-medium text-sm text-success">
             {{ status }}
         </div>
 

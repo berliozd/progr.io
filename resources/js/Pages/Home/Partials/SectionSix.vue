@@ -9,11 +9,11 @@ const goTo = (url) => {
 }
 </script>
 <template>
-  <section class="text-center md:p-12 p-6 bg-neutral">
-    <div class="max-w-3xl bg-base-100 mx-auto rounded-box">
+  <section class="text-center md:p-12 p-6 bg-base-200">
+    <div class="max-w-3xl card-surface mx-auto">
       <div class="flex flex-col items-center p-12 md:p-16">
-        <h2 class="text-3xl md:text-5xl mb-8 md:mb-12">Track your ideas and find new ones</h2>
-        <p class="text-lg text-base-content-secondary mb-12 md:mb-16">
+        <h2 class="text-3xl md:text-5xl mb-8 md:mb-12 font-extrabold tracking-tight">Track your ideas and find new ones</h2>
+        <p class="text-lg text-base-content/70 mb-12 md:mb-16">
           Don't let your ideas escape you: follow them, get help from AI to define them and transform them into
           successful projects.
         </p>

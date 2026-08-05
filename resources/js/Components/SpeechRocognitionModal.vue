@@ -43,8 +43,8 @@ const stopRecording = () => {
 </script>
 
 <template>
-  <div class="p-4 m-2 rounded border items-center align-middle my-auto hover:cursor-pointer" @click="showModal">
-    <svg @click="showModal" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+  <div class="p-3 rounded-btn border border-base-300 items-center align-middle my-auto hover:cursor-pointer hover:bg-base-200 hover:border-primary/50 transition-colors duration-150" @click="showModal">
+    <svg @click="showModal" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
          stroke="currentColor"
          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic">
       <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
@@ -54,7 +54,7 @@ const stopRecording = () => {
   </div>
   <Modal :show="isShowModal">
     <div class="p-4 w-full space-y-4 flex flex-col">
-      <div class="flex justify-between">
+      <div class="flex justify-between gap-3">
         <PrimaryButton @click="startRecording">Start</PrimaryButton>
         <PrimaryButton @click="stopRecording">Stop</PrimaryButton>
       </div>

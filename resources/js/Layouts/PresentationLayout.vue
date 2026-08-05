@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="p-4 mx-auto">
+  <div class="p-4 max-w-3xl mx-auto space-y-4">
     <slot/>
   </div>
 </template>
