@@ -38,6 +38,21 @@
             </div>
           </div>
         </li>
+        <li>
+          <button
+              class="relative flex w-full py-5 font-semibold text-left border-t md:text-lg border-base-content/10"
+              aria-expanded="true">
+            <span class="flex-1 text-primary">Do I need to subscribe?</span>
+          </button>
+          <div class="text-base-content/70 overflow-hidden">
+            <div class="pb-5 leading-relaxed">
+              <div class="space-y-2 leading-relaxed">No. Our credit packs are a one-time payment, not a
+                subscription. Pay once, credits are added to your account, and there's no recurring charge or
+                auto-renewal to worry about.
+              </div>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
 

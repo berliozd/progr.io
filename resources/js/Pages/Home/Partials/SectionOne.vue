@@ -12,6 +12,9 @@ const goTo = (url) => {
     <section class="md:p-12 p-6 mx-auto relative overflow-hidden">
         <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-transparent to-transparent"></div>
         <div class="px-8 pb-6 flex flex-col gap-10 lg:gap-14 items-center text-center">
+            <span class="inline-flex items-center gap-2 rounded-btn bg-primary/10 text-primary font-semibold text-sm px-4 py-2 border border-primary/20">
+                💳 One-time payment — no subscription, ever
+            </span>
             <h1 class="md:text-7xl text-3xl my-6 font-extrabold leading-tight tracking-tight">
                 Turn your
                 <span class="border-b-8 border-dashed border-primary/50 italic">ideas</span>
@@ -32,10 +35,16 @@ const goTo = (url) => {
                 <li class="flex items-center justify-start gap-2">
                     <ListTick>Get help from AI</ListTick>
                 </li>
+                <li class="flex items-center justify-start gap-2">
+                    <ListTick>Pay once, keep your credits — no subscription</ListTick>
+                </li>
             </ul>
-            <PrimaryButton @click="goTo(route('dashboard'))">
-                <Arrow>Get progr.io</Arrow>
-            </PrimaryButton>
+            <div class="flex flex-col items-center gap-2">
+                <PrimaryButton @click="goTo(route('dashboard'))">
+                    <Arrow>Get progr.io</Arrow>
+                </PrimaryButton>
+                <span class="text-xs text-base-content/50">One-time payment · cancel-free, because there's nothing to cancel</span>
+            </div>
             <h3 class="font-bold md:text-2xl text-xl">
                 You can also use the idea generator if you are out of ideas.
             </h3>

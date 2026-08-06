@@ -10,6 +10,7 @@
                         <p class="text-xs  uppercase font-semibold text-base-content/60">USD</p>
                     </div>
                 </div>
+                <p class="text-xs font-medium text-base-content/50 -mt-4">One-time payment · no subscription</p>
                 <div class="bg-primary/10 text-primary font-medium rounded-btn text-center py-1.5">30 credits</div>
                 <ul class="space-y-2.5 leading-relaxed text-base flex-1">
                     <li class="flex items-center gap-2">
@@ -55,6 +56,7 @@
                         </p>
                     </div>
                 </div>
+                <p class="text-xs font-medium text-base-content/50">One-time payment · no subscription</p>
                 <div class="bg-primary/10 text-primary font-medium rounded-btn text-center py-1.5">90 credits</div>
                 <ul class="space-y-2.5 leading-relaxed text-base flex-1">
                     <li class="flex items-center gap-2">
@@ -97,6 +99,7 @@
                         <p class="text-xs  uppercase font-semibold text-base-content/60">USD</p>
                     </div>
                 </div>
+                <p class="text-xs font-medium text-base-content/50">One-time payment · no subscription</p>
                 <div class="bg-primary/10 text-primary font-medium rounded-btn text-center py-1.5">300 credits</div>
                 <ul class="space-y-2.5 leading-relaxed text-base flex-1">
                     <li class="flex items-center gap-2">
